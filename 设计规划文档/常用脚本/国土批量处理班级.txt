@@ -1,0 +1,15 @@
+//国土批量更新班级
+//处理杭州市
+
+//1,先更新用户信息到tmp_hangzhou临时表表
+update tmp_hangzhou,ebh_users,ebh_classstudents set tmp_hangzhou.uid=ebh_users.uid,tmp_hangzhou.username=ebh_users.username
+where ebh_classstudents.classid=13152 and ebh_users.uid=ebh_classstudents.uid and tmp_hangzhou.`姓名`=ebh_users.realname;
+
+//2,更新新的班级信息到tmp_hangzhou临时表表
+
+update tmp_hangzhou,ebh_classes set tmp_hangzhou.classid=ebh_classes.classid
+where ebh_classes.crid=12210 and ebh_classes.superior=13152 and tmp_hangzhou.`单位`=ebh_classes.classname;
+
+//3，重新设置班级学生关联关系
+update ebh_classstudents,tmp_hangzhou set ebh_classstudents.classid=tmp_hangzhou.classid
+where ebh_classstudents.uid=tmp_hangzhou.uid and ebh_classstudents.classid=13152;

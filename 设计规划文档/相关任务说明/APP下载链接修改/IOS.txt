@@ -1,0 +1,15 @@
+最新的IOS APP
+iPhone下载地址：
+https://itunes.apple.com/cn/app/id1234127044?mt=8
+
+iPad 下载地址：
+https://itunes.apple.com/cn/app/id1247086974?mt=8
+
+
+
+需要对应调整的地方：
+1， www.ebh.net 底部下载链接和二维码扫码
+
+2，app更新地址 app/config/update.php
+
+3，http://www.ebh.net/intro/app.html （关于-》更多）

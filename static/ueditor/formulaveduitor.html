@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <style>
+    *{ margin: 0;padding: 0;}
+    </style>
+</head>
+<body>
+<div class="content" >   
+    <object type="application/x-shockwave-flash" data="/static/flash/editor.swf?version=4003390094" width="651" height="472" id="formulaeditor_swf" style="visibility: visible;">
+        <param name="menu" value="false">
+        <param name="scale" value="noScale">
+        <param name="allowFullscreen" value="true">
+        <param name="allowScriptAccess" value="always">
+        <param name="bgcolor" value="#fff">
+        <param name="quality" value="high">
+        <param name="wmode" value="Opaque">
+    </object>
+</div>
+<!--页面中一定要引入internal.js为了能直接使用当前打开dialog的实例变量-->
+<!--internal.js默认是放到dialogs目录下的-->
+
+<script type="text/javascript" src="/static/ueditor/dialogs/internal.js"></script>
+
+
+<script>
+    function getFlashMovieObject( movieName ) { 
+        if (window.document[movieName]) { 
+            return window.document[movieName]; 
+        } 
+        if (navigator.appName.indexOf("Microsoft Internet") == -1) { 
+        if (document.embeds && document.embeds[movieName]) 
+            return document.embeds[movieName]; 
+        } else { // if (navigator.appName.indexOf("Microsoft Internet")!=-1) 
+            return document.getElementById(movieName); 
+        } 
+    } 
+
+    dialog.onok = function(){  
+        console.log(getFlashMovieObject('formulaeditor_swf'));
+        var imgData = getFlashMovieObject('formulaeditor_swf').getpng();
+        UE.ajax.request( '/formulav2.html', {
+
+             //请求方法。可选值： 'GET', 'POST'，默认值是'POST'
+             method: 'POST',
+
+             //超时时间。 默认为5000， 单位是ms
+             timeout: 20000,
+
+             //是否是异步请求。 true为异步请求， false为同步请求
+             async: true,
+
+             //请求携带的数据。如果请求为GET请求， data会经过stringify后附加到请求url之后。
+             data: {
+                 data: imgData
+             },            
+             onsuccess: function ( xhr ) {              
+                
+                editor.execCommand( 'insertimage', {
+                     src:xhr.responseText.split('"')[7].replace(/[\\]/g,'')
+                 } );
+
+             },
+
+             //请求失败或者超时后的回调。
+             onerror: function ( xhr ) {
+                  alert( 'Ajax请求失败' );
+             }
+
+         } );
+
+        
+    } 
+
+</script>
+</body>
+</html>

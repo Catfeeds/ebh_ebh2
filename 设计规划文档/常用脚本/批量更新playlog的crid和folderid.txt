@@ -1,0 +1,4 @@
+/** 批量将老的播放学习记录 更新他的crid字段 **/
+
+update ebh_playlogs,ebh_roomcourses set ebh_playlogs.crid=ebh_roomcourses.crid,ebh_playlogs.folderid=ebh_roomcourses.folderid 
+where ebh_playlogs.cwid=ebh_roomcourses.cwid and ebh_playlogs.crid=0;

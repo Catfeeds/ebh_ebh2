@@ -1,0 +1,2 @@
+update ebh_classes set ebh_classes.stunum=(select ifnull(count(*),0) from ebh_classstudents  where ebh_classstudents.classid=ebh_classes.classid group by ebh_classstudents.classid)
+where crid=10402;

@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>个人中心</title>
+<meta name="keywords" content="$keywords" />
+<meta name="description" content="$description" />
+<meta name="viewport"  content="user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=7,IE=9">  
+<meta http-equiv="X-UA-Compatible" content="IE=7,9">  
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<link href="http://static.ebanhui.com/ebh/tpl/default/css/main.css" rel="stylesheet" type="text/css" />
+<link href="http://static.ebanhui.com/ebh/tpl/default/css/E_ClassRoom.css" rel="stylesheet" type="text/css" />
+<link href="http://static.ebanhui.com/ebh/tpl/default/css/common.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://static.ebanhui.com/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="http://static.ebanhui.com/js/jquery-migrate-1.2.1.min.js"></script>
+<link href="http://static.ebanhui.com/ebh/tpl/default/css/common.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://static.ebanhui.com/ebh/js/common.js?version=20150528001"></script>
+<script type="text/javascript" src="http://static.ebanhui.com/ebh/js/jquery/jquery-lightbox-0.5/jquery.lightbox-0.5.js"></script>
+<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/ebh/js/jquery/jquery-lightbox-0.5/css/jquery.lightbox-0.5.css" media="screen" />
+<script type="text/javascript">
+$(function(){
+	    var myroom =$("#myotherroom");
+		var timeout = null;
+
+		
+	myroom.mouseover(function(){
+		clearTimeout(timeout);
+		$(this).addClass("acurrent");
+		$(".classroombox").slideDown();
+	}).mouseout(function(){
+		clearTimeout(timeout);
+		var _this = this;
+		timeout = setTimeout(function(){
+			$(".classroombox").slideUp("slow",function(){
+				$(_this).removeClass("acurrent");			
+			});
+		},500);
+	});
+	$(".classroombox").mouseover(function(){
+		clearTimeout(timeout);
+	}).mouseout(function(){		
+		clearTimeout(timeout);
+		var _this = myroom;
+		timeout = setTimeout(function(){
+			$(".classroombox").slideUp("slow",function(){
+				$(_this).removeClass("acurrent");			
+			});
+		},500);
+	});
+		
+	})
+
+</script>
+</head>
+<body style="position:relative;left:0px">
+<!--[if lte IE 6]>  
+<script type="text/javascript" src="http://static.ebanhui.com/ebh/js/DD_belatedPNG_0.0.7a.js"></script>  
+<script type="text/javascript">  
+  DD_belatedPNG.fix('.roomtit,.ui_ico,img,background,.menubox ul li i,.bottom,.cservice img,.sukan .xinke span,.sukan .zuoye span,.sukan .zhibo span,.sukan .jieda span'); 
+</script>  
+<![endif]-->
+<div class="clay_topfixed">
+	<div class="clay_topfixed_inner">
+		<div class="ctoolbar">
+			<div style="color: #b6b9be;font-size: 16px;font-weight: bold;left: 25%;position: absolute;top: 10px;"><?= $roominfo['crname']; ?></div>
+			<div class="chead">
+			
+				<div class="csubnav">
+				<?php $arr = explode('.',$_SERVER['HTTP_HOST']);
+						$type = $arr[count($arr)-1]; ?>
+					|<a href="<?= ($type=='com')?'http://www.ebanhui.com':'http://www.ebh.net' ?>">首页</a>
+				</div>
+				<div class="userinfo">您好 ，<?= empty($user['realname'])?$user['username']:$user['username'].'('.$user['realname'].')'?> &nbsp;&nbsp;   <a href="/logout.html" target='_self'>退出</a> </div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ctop">
+	<div class="cheadpic">
+	<?php 
+		if(!empty($roominfo['banner'])) 
+			$bannerurl = $roominfo['banner'];
+		else
+			$bannerurl = 'http://static.ebanhui.com/ebh/tpl/2012/images/stu_head_pic.jpg';
+	?>
+	<img src="<?= $bannerurl ?>" />
+	</div>
+</div>

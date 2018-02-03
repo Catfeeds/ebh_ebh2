@@ -1,0 +1,4 @@
+
+CREATE TABLE aaaa
+SELECT c.cwid,title,cwname,cwurl,cwsize,cwlength,status,sourceid,ism3u8,m3u8url,checksum,thumb,summary,message FROM ebh_coursewares c
+join ebh_roomcourses rc on (c.cwid=rc.cwid) where rc.folderid=26444;

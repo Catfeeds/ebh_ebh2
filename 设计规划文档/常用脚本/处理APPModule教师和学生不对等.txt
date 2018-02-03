@@ -1,0 +1,7 @@
+insert into ebh_roommodules (crid,moduleid,nickname,available,displayorder,tors,ismore) 
+select crid,moduleid,nickname,0,displayorder,0,ismore from ebh_roommodules a where not exists (select crid,moduleid from ebh_roommodules b where crid=a.crid and moduleid=a.moduleid and tors =0) and tors=1;
+
+
+insert into ebh_roommodules (crid,moduleid,nickname,available,displayorder,tors,ismore) 
+select crid,moduleid,nickname,0,displayorder,1,ismore from ebh_roommodules a where not exists (select crid,moduleid from ebh_roommodules b 
+where crid=a.crid and moduleid=a.moduleid and tors =1) and tors=0;

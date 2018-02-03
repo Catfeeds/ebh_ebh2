@@ -1,0 +1,76 @@
+
+2014/10/16-15:05:55 TrustPay Client PHP 交易开始==========================
+2014/10/16-15:05:55 配置文件中商户数为2请求指定的商户配置编号为 2
+2014/10/16-15:05:55 检查交易请求是否合法：正确
+2014/10/16-15:05:55 交易报文
+2014/10/16-15:05:55 完整交易报文：
+2014/10/16-15:05:55 签名后的报文
+2014/10/16-15:05:55 提交网上支付平台的报文：
+                    <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxRequest><TrxType>PayReq</TrxType><Order><OrderNo>10083</OrderNo><ExpiredDate>10</ExpiredDate><OrderAmount>128</OrderAmount><OrderDesc>开通 初一数学(容易A) 服务</OrderDesc><OrderDate>2014/10/16</OrderDate><OrderTime>15:05:55</OrderTime><OrderURL>http://jsez.ebh.net/</OrderURL><BuyIP>125.118.54.148</BuyIP><OrderItems><OrderItem><ProductID>IP000001</ProductID><ProductName>开通 初一数学(容易A) 服务</ProductName><UnitPrice>128</UnitPrice><Qty>1</Qty></OrderItem></OrderItems></Order><ProductType>1</ProductType><PaymentType>6</PaymentType><NotifyType>1</NotifyType><ResultNotifyURL>http://jsez.ebh.net/ibuy/abcnotify.html?orderid=10083</ResultNotifyURL><MerchantRemarks>初一数学(容易A)-5 月 -128.00 元</MerchantRemarks><PaymentLinkType>1</PaymentLinkType></TrxRequest></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>qG3qTNVu0rXMj+elac3tv6BaZS9d3u3nk82ZdRVcGLFsqcHo7/46BOxVTGJIcRDGo/jtR5vBHtGpttN7WHpICzV+7uQ66gvtwoU/Ml5uq8mKX9DwiZcokyJ7io1r+YGMS6cFZef3FBSaWZpI21bTCGGykNLR5h7VzAADL1oivIA=</Signature></MSG>
+2014/10/16-15:05:55 报文长度：1175<br>
+2014/10/16-15:05:55 连线网上支付平台
+2014/10/16-15:05:55 网上支付平台URL：[https://www.95599.cn/b2c/trustpay/ReceiveMerchantTrxReqServlet] 
+2014/10/16-15:05:55 成功
+2014/10/16-15:05:55 提交交易报文：
+2014/10/16-15:05:55 <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxRequest><TrxType>PayReq</TrxType><Order><OrderNo>10083</OrderNo><ExpiredDate>10</ExpiredDate><OrderAmount>128</OrderAmount><OrderDesc>开通 初一数学(容易A) 服务</OrderDesc><OrderDate>2014/10/16</OrderDate><OrderTime>15:05:55</OrderTime><OrderURL>http://jsez.ebh.net/</OrderURL><BuyIP>125.118.54.148</BuyIP><OrderItems><OrderItem><ProductID>IP000001</ProductID><ProductName>开通 初一数学(容易A) 服务</ProductName><UnitPrice>128</UnitPrice><Qty>1</Qty></OrderItem></OrderItems></Order><ProductType>1</ProductType><PaymentType>6</PaymentType><NotifyType>1</NotifyType><ResultNotifyURL>http://jsez.ebh.net/ibuy/abcnotify.html?orderid=10083</ResultNotifyURL><MerchantRemarks>初一数学(容易A)-5 月 -128.00 元</MerchantRemarks><PaymentLinkType>1</PaymentLinkType></TrxRequest></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>qG3qTNVu0rXMj+elac3tv6BaZS9d3u3nk82ZdRVcGLFsqcHo7/46BOxVTGJIcRDGo/jtR5vBHtGpttN7WHpICzV+7uQ66gvtwoU/Ml5uq8mKX9DwiZcokyJ7io1r+YGMS6cFZef3FBSaWZpI21bTCGGykNLR5h7VzAADL1oivIA=</Signature></MSG>
+2014/10/16-15:05:55 成功
+2014/10/16-15:05:55 接受到的响应报文：
+                    HTTP/1.1 200 OK
+                    Date: Thu, 16 Oct 2014 07:05:49 GMT
+                    Server: Microsoft-IIS/6.0
+                    X-Powered-By: ASP.NET
+                    X-AspNet-Version: 2.0.50727
+                    Set-Cookie: ASP.NET_SessionId=4x5oukzoftjod445tu0dvgai; path=/; HttpOnly
+                    Cache-Control: private
+                    Content-Type: text/html; charset=gb2312
+                    Connection: close
+                    Set-Cookie: BIGipServerpool_ec_b2c=962915082.56867.0000; path=/
+                    
+                    <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxResponse><ReturnCode>0000</ReturnCode><ErrorMessage>交易成功</ErrorMessage><TrxType>PayReq</TrxType><OrderNo>10083</OrderNo><PaymentURL>https://easyabc.95599.cn/b2c/NotCheckStatus/PaymentModeUCBPAct.ebf?TOKEN=14134431492755377582</PaymentURL><OrderAmount>128</OrderAmount></TrxResponse></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>wRm4k5JO3+qZSrSqo8sxTRfyWAPn+PO0bsn5Kn39QlRmQ7njQXz+6lGKBZ5+2BCqG3PmzkRiN0BuBVI2rW5B2EWJtWe/Nt7nNqV/fle4hsPoATpDXZeJSCB0D+HNkCx6feuVuWJmiWQeS0VHMcumX6Pz2oHhARjiVmccqq6ElHE=</Signature></MSG>
+2014/10/16-15:05:55 接收报文：
+2014/10/16-15:05:55 <Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxResponse><ReturnCode>0000</ReturnCode><ErrorMessage>交易成功</ErrorMessage><TrxType>PayReq</TrxType><OrderNo>10083</OrderNo><PaymentURL>https://easyabc.95599.cn/b2c/NotCheckStatus/PaymentModeUCBPAct.ebf?TOKEN=14134431492755377582</PaymentURL><OrderAmount>128</OrderAmount></TrxResponse></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>wRm4k5JO3+qZSrSqo8sxTRfyWAPn+PO0bsn5Kn39QlRmQ7njQXz+6lGKBZ5+2BCqG3PmzkRiN0BuBVI2rW5B2EWJtWe/Nt7nNqV/fle4hsPoATpDXZeJSCB0D+HNkCx6feuVuWJmiWQeS0VHMcumX6Pz2oHhARjiVmccqq6ElHE=</Signature>
+2014/10/16-15:05:55 验证网上支付平台响应报文的签名：正确
+2014/10/16-15:05:55 生成交易响应对象：
+2014/10/16-15:05:55 交易结果：[0000]
+2014/10/16-15:05:55 错误信息：[交易成功]
+2014/10/16-15:05:55 交易结束==================================================
+                    
+                    
+                    
+                    
+2014/10/16-19:13:24 TrustPay Client PHP 交易开始==========================
+2014/10/16-19:13:24 配置文件中商户数为2请求指定的商户配置编号为 1
+2014/10/16-19:13:24 检查交易请求是否合法：
+2014/10/16-19:13:24 1101]    错误信息：[商户提交的交易资料不合法 - 订单信息不合法！]
+2014/10/16-19:13:24 交易结束==================================================
+                    
+                    
+                    
+                    
+2014/10/16-19:13:24 TrustPay Client PHP 交易开始==========================
+2014/10/16-19:13:25 配置文件中商户数为2请求指定的商户配置编号为 1
+2014/10/16-19:13:25 检查交易请求是否合法：
+2014/10/16-19:13:25 1101]    错误信息：[商户提交的交易资料不合法 - 订单信息不合法！]
+2014/10/16-19:13:25 交易结束==================================================
+                    
+                    
+                    
+                    
+2014/10/16-19:14:10 TrustPay Client PHP 交易开始==========================
+2014/10/16-19:14:10 配置文件中商户数为2请求指定的商户配置编号为 1
+2014/10/16-19:14:10 检查交易请求是否合法：
+2014/10/16-19:14:10 1101]    错误信息：[商户提交的交易资料不合法 - 订单信息不合法！]
+2014/10/16-19:14:10 交易结束==================================================
+                    
+                    
+                    
+                    
+2014/10/16-19:37:11 TrustPay Client PHP 交易开始==========================
+2014/10/16-19:37:11 配置文件中商户数为2请求指定的商户配置编号为 1
+2014/10/16-19:37:11 检查交易请求是否合法：
+2014/10/16-19:37:11 1101]    错误信息：[商户提交的交易资料不合法 - 订单信息不合法！]
+2014/10/16-19:37:11 交易结束==================================================
+                    
+                    
+                    
+                    

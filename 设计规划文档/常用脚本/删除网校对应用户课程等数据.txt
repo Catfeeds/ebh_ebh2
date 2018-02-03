@@ -1,0 +1,59 @@
+如删除域名为 lcyhg
+绿城育华高中要清空：学生账号、老师账号、作业、课程 答疑都不要了
+1,查询对应crid
+select crid from ebh_classrooms where domain='lcyhg';	//crid=xxxxx
+
+2,删除学生答题记录
+delete ebh_schexamanswers from ebh_schexamanswers inner join ebh_schexams on ebh_schexamanswers.eid=ebh_schexams.eid where ebh_schexams.crid=xxxxx;
+
+3，删除作业记录
+delete from ebh_schexams  where crid=xxxxx;
+
+4，删除答疑回答记录
+delete ebh_askanswers from ebh_askanswers inner join ebh_askquestions on ebh_askanswers.qid=ebh_askquestions.qid where ebh_askquestions.crid=xxxxx;
+
+5，删除答应问题记录
+delete from ebh_askquestions  where crid=xxxxx;
+
+6，课件评论
+delete ebh_reviews from ebh_reviews inner join ebh_roomcourses on (ebh_reviews.toid=ebh_roomcourses.cwid)
+where ebh_roomcourses.crid=xxxxx;
+
+update ebh_coursewares,ebh_roomcourses set ebh_coursewares.reviewnum=0 
+where ebh_coursewares.cwid=ebh_roomcourses.cwid and ebh_roomcourses.crid=xxxxx;
+
+7，删除课程课件信息
+delete ebh_coursewares from ebh_coursewares inner join ebh_roomcourses on (ebh_coursewares.cwid= ebh_roomcourses.cwid) where ebh_roomcourses.crid=xxxxx;
+delete from ebh_roomcourses where crid=xxxxx;
+delete from ebh_teacherfolders where crid=xxxxx;
+delete ebh_classcourses from ebh_classcourses inner join ebh_folders on ebh_classcourses.folderid=ebh_folders.folderid where ebh_folders.crid=xxxxx;
+delete from ebh_folders where crid=xxxxx and folderlevel=2;
+
+8,删除学生日志记录
+delete ebh_logs from ebh_logs join ebh_roomusers on (ebh_logs.toid=ebh_roomusers.uid) join ebh_users on (ebh_users.uid=ebh_roomusers.uid) where ebh_roomusers.crid=xxxxx and ebh_users.username like 'gz%';//做一些过滤，如一人多网校
+delete ebh_creditlogs from ebh_creditlogs join ebh_roomusers on (ebh_creditlogs.toid=ebh_roomusers.uid) join ebh_users on (ebh_users.uid=ebh_roomusers.uid) where ebh_roomusers.crid=xxxxx and ebh_users.username like 'gz%';
+delete ebh_playlogs from ebh_playlogs join ebh_roomcourses on (ebh_playlogs.cwid=ebh_roomcourses.cwid) where ebh_roomcourses.crid=xxxxx;
+
+9,积分清零
+update ebh_users,ebh_roomusers set ebh_users.credit=0 where ebh_users.uid=ebh_roomusers.uid and ebh_roomusers.crid=xxxxx;
+
+10,删除学生记录 
+delete ebh_members from ebh_members inner join ebh_roomusers on (ebh_members.memberid=ebh_roomusers.uid) inner join ebh_users on (ebh_members.memberid=ebh_users.uid) where ebh_roomusers.crid=xxxxx and ebh_users.username like 'gz%';
+delete ebh_users from ebh_users inner join ebh_roomusers on (ebh_users.uid=ebh_roomusers.uid) where ebh_roomusers.crid=xxxxx and ebh_users.username like 'gz%';
+delete ebh_classstudents from ebh_classstudents inner join ebh_classes on (ebh_classstudents.classid=ebh_classes.classid) where ebh_classes.crid=xxxxx;
+delete from ebh_roomusers where crid=xxxxx;
+
+delete from ebh_searchableclassrooms where upcrid=xxxxx;
+
+
+
+11，删除教师记录
+delete ebh_classteachers from ebh_classteachers inner join ebh_classes on (ebh_classteachers.classid=ebh_classes.classid) where ebh_classes.crid=xxxxx;
+delete ebh_teachers from ebh_teachers join ebh_roomteachers on (ebh_teachers.teacherid=ebh_roomteachers.tid) where ebh_roomteachers.crid=xxxxx and ebh_roomteachers.role=1;	//不删除管理员
+delete ebh_users from ebh_users join ebh_roomteachers on (ebh_users.uid=ebh_roomteachers.tid) where ebh_roomteachers.crid=xxxxx and ebh_roomteachers.role=1;	//不删除管理员 
+
+12，删除班级信息
+delete from ebh_classes where crid=xxxxx;
+
+13,处理网校数据
+update ebh_classrooms set stunum=0,teanum=1,coursenum=0,examcount=0,asknum=0 where crid=xxxxx;

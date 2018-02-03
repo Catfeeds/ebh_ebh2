@@ -1,0 +1,101 @@
+
+.edui-default .edui-dialog-foot {
+    padding: 0 20px 30px 20px;
+    height: 50px;
+}
+.edui-default .edui-dialog-buttons{
+	left: 33%;
+	bottom: 30px;
+}
+.edui-default .edui-dialog-buttons .edui-button .edui-button-body{
+	background:none;
+	background-color: #5E96F5;
+	color: #fff;
+	width: 90px;
+	height: 32px;
+	line-height: 32px;
+	font-size: 14px;
+	border-radius: 4px;
+	border:1px solid #cccccc;
+}
+.edui-default .edui-dialog-buttons .edui-button .edui-button-body:hover{
+	background:none;
+	background-color: #5E96F5;
+	color: #fff;
+	opacity: 0.9;
+}
+.edui-default .edui-dialog-buttons .edui-label{
+	cursor: pointer;
+	line-height: 34px;
+	font-family: Arial, Helvetica, Microsoft YaHei, sans-serif;
+}
+.edui-default .edui-dialog-buttons .edui-button{
+	margin-right:30px;
+
+}
+.edui-default .edui-dialog-buttons .edui-cancelbutton .edui-button-body{
+	background-color: #ededed;
+	color: #000;
+	opacity: 1;
+}
+.edui-default .edui-dialog-buttons .edui-cancelbutton .edui-button-body:hover{
+	background:none;
+	background-color: #ededed;
+	color: #666;
+	opacity: 0.9;
+}
+.edui-default .edui-dialog-titlebar{
+	height: 42px;
+	background: none;
+}
+.edui-default .edui-dialog-draghandle{
+	height: 42px;	
+}
+.edui-default .edui-dialog-caption{
+	line-height:42px;
+	font-size: 16px;
+	color: #333;
+	font-weight: 500;
+	margin-left: 10px;
+	font-family: Arial, Helvetica, Microsoft YaHei, sans-serif;
+}
+.edui-default .edui-dialog-closebutton .edui-button-body{
+	margin-top:7px;
+	margin-right: 10px;
+	background-image: url(themes/default/images/X.png);
+	background-size:18px 18px;
+	background-position: 0;
+	opacity: 0.8;
+}
+.edui-default .edui-dialog-closebutton .edui-button-body:hover{
+	margin-top:7px;
+	margin-right: 10px;
+	background-image: url(themes/default/images/X.png);
+	background-size:18px 18px;
+	background-position: 0;
+	opacity: 1;
+}
+.edui-default .edui-dialog-modalmask{
+	background-color: rgb(0, 0, 0);
+	opacity: 0.7;
+}
+.edui-default .edui-state-centered{
+	top:100px!important;
+}
+.edui-default .edui-editor{
+	border-radius:0;
+	box-shadow: 2px 2px 5px #d3d6da;
+}
+.edui-default .edui-dialog-closebutton .edui-state-hover .edui-button-body {
+ 	background-image: url(themes/default/images/X.png);
+	background-size:18px 18px;
+	background-position: 0;
+	opacity: 1;
+}
+.ui-popup{
+	position: absolute!important;
+}
+#message{
+	position: relative;
+	z-index: 200;
+}

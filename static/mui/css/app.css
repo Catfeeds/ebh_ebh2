@@ -1,0 +1,1238 @@
+/*
+ *这是单独为hello mui准备的个性化css，可以覆盖标准mui的css定义；
+ * 在实际项目开发时，建议为App单独写一个css文件，从而实现项目的自定义皮肤功能；
+ * 
+ * */
+.mui-plus.mui-android header.mui-bar{
+	display: none;
+}
+.mui-plus.mui-android .mui-bar-nav~.mui-content{
+	padding: 0;
+}
+
+/*hm开头的表示仅为 Hello MUI示例定义*/
+.hm-description{
+	margin: .5em 0;
+}
+
+.hm-description>li {
+	font-size: 14px;
+	color: #8f8f94;
+}
+
+.topdts {
+    background: #f7f7f7;
+    color: #333;
+    font-size: 24px;
+    height: 45px;
+    line-height: 45px;
+    margin-bottom: 16px;
+    position: fixed;
+    text-align: center;
+	box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.25), 0 0 0 0 inset;
+    width: 100%;
+    z-index: 99;
+}
+.rights {
+	float: right;
+	display:block;
+    margin-right: 20px;
+    margin-top: 12px;
+}
+.wathse {
+	width:35px;
+	height:35px;
+}
+.mui-icon .grutws {
+	top:-10px;
+	margin-left:0px;
+}
+.rigke {
+	float: right;
+	height: 22px;
+    line-height: 22px;
+    max-width: 50px;
+	margin-left: 10px;
+	color: #8f8f94;
+    font-size: 14px;
+}
+.bisres {
+	width:155px;
+	height:14px;
+	background:#e6e6e6;
+	float:left;
+	margin-right:20px;
+	margin-top:3px;
+	border-radius:10px;
+}
+.chsentr {
+	color:#ffaf28;
+}
+.xiarlan {
+	width:auto;
+	background:#1981ff;
+	float:left;
+	height:14px;
+	line-height:14px;
+	border-radius:10px;
+}
+.zisrle {
+	color:#fff;
+	margin-left:5px;
+}
+.zislan {
+	color:#007aff;
+	margin-left:40px;
+}
+.husrrtas {
+	color:#dd524d;
+	margin-top:30px;
+	float:left;
+}
+.wid75 {
+	max-width:75px;
+}
+.radius {
+	border-radius:25px;
+}
+.gonsret {
+	float:left;
+}
+.raisreds {
+	float:right;
+}
+.husrfdse {
+	width:50px;
+	height:25px;
+}
+.wiease {
+	color:#999;
+	font-size:12px;
+}
+.lenters {
+	position: relative;
+	width:100px;
+	height:60px;
+	float:left;
+	margin-right:10px;
+}
+.nsesres {
+	background:url(/static/mui/images/taoustm.png) no-repeat;
+	width:100px;
+	height:16px;
+	line-height:16px;
+    position: absolute;
+	bottom:0px;
+	left:0px;
+	color:#fff;
+	font-size:10px;
+}
+.rsaiese {
+	float:right;
+	background:url(/static/mui/images/iconfont-geren.png) no-repeat left center;
+	background-size:14px 14px;
+	padding-left:16px;
+	font-size:14px;
+}
+.widter {
+	width:60px;
+	text-align:center;
+}
+.reds {
+	color:#ff4949;
+}
+.blues {
+	color:#1d8ce0;
+}
+.sheleft {
+	margin-left:18px;
+}
+.padleft {
+	padding-left:20px;
+}
+.payico {
+	display:block;
+	width:32px;
+	height:32px;
+	float:left;
+	margin:0;
+	position: absolute;
+    top: 6px;
+    left: 10px;
+}
+.online {
+	background:url(/static/images/online.png) no-repeat center;
+	background-size:28px 20px;
+}
+.alipay {
+	background:url(/static/images/alipay.png) no-repeat center;
+	background-size:24px 24px;
+}
+.weixin {
+	background:url(/static/images/weixin.png) no-repeat center;
+	background-size:24px 24px;
+}
+.abcicon {
+	background:url(/static/images/abcicon.png) no-repeat center;
+	background-size:24px 24px;
+}
+.content-img {
+	margin:15px;
+	float:left;
+	border-radius:100px;
+	width:60px;
+	height:60px;
+}
+.content-pot .content-name {
+	float:left;
+	margin-right:10px;
+	margin-top:20px;
+	min-width: 100px;
+}
+.content-pot .content-user {
+	float:left;
+	color:#fff;
+	font-size:14px;
+	width: 75%;
+	overflow: hidden;
+}
+.content-pot .lfname {
+	float:left;
+	margin-right:6px;
+	color:#fff;
+	font-size:17px;
+}
+.content-pot  .content-nan {
+	background:url(http://static.ebanhui.com/ebh/tpl/troomv2/images/man.png) no-repeat bottom center;
+	width:16px;
+	height:16px;
+	float:left;
+	display: block;
+}
+.content-pot  .content-nv {
+	background:url(http://static.ebanhui.com/ebh/tpl/troomv2/images/man.png) no-repeat bottom center;
+	width:16px;
+	height:16px;
+	float:left;
+	display: block;
+}
+.address {
+    border-bottom: 1px solid #ddd;
+	background:#fff;
+    margin: 0;
+    padding: 0;
+    margin-top: -16px;
+    margin-left: -27px;
+}
+.address ul li {
+    float: left;
+    cursor: pointer;
+    line-height: 20px;
+    font-size: 14px;
+}
+.address ul li a {
+    background-image: url(/static/mui/images/ybutton.png);
+    background-repeat: no-repeat;
+    background-position: 100% 0;
+    cursor: pointer;
+    height: 39px;
+    margin-bottom: -1px;
+    color: #666;
+    display: inline-block;
+    font-size: 1em;
+    padding: 0px 18px 0px 24px;
+    margin-left: -24px;
+    position: relative;
+    text-decoration: none;
+    vertical-align: top;
+    line-height: 39px;
+}
+.balicon {
+	background:url(/static/images/balance.png) no-repeat center;
+	background-size:24px 24px;
+}
+.martop {
+	margin-top:10px;
+}
+
+/*筛选*/
+.filter{
+	width:100%;
+	height:40px;
+	line-height: 40px;
+	padding-right:26px;
+	box-sizing:border-box;
+	position:relative;
+}
+.filter_btn{
+	float:right;
+	padding-left:26px;
+	border-left:1px solid #ddd;
+}
+.filter_btn a{
+	color:#000;
+}
+.filter_content{
+	width:60%;
+	overflow:hidden;
+	position:absolute;
+	right:0;
+	top:114px;
+	background: #fff;
+	z-index:2000;
+	border:1px solid #ddd;
+	border-radius: 5px;
+	display:none;
+}
+.filter_content ul{
+	list-style: none;
+	width:100%;
+	padding:5px 5px 10px 5px;
+	margin:0;
+	border-bottom:1px solid #ddd;
+	box-sizing:border-box;
+	overflow:hidden;
+}
+.filter_content ul li{
+	float:left;
+	font-size:14px;
+	line-height:26px;
+	padding:0 8px 0 8px;
+}
+.filter_content ul li a{
+	color:#000;
+}
+.filter_content ul li a:hover{
+	color:#007aff;
+}
+.type_hide{
+	display:none;
+}
+.type_btn{
+	width:100%;
+	height:42px;
+	padding:6px 20px 0 20px!important;
+	display:none;
+}
+.type_btn input{
+	width:62px;
+	height:30px;
+	border:0;
+}
+.type_btn input.cancel{
+	float:left;
+	background-color:#ddd!important;
+}
+.type_btn input.confirm{
+	float:right;
+	background-color:#007aff!important;
+	color:#fff;
+}
+/*详情页*/
+
+.chat_content{
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding:8px;
+}
+.tall_text{
+	width:100%;
+	height:32px;
+	position:fixed;
+	bottom:0;
+	left:0;
+	border-top:1px solid #ddd;
+	padding:5px 15px 5px 15px;
+	background: #f7f7f7;
+}
+.tall_face{
+	float:left;
+	width:10%;
+	height:100%;
+}
+.tall_face span{
+	display:block;
+	width:21px;
+	height:21px;
+	background: url(/static/mui/images/face.png) no-repeat;
+	background-size:100% 100%;
+}
+.tall_text textarea{
+	float:left;
+	width:80%;
+	height:100%;
+	border:1px solid #ddd;
+	border-radius: 5px;
+	padding:3px 5px 0px 5px!important;
+	margin:0!important;
+	overflow:hidden;
+	font-size:13px;
+	line-height: 16px;
+	box-sizing: border-box;
+}
+.praise{
+	float:left;
+	width:10%;
+	height:100%;
+}
+.praise span{
+	display:block;
+	margin-left:15px;
+	width:21px;
+	height:21px;
+	background: url(/static/mui/images/praise.png) no-repeat;
+	background-size:100% 100%;
+}
+.reward{
+	float:right;
+	width:10%;
+	height:100%;
+}
+.reward span{
+	display:block;
+	margin-left:8px;
+	width:21px;
+	height:21px;
+	background: url(/static/mui/images/reward.png) no-repeat;
+	background-size:100% 100%;
+}
+/*聊天表情*/
+.face_ul{
+	width:100%;
+	position: fixed;
+	left:0;
+	bottom:35px;
+	overflow:hidden;
+	z-index:2000;
+	background: #fff;
+	margin:0!important;
+	padding:0!important;
+	border-top:1px solid #ccc;
+	border-left:1px solid #ccc;
+	box-sizing: border-box;
+}
+.face_ul li{
+	float:left;
+	width:31px;
+	height:27px;
+	text-align: center;
+	padding-top:2px;
+	border-right:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	box-sizing: border-box;
+}
+.face_ul li img{
+	width:22px;
+	height:22px;
+}
+.faceList{
+	width:100%;
+	/*position:fixed;*/
+	left:0;
+	bottom:35px;
+	background: #fff;
+	padding: 8px;
+	z-index:2000;
+	border-top:1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+.faceList ul{
+	width:100%;
+	height:100%;
+	overflow:hidden;
+	border-top:1px solid #ddd;
+	border-left:1px solid #ddd;
+	box-sizing: border-box;
+	margin:0!important;
+	padding: 0!important;
+}
+.faceList ul li{
+	float:left;
+	width:10%;
+	height: 27px;
+	padding-top:3px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	box-sizing: border-box;
+	list-style: none;
+}
+.faceList ul li img{
+	width:22px;
+	height:22px;
+}
+/*老师*/
+.tall_teacher{
+	margin-bottom:21px;
+}
+.teacher_top{
+	overflow:hidden;
+}
+.teacher_top img{
+	width:30px;
+	height:30px;
+	float:left;
+	margin-right:5px;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	behavior: url(ie-css3.htc);
+	margin-bottom: 5px;
+}
+.teacher_top .teacher_name{
+	display:inline-block;
+	line-height: 30px;
+	float:left;
+	font-size: 13px;
+	margin-right:5px;
+	color:#ccc;
+	width:165px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis; 
+	-o-text-overflow:ellipsis; 
+	-icab-text-overflow: ellipsis; 
+	-khtml-text-overflow: ellipsis; 
+	-moz-text-overflow: ellipsis; 
+	-webkit-text-overflow: ellipsis; 
+}
+.teacher_top .teacher_timer{
+	display:inline-block;
+	line-height: 30px;
+	float:right;
+	font-size:13px;
+	color:#ccc;
+}
+.tall_teacher .teacher_txt{
+	width:100%;
+	padding-left:15px;
+	color:red;
+	line-height: 18px;
+	word-wrap:break-word;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+.teacher_txt span{
+	float:left;
+	padding: 6px;
+	font-size:13px;
+	border-radius: 5px;
+	background: #33DF83;
+	color:#fff;
+}
+.teacher_txt img{
+	max-width: 100%;
+}
+/*好友*/
+.tall_friend{
+	margin-bottom:21px;
+}
+.firend_top{
+	margin-bottom: 5px;
+	overflow:hidden;
+	line-height: 16px;
+}
+.firend_top img {
+    border-radius: 50%;
+    float: left;
+    height: 30px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    width: 30px;
+}
+.firend_top .friend_name{
+	display:inline-block;
+	float:left;
+	font-size:13px;
+	margin-right:5px;
+	color:#ccc;
+	width:165px;
+	line-height: 30px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis; 
+	-o-text-overflow:ellipsis; 
+	-icab-text-overflow: ellipsis; 
+	-khtml-text-overflow: ellipsis; 
+	-moz-text-overflow: ellipsis; 
+	-webkit-text-overflow: ellipsis; 
+}
+.firend_top .friend_timer{
+	display:inline-block;
+	float:right;
+	font-size:13px;
+	line-height: 30px;
+	color:#ccc;
+}
+.tall_friend .friend_txt{
+	width:100%;
+	padding-left:15px;
+	line-height:18px;
+	word-wrap:break-word;
+	overflow: hidden;
+}
+.friend_txt span{
+	float:left;
+	padding: 6px;
+	border-radius: 5px;
+	font-size:13px;
+	background: #33DF83;
+	color:#fff;
+}
+.friend_txt img{
+	max-width: 100%;
+}
+/*自己*/
+.tall_self{
+	margin-bottom:21px;
+}
+.self_top{
+	margin-bottom: 5px;
+	overflow:hidden;
+	line-height: 16px;
+}
+.self_top img{
+	width:30px;
+	height:30px;
+	float:right;
+	margin-left:5px;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	behavior: url(ie-css3.htc);
+	margin-bottom: 5px;
+}
+.self_top .self_name{
+	display:inline-block;
+    line-height: 30px;
+    float: right;
+    text-align:right;
+    font-size: 13px;
+    margin-left: 5px;
+    width: 165px;
+	color:#ccc!important;
+	overflow: hidden;
+	
+	white-space: nowrap;
+	text-overflow:ellipsis; 
+	-o-text-overflow:ellipsis; 
+	-icab-text-overflow: ellipsis; 
+	-khtml-text-overflow: ellipsis; 
+	-moz-text-overflow: ellipsis; 
+	-webkit-text-overflow: ellipsis; 
+}
+.self_top .self_timer{
+	display:inline-block;
+	float:left;
+	font-size:13px;
+	line-height: 30px;
+	color:#ccc;
+}
+.tall_self .self_txt{
+	width:100%;
+	padding-right:15px;
+	line-height: 18px;
+	color:#0088E2;
+	word-wrap:break-word;
+	overflow: hidden;
+}
+.self_txt span{
+	float:right;
+	padding: 6px;
+	font-size:13px;
+	border-radius: 5px;
+	background: #33DF83;
+	color:#fff;
+} 
+.self_txt img{
+	max-width: 100%;
+	max-height: 100%;
+}
+.wrap_footer {
+    width: 100%;
+    background: #8493af;
+    margin: 10px auto 0 auto;
+    padding-top: 20px;
+    display: inline-block;
+}
+.wrap_footerson {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+.footersonleft {
+    text-align: left;
+    float: left;
+    margin-left: 10px;
+	position: absolute;
+	top:0px;
+	left:10px;
+}
+.footersonleft .p2s {
+    font-size: 13px;
+    color: #fff;
+    text-align: center;
+    padding-top: 2px;
+}
+.footersonright {
+    float: left;
+    display: inline;
+    font-size: 14px;
+    color: #fff;
+    text-align: left;
+    width: auto;
+	padding-left:115px;
+	position: relative;
+}
+.addresx {
+    background: url(http://static.ebanhui.com/ebh/tpl/newschoolindex/images/ico_01.png?v=01) no-repeat left 2px;
+	background-size:18px 18px;
+    padding-left: 25px;
+    line-height: 20px;
+	font-size:12px;
+    margin-top: 4px;
+}
+.hotline {
+    background: url(http://static.ebanhui.com/ebh/tpl/newschoolindex/images/ico_03.png?v=01) no-repeat left 2px;
+	background-size:18px 16px;
+    margin-top: 10px;
+}
+.home {
+    background: url(http://static.ebanhui.com/ebh/tpl/newschoolindex/images/ico_05.png?v=01) no-repeat left 2px;
+	background-size:20px 14px;
+    margin-top: 10px;
+}
+.wrap_footer .p1s {
+    color: #fff;
+    font-size: 12px;
+    font-family: 宋体;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+	margin-bottom:0px;
+	float:left;
+}
+.breadcrumb {
+    list-style: none;
+    border-radius: 4px;
+	font-size:14px;
+}
+.breadcrumb.open-course-breadcrumb {
+    margin: -30px 0 0;
+    background: transparent;
+    padding: 35px 0 10px;
+	text-indent:10px;
+}
+.breadcrumb > li {
+    max-width: 100%;
+	display: inline-block;
+}
+.breadcrumb a {
+    color: #919191;
+}
+.breadcrumb > li + li:before {
+    content: "/\A0";
+    padding: 0 5px;
+    color: #ccc;
+}
+.titlelist {
+    margin: 10px 15px 10px;
+    color: #6d6d72;
+	overflow:hidden; 
+	text-overflow:ellipsis;
+	display:-webkit-box; 
+	-webkit-box-orient:vertical;
+	-webkit-line-clamp:2; 
+}
+p.mar {
+	 margin: 10px 15px 10px;
+}
+.ketebn {
+    background: url(http://wap.ebh.net/static/mui/images/nisrrt.jpg) no-repeat scroll left center;
+    color: #999;
+    font-size: 14px;
+    height: 16px;
+    line-height: 16px;
+    margin-right: 20px;
+    padding-left: 20px;
+}
+.kheter {
+    background: url(http://wap.ebh.net/static/mui/images/shtiem.jpg) no-repeat scroll left center;
+    color: #999;
+    font-size: 14px;
+    height: 16px;
+    line-height: 16px;
+    padding-left: 20px;
+}
+.botbst {
+    height: 42px;
+    line-height: 40px;
+    width: 100%;
+    background: #fafafa;
+    z-index: 3;
+}
+.huiser {
+    color: #999999;
+    float: left;
+	margin-bottom:0px;
+    padding-left: 20px;
+}
+.redsrt {
+    color: #FF6600;
+    font-size: 24px;
+    margin-left: 10px;
+}
+.font16 {
+    font-size: 16px;
+}
+.font14 {
+    font-size: 14px;
+}
+.baobtn {
+    background: #FF6600;
+    float: right;
+    color: #fff;
+    font-size: 14px;
+    height: 42px;
+    line-break: 42px;
+    width: 117px;
+    text-align: center;
+}
+a.emaillock ,a.cellock {
+	margin-top:10px;
+	color:#444;
+	margin-left:20px;
+	height:22px;
+	font-size:16px;
+}
+a.cur {
+    color: #169BD5;
+}
+.title {
+    margin: 20px 15px 10px;
+    color: #6d6d72;
+    font-size: 15px;
+}
+.panel-body li {
+    float: left;
+    width: 20%;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.panel-body li .nsewes{
+	width:42px;
+	height:42px;
+	position: relative;
+	display: inline-block;
+}
+.rankname {
+    font-size: 12px;
+    color: #fff;
+    background: url(http://static.ebanhui.com/ebh/tpl/newschoolindex/images/namebg.png) no-repeat center;
+    height: 15px;
+    line-height: 15px;
+    left: 0;
+    position: absolute;
+    top: 27px;
+    width: 42px;
+    z-index: 1;
+    text-align: center;
+	border-radius: 0 0 4px 4px;
+}
+.panel-body li img {
+	border-radius:4px;
+}
+.hsiers {
+	float:left;
+	width:100%;
+}
+.titles {
+	margin: 10px 15px 15px;
+    color: #6d6d72;
+    overflow: hidden;
+}
+.sicolr {
+    font-size: 14px;
+    color: #338bff;
+}
+.viedo_zanss {
+    background: url(http://static.ebanhui.com/ebh/tpl/default/images/viedo_zan01.png) no-repeat center;
+    font-size: 16px;
+    color: #999;
+    height: 35px;
+    line-height: 35px;
+	display: inline-block;
+	width:40px;
+}
+.viedo_ermas {
+    background: url(http://static.ebanhui.com/ebh/tpl/default/images/viedo_erma.png) no-repeat center;
+    font-size: 16px;
+    color: #999;
+    height: 35px;
+    line-height: 35px;
+    position: relative;
+	display: inline-block;
+	width:50px;
+}
+.viedo_zanss:hover {
+	background:url(http://static.ebanhui.com/ebh/tpl/default/images/viedo_zan02.png) no-repeat center;
+}
+.viedo_zanes {
+	background:url(http://static.ebanhui.com/ebh/tpl/default/images/viedo_zan02.png) no-repeat center;
+}
+.ermass {
+    width: 180px;
+    height: 240px;
+    padding: 10px;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
+    position: absolute;
+    right: -65px;
+    top: -120px;
+    background: #fff;
+    z-index: 99999;
+    transform: scale(0);
+    opacity: 0;
+    transition: all 0.3s ease 0s;
+}
+.ermass img {
+    width: 180px;
+    height: 180px;
+}
+.text-sm {
+    font-size: 13px;
+    text-align: center;
+    line-height: 1.8;
+    color: #444;
+    width: 100%;
+}
+.mf_viedos {
+	height: 55px;
+	width: 100%;
+	background: #fff;
+	padding: 15px 0 0 0;
+}
+.operation-list {
+    display: inline-block;
+    width: 32%;
+    text-align: center;
+}
+.vertop {
+	vertical-align: top;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+}
+.repic {
+	border-bottom:solid 1px #efefef;
+	padding-bottom:10px;
+}
+.titleres {
+	margin: 10px 15px 15px;
+    color: #666;
+    overflow: hidden;
+	font-size:17px;
+	font-weight:500;
+}
+.xairets {
+	margin:0 10px;
+}
+#topNav {
+	width: 100%;
+	overflow: hidden;
+	font: 16px/32px hiragino sans gb, microsoft yahei, simsun;
+	border-bottom:1px solid #f8f8f8;
+    position: relative;
+    background: #fff;
+    height: 40px;
+    box-sizing: border-box;
+    border: .03rem solid #ddd;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+	touch-action: none;
+}
+#topNav .swiper-wrapper .swiper-slide{
+	line-height: 32px;
+}
+#topNav .swiper-slide {
+	text-align:center;
+	position: relative;
+	display: inline-block;
+    white-space: nowrap;
+    padding: 0 12px;
+    color: #505050;
+    text-decoration: none;
+    line-height: 0.7rem;
+    height: .69rem;    
+    margin: .13rem 0 .13rem .13rem;
+    -webkit-tap-highlight-color: rgba(0,0,0,.3);
+}
+#topNav .swiper-slide span{
+
+	transition:all .3s ease;
+	display:block;
+}
+#topNav .active span{
+	transform:scale(1.1);
+	color:#007aff;
+}
+.swiper-container {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+.swiper-container-free-mode>.swiper-wrapper {
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+    -ms-transition-timing-function: ease-out;
+    -o-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+    margin: 0 auto;
+}
+.swiper-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    -ms-transition-property: -ms-transform;
+    transition-property: transform;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+.swiper-container-android .swiper-slide, .swiper-wrapper {
+    -webkit-transform: translate3d(0,0,0);
+    -moz-transform: translate3d(0,0,0);
+    -o-transform: translate(0,0);
+    -ms-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+.mui-card-content-inner {
+    position: relative;
+    padding: 15px 15px 0 15px;
+}
+mui.min.css:5
+.mui-card-media {
+    vertical-align: bottom;
+    color: #fff;
+    background-position: center;
+    background-size: cover;
+}
+mui.min.css:5
+.mui-card-header {
+    font-size: 17px;
+    border-radius: 2px 2px 0 0;
+}
+.mui-card {
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    border-radius: 2px;
+    background-color: #fff;
+    background-clip: padding-box;
+    box-shadow: 0 1px 2px rgba(0,0,0,.3);
+	border:none;
+}
+.bottfly {
+	position: fixed;
+	bottom:0px;
+	left:0px;
+	height:50px;
+	line-height:50px;
+	background:#e3e3e3;
+	z-index:999;
+	width:100%;
+}
+.flter {
+	float:left;
+	margin:0 0 0 15px;
+	color:#666;
+}
+.cehrse {
+	color:#dd524d;
+}
+.fontsrt {
+	font-size:17px;
+	padding-top:12px;
+}
+.title_top{
+	width:100%;
+}
+.title_top span{
+	float:left;
+	font-size:15px;
+	color:#666;
+	text-align: left;
+	padding:15px 12px;
+	box-sizing: border-box;
+}
+.folder_top{
+	width:45%;
+	background: #f3f3f3;
+}
+.course_top{
+	width:55%;
+	background: #fff;
+}
+.course_list{
+	display:none;
+}
+.folder_once{
+	width:100%;
+	font-size:15px;
+	color:#999;
+	text-align: left;
+	padding: 15px 12px!important;
+	background: #f3f3f3;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.course_once{
+	font-size:15px;
+	color:#666;
+	text-align: left;
+	padding: 15px 12px!important;
+	background: #fff;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	border-bottom:solid 1px #eee;
+}
+.clicked{
+	color:#333!important;
+	background: #fff!important;
+}
+.articel{
+	height:18px;
+	position: absolute;
+	left:0;
+	bottom:0;
+	background: #2696f0;
+	z-index: 5;
+}
+.back{
+	width:100%;
+	height:18px;
+	position: absolute;
+	left:0;
+	bottom:0;
+	background: #000;
+	opacity: 0.3;
+	z-index: 4;
+}
+.progress{
+	width:100%;
+	height:18px;
+	font-size: 14px;
+	color:#fff;
+	font-weight: bold;
+	text-align: center;
+	line-height: 18px;
+	position: absolute;
+	left:0;
+	bottom:0;
+	z-index: 6;
+}
+.course_name{
+	font-size:16px;
+	color:#333;
+	font-weight: bold;
+	height:16px;
+	line-height: 16px;
+	margin-top:12px;
+}
+.course_teacher{
+	height:16px;
+	line-height: 16px;
+}
+.course_teacher .name{
+	font-size:14px;
+	color:#666;
+	font-weight: bold;
+}
+.course_label{
+	font-size:14px;
+	color:#999;
+	height:14px;
+	line-height: 14px;
+}
+.course_label span{
+	float:left;
+}
+.course_label .man_img{
+	width:14px;
+	height:13px;
+	background: url(http://static.ebanhui.com/wap/images/mannum.png) no-repeat;
+	background-size: 100% 100%;
+	margin-right:6px;
+}
+.course_label .man_num{
+	margin-right:0.4rem;
+	padding-top: 1px;
+}
+.course_label .time_img{
+	width:13px;
+	height:13px;
+	background: url(http://static.ebanhui.com/wap/images/linetime.png) no-repeat;
+	background-size: 100% 100%;
+	margin-right:6px;
+}
+.course_label .time_num{
+	padding-top: 1px;
+}
+.course_price{
+	font-size:14px;
+	height: 14px;
+	line-height: 15px;
+}
+.course_price span{
+	float:left;
+}
+.course_price span.price_num {
+	color:#ff0101;
+	float:right;
+	font-size:16px;
+}
+.toptitl {
+	height:41px;
+	line-height:41px;
+	background:#f3f3f3;
+	width:100%;
+}
+a.rigtopalik {
+	width: 45%!important;
+	float:left;
+	color:#666;
+	font-size:14px;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.topjt {
+	background:url(http://static.ebanhui.com/wap/images/topjt.png) no-repeat;
+	width:16px;
+	height:16px;
+	margin:12px 12px 0 12px;
+	float:left;	
+}
+.botjt {
+	background:url(http://static.ebanhui.com/wap/images/botjt.png) no-repeat;
+}
+.rigmeke {
+	float:right;
+	color:#666;
+	font-size:14px;
+	margin-right:10px;
+}

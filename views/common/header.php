@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?=!empty($seoInfo['title'])?$seoInfo['title']:(!empty($title)?$title:$this->get_title())?></title>
+<meta name="keywords" content="<?=empty($seoInfo['keyword'])?$this->get_keywords():$seoInfo['keyword']?>" />
+<meta name="description" content="<?=empty($seoInfo['description'])?$this->get_description():$seoInfo['description']?>" />
+<meta name="viewport"  content="user-scalable=no">
+<link href="http://static.ebanhui.com/portal/css/ebhportal.css?v=2016060601" rel="stylesheet" type="text/css">
+<link href="http://static.ebanhui.com/portal/css/ebtert.css?v=2016092601" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="http://static.ebanhui.com/js/jquery-1.11.0.min.js"></script>
+<script src="http://static.ebanhui.com/ebh/js/jquery.superslide.2.1.1.js" type="text/javascript"></script>
+<script src="http://static.ebanhui.com/ebh/js/common.js?version=20160523001" type="text/javascript"></script>
+<script type="text/javascript" src="http://static.ebanhui.com/ebh/js/xform.js?v=1"></script>
+</head>
+<body>
+<!--头部条!-->
+<?php $user = Ebh::app()->user->getloginuser();?>
+<div class="ebhcceud">
+<div class="pass_e">
+<div class="inftur">
+<div class="headerleft" style="float:left;">
+	<a class="linwen" target="_blank" href="<?=geturl('intro/schooliswhat')?>">什么是网络学校？</a>
+	<a class="linwen" target="_blank" href="http://www.ebh.net/createroom.html" style="color:#17a8f7;">免费创建网校</a>
+	<a class="linwen" target="_blank" href="http://ebhdemo.ebh.net">演示网校</a>
+</div>
+<ul class="quick-menu">
+<?php if(empty($user)){?>
+<li class="">
+<a class="linwen" href="javascript:void(0);" onclick="_login()">登录</a>
+</li>
+<li class="">
+<a class="linwen" target="_blank" href="/register.html">免费注册</a>
+</li>
+<?php }else{?>
+<li class="">
+<a class="linwen" style="color: #777;" href="javascript:void(0)">您好 <?= $user['username']?> 欢迎来到e板会！</a>
+</li>
+<?php $homeurl = geturl('homev2');?>
+<li class="">
+<a class="linwen" target="_blank" href="<?=$homeurl?>">个人中心</a>
+</li>
+<li class="">
+<a class="linwen" href="<?=geturl('logout')?>">安全退出</a>
+</li>
+<?php }?>
+<li class="">
+<a class="linwen" id="moreapp" href="/moreapp.html">更多...</a>
+</li>
+</ul>
+<div class="askter" style="display:none;">
+<ul>
+<li class="dsldt">
+<h2>教学软件<img src="http://static.ebanhui.com/portal/images/ebh_duoico.png" /></h2>
+<a target="_blank" href="http://intro.ebh.net">微课大师</a>
+<a target="_blank" href="/intro/livesystem.html">屏幕直播</a>
+<a target="_blank" href="/intro/examsystem.html">作业组卷</a>
+<a target="_blank" href="http://soft.ebh.net/ebhbrowser.exe">锁屏浏览器</a>
+<a target="_blank" href="http://jiazhang.ebh.net/">家长监督</a>
+</li>
+<li class="dsldt">
+<h2 onclick="xredirect('/freeresource.html')">免费资源<img src="http://static.ebanhui.com/portal/images/ebh_duoico.png" /></h2>
+<a target="_blank" href="http://xxs.ebh.net">免费网校</a>
+<a target="_blank" href="/epaper.html">试卷库</a>
+<a target="_blank" href="/freeresource.html#source">资源库</a>
+<a target="_blank" href="/freeresource.html#paper">题库</a>
+<a target="_blank" href="/free.html">视频</a>
+</li>
+<li class="dsldt">
+<h2 onclick="xredirect('/cnews.html')">新闻资讯<img src="http://static.ebanhui.com/portal/images/ebh_duoico.png" /></h2>
+<a target="_blank" href="/news.html">新闻动态</a>
+<a target="_blank" href="/school.html">校园在线</a>
+<a target="_blank" href="/lfk.html">趣味百科</a>
+<a target="_blank" href="/itschool.html">网络教学</a>
+<a target="_blank" href="/motivation.html">成长励志</a>
+</li>
+<li class="dsldt">
+<h2>平台应用<img src="http://static.ebanhui.com/portal/images/ebh_duoico.png" /></h2>
+<a target="_blank" href="http://edu.ebh.net">志愿填报</a>
+<a target="_blank" href="http://pay.ebh.net">充值中心</a>
+<a target="_blank" href="<?=geturl('intro/app')?>">APP应用</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="pass_e2"></div>
+<!--logo搜索!-->
+<?php $controller = $this->uri->codepath;
+	if(!in_array($controller, array('moreapp', 'intro/livesystem', 'intro/cloudplatform', 'intro/examsystem', 'eq'))){?>
+<div class="header swbgt">
+<a class="logoebh" href="/" style="margin:0 20px 0 0;width:85px;">
+<img src="http://static.ebanhui.com/portal/images/ebh_logo.jpg"></a>
+<img style="float:left;" src="http://static.ebanhui.com/portal/images/ebh_wenlogo.jpg">
+<div class="kshtfd" style="float:left;margin-left:220px;z-index:3;display:inline;">
+	<?php
+	($q = safeHtml($this->input->get('q'))) or ($q = "");
+	?>
+<input class="txtlset" name="search_title" x_hit="搜索网校、课件等相关内容" type="text" id="search" value="<?=$q?>" />
+<a href="javascript:void(0)" id="searchbtn" onclick="dosearch()" class="lesort">搜索</a>
+<form action="#" method="get" id="searchhide" target="_blank" style="display:none;">
+	<input id="q" type="hidden" name="q" value="<?=$q?>" />
+</form>
+</div>
+</div>
+	<?php }?>
+<script>
+	var timer;
+	$(function(){
+		xForm.hit($("#search"));
+		$(".askter h2").attr({style:"cursor:pointer;"});
+		// $("#moreapp").bind('mouseover',function(){
+			// $(".askter:not(:animated)").slideDown();
+		// }).bind('mouseleave',function(){
+			// timer = setTimeout(function(){
+				// $(".askter").slideUp();
+			// },300);
+		// });
+		$("div.askter").bind('mouseleave',function(){
+			$(".askter").slideUp();
+		}).bind('mouseover',function(){
+			clearTimeout(timer);
+		});
+		$("#search").bind('keypress',function(e){
+			if(e.which == 13){
+				dosearch();
+			}
+		});
+	});
+	function dosearch(){
+		var $search = $("#search");
+		$search.val($.trim($search.val()));
+		var q = $search.val();
+		if(q == $search.attr('x_hit')){
+			q = "";
+		}
+		if(q == ""){
+			alert("请输入关键字");
+			return;
+		}
+		$("#q").val(q);
+		var url = "/searchs.html";
+		xredirect(url);
+	}
+	function xredirect(url){
+		$("#searchhide").attr("action",url);
+		$("#searchhide").submit();
+	}
+	function _login(){
+        tologin('/login.html?returnurl=__url__');
+    }
+</script>

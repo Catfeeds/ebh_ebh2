@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?= $room['crname'] ?>(e板会)</title>
+<meta name="keywords" content="<?= $room['crlabel'] ?>" />
+<meta name="description" content="<?= $room['summary'] ?>" />
+<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/ebh/tpl/2012/css/base.css" />
+<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/ebh/tpl/2012/css/common.css" />
+<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/ebh/citytpl/stores/css/wxind.css" />
+<script type="text/javascript" src="http://static.ebanhui.com/ebh/js/jquery.js"></script>	
+
+<style type="text/css">
+.recest {
+	width:960px;
+	margin:0 auto;
+}
+.recest .inquiry {
+	width:930px;
+	height:500px;
+	border:solid 1px #c8c8c8;
+	background:#fff;
+	margin-bottom:50px;
+}
+.inquiry .titinquiry {
+	width:678px;
+	height:61px;
+	line-height:61px;
+	text-indent:20px;
+	font-size:14px;
+	color:#2aa0e6;
+	font-weight: bold;
+	border-bottom:solid 2px #c8c8c8;
+	float:left;
+}
+.inquiry .titcustom {
+	width:252px;
+	height:61px;
+	border-bottom:solid 2px #c8c8c8;
+	float:left;
+}
+.lefinq {
+	width:678px;
+	height:387px;
+	float:left;
+}
+.neidi {
+	height:32px;
+	line-height:32px;
+	float:left;
+	width:750px;
+	margin-bottom:10px;
+}
+#countdown {
+	color:red;
+}
+.neidi .elxian {
+	width:158px;
+	text-align:right;
+	float:left;
+}
+.ertyu {
+	height:28px;
+	line-height:28px;
+	border:solid 1px #c8c8c8;
+	width:298px;
+	float:left;
+	margin:0 15px;
+	padding-left:5px;
+}
+.zbdsa {
+	float:left;
+	color:#a1a1a1;
+}
+.lefinq a.chabtn {
+	width:90px;
+	height:24px;
+	line-height:24px;
+	display:inlineblock;
+	text-align:center;
+	border:solid 1px #108ed4;
+	background:#18a8f7;
+	float:left;
+	color:#fff;
+	text-decoration:none;
+	margin-left:175px;
+	margin-top:25px;
+}
+.lefinq a.chabtn:hover {
+	background:#108ed4;
+}
+.inquiry .rigyus {
+	float:left;
+	width:251px;
+}
+.rigyus li {
+	float:left;
+	padding-left:30px;
+	margin-left:15px;
+	display:inline;
+	width:190px;
+}
+.rigyus .dianhua {
+	background:url(http://static.ebanhui.com/ebh/tpl/default/images/dianhuacontact.jpg) no-repeat left center;
+	margin-top:35px;
+}
+.rigyus .youxiang {
+	background:url(http://static.ebanhui.com/ebh/tpl/default/images/youxiangcontact.jpg) no-repeat left center;
+	margin-top:20px;
+}
+.rigyus .linkqq {
+	background:url(http://static.ebanhui.com/ebh/tpl/default/images/qqcontact.jpg) no-repeat left center;
+	margin-top:25px;
+	width:200px;
+}
+.lefinq .cuowu {
+	background:#fcfcfc;
+	height:80px;
+	width:578px;
+	float:left;
+	margin-top:50px;
+	padding-left:100px;
+}
+.cuowu p {
+	line-height:1.8;
+}
+.cuowu .tishiico {
+	background:url(http://static.ebanhui.com/ebh/tpl/default/images/cuowuico.jpg) no-repeat left center;
+	padding-left:20px;
+	margin:5px 0;
+}
+.zhengque {
+	width:578px;
+	float:left;
+	margin-top:35px;
+	padding-left:100px;
+}
+.zhengque .chenggbtn {
+	background:url(http://static.ebanhui.com/ebh/tpl/default/images/zhengqueico.jpg) no-repeat left center;
+	padding-left:20px;
+	margin:5px 0;
+}
+.zhengque .sizya {
+	font-size:30px;
+	color:#0995df;
+	font-family:微软雅黑;
+}
+.newspass {
+	background:url(http://static.ebanhui.com/ebh/tpl/default/images/tiicoti.jpg) no-repeat left center;
+	padding-left:30px;
+	margin-top:35px;
+	margin-bottom:5px;
+	font-size:16px;
+	font-weight:bold;
+	margin-left:100px;
+}
+.laoji {
+	color:#0e9500;
+	font-size:16px;
+	font-weight:bold;
+	margin-left:130px;
+}
+</style>
+<?php $this->display('common/public_header'); ?>
+<?php $logo = empty($room['cface']) ? 'http://static.ebanhui.com/ebh/tpl/default/images/elist_tx.jpg' : $room['cface']; ?>
+<div class="toptem">
+    <div class="keaie"><img width="100" height="100" src="<?= $logo ?>" alt="<?= $room['crname'] ?>"/></div>
+    <div class="rigkic">
+        <h2 class="kichtwo"><?= $room['crname'] ?></h2>
+        <p class="dianhua"><?= $room['crphone'] ?></p>
+        <p class="elanbn"><?php if (!empty($room['cremail'])) { ?><a href="http://<?= $room['cremail'] ?>" target="_blank" style="color:#2aa0e6;"><?= $room['cremail'] ?></a><?php } ?></p>
+        <p class="deteme"><?= $room['craddress'] ?></p>
+    </div>
+</div>
+<div class="recest">
+<div class="inquiry">
+<div class="titinquiry">安全提示：</div>
+<div class="titcustom"></div>
+	<div class="lefinq">
+        
+            <div class="newspass"><?=empty($user['realname']) ? $user['username'] :$user['realname'] ?>　您好，系统检测到您的账户存在<span style="color:red;">&nbsp;安全隐患</span>
+</div><span class="laoji">为了保障您的账户使用安全，系统已限制您的访问。</span>
+			<div class="neidi" style="margin-top:30px;margin-bottom:5px;font-size:45px;text-align:left;margin-left:20px;">
+				解除限制倒计时：<span id="countdown"></span>
+            </div>		
+			<div class="neidi" style="margin-top:60px;margin-bottom:5px;font-size:24px;text-indent:58px;">
+				您也可以选择 <a href="/home/profile/pass.html" style="color:red;text-decoration:underline;" target="_blank">修改密码</a>
+            </div>
+			<div class="neidi" style="margin-top:10px;margin-bottom:0px;padding-left:60px;font-size:16px;">
+				如有问题，请咨询我们的客服：
+				联系 Q  Q：<span style="color:red;font-size:20px;font-weight:bold;">1937338702</span>
+				
+            </div>	
+			<p style="margin-left:290px;float:left;display:inline;font-size:16px;">联系电话：<span style="color:red;font-size:20px;font-weight:bold;">胡老师 15058159390</span></p>
+	</div>
+
+</div>
+</div>
+
+    <div style="clear:both;"></div>
+<script type="text/javascript">
+var countdown = <?=$countdown ?>;
+var intid;
+$(function(){
+	<?php if(SYSTIME<($mylog['startdate']+$limittime)){?>
+	intid = setInterval('counttime()',1000);
+	<?php }?>
+});
+function counttime(){
+	countdown --;
+	if(countdown%60 == 0){
+		$.ajax({
+			url:'/time/gettime.html?d='+Math.random(),
+			success:function(data){
+				countdown = <?= ($limittime + $mylog['startdate']) ?> - data;
+			}
+		});
+	}
+	if(countdown <= 0)
+		location.href = '/myroom.html';
+		
+	$('#countdown').html(secondToStr(countdown));
+}
+var timearr = new Object();
+timearr[1] = '秒';
+timearr[60] = '分';
+timearr[3600] = '小时';
+timearr[86400] = '天';
+	
+keyarr = Array();
+keyarr[1] = 86400;
+keyarr[60] = 3600;
+keyarr[3600] = 60;
+keyarr[86400] = 1;
+function secondToStr(time){
+	var str = '';
+	
+	$.each(timearr,function(key,value){
+		key = keyarr[key];
+		value = timearr[key]; 
+		if (time >= key){
+			str += Math.floor(time/key) +value;
+		}
+		time %= key;
+	});
+	return str;
+}
+	</script>
+
+<?php
+    $this->display('common/footer');
+?>

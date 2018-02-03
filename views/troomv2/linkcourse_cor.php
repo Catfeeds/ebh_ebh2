@@ -1,0 +1,59 @@
+<?php $this->display('troomv2/page_header'); ?>
+
+	<div class="ter_tit">
+		当前位置 > <a href="<?= geturl('troomv2/classexam') ?>">班级作业</a> > 关联课件
+		</div>
+	<div class="lefrig" style="margin-top:10px;">
+
+<table class="datatab" width="100%">
+<thead class="tabhead">
+<tr>
+<th>班级名称</th>
+<th>人数</th>
+<th>作业数</th>
+<th>试题数</th>
+<th>最近作业</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+
+        <?php if(!empty($cexams)) { ?>
+	
+                <?php 
+                    $classsum = count($cexams);
+                    $stunumsum = 0;
+                    $examcountsum = 0;
+                    $quescountsum = 0;
+                    foreach($cexams as $cexam) { 
+                        $stunumsum += $cexam['stunum'];
+                        $examcountsum += $cexam['examscount'];
+                        $quescountsum += $cexam['quescount'];
+                        ?>
+		<tr>
+			<td width="20%"><?= $cexam['classname'] ?></td>
+			<td width="15%"><?= $cexam['stunum'] ?></td>
+			<td width="15%"><?= $cexam['examscount'] ?></td>
+			<td width="15%"><?= $cexam['quescount'] ?></td>
+			<td width="20%"><?= !empty($cexam['lastexamdate']) ? date('Y-m-d H:i:s',$cexam['lastexamdate']) : ''?></td>
+			<td width="20%"><a href="<?= geturl('troomv2/linkcourse/my-0-0-0-'.$cexam['classid']) ?>" class="previewBtn" title="班级作业">班级作业</a></td>
+		</tr>
+                <?php } ?>
+
+		<tr>
+			<td width="25%">计：&nbsp;<span style="color:blue;font-weight:bold;"><?= $classsum?></span>&nbsp;班</td>
+			<td width="15%">计：&nbsp;<span style="color:blue;font-weight:bold;"><?= $stunumsum ?></span>&nbsp;人</td>
+			<td width="15%">计：&nbsp;<span style="color:blue;font-weight:bold;"><?= $examcountsum ?></span>&nbsp;</td>
+			<td width="15%">计：&nbsp;<span style="color:blue;font-weight:bold;"><?= $quescountsum ?></span>&nbsp;</td>
+			<td width="20%"></td>
+			<td width="10%"></td>
+		</tr>
+
+        <?php } else { ?>
+		<tr><td colspan="6" align="center">暂无记录</td></tr>
+        <?php } ?>
+
+</tbody>
+</table>
+</div>
+<?php $this->display('troomv2/page_footer'); ?>

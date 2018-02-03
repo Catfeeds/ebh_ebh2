@@ -1,0 +1,102 @@
+/*
+修改ebh_users表，将姓名，头像等字段放到user表，便于查询
+
+/* 添加sex性别字段
+*/
+alter table ebh_users add sex smallint not null default 0 comment '性别，默认0表示男';
+
+/* 添加realname姓名字段
+*/
+alter table ebh_users add realname varchar(50) not null default '' comment '真实姓名';
+
+/* 添加nickname昵称字段
+*/
+alter table ebh_users add nickname varchar(50) not null default '' comment '昵称';
+
+/* 添加face头像字段
+*/
+alter table ebh_users add face varchar(150) not null default '' comment '用户头像';
+
+/* 添加email字段
+*/
+alter table ebh_users add email varchar(150) not null default '' comment '用户邮箱';
+
+/* 添加mobile字段
+*/
+alter table ebh_users add mobile varchar(50) not null default '' comment '用户手机号';
+
+
+/* 添加credit字段
+*/
+alter table ebh_users add credit int not null default 0 comment '用户积分';
+
+/* 添加citycode字段
+*/
+alter table ebh_users add citycode varchar(10) not null default '' comment '居住城市编码';
+
+/* 添加citycode字段
+*/
+alter table ebh_users add address varchar(100) not null default '' comment '居住地址';
+
+/* ebh_teachers表添加message字段，教师详细介绍
+*/
+alter table ebh_teachers add message text comment '教师详细介绍';
+
+
+
+/*
+修改原字段为不为空
+*/
+UPDATE `ebh_members` SET `realname`='' WHERE `realname` IS NULL;
+UPDATE `ebh_members` SET `nickname`='' WHERE `nickname` IS NULL;
+UPDATE `ebh_members` SET `phone`='' WHERE `phone` IS NULL;
+UPDATE `ebh_members` SET `mobile`='' WHERE `mobile` IS NULL;
+UPDATE `ebh_members` SET `email`='' WHERE `email` IS NULL;
+UPDATE `ebh_members` SET `citycode`='' WHERE `citycode` IS NULL;
+UPDATE `ebh_members` SET `address`='' WHERE `address` IS NULL;
+UPDATE `ebh_members` SET `face`='' WHERE `face` IS NULL;
+UPDATE `ebh_members` SET `signature`='' WHERE `signature` IS NULL;
+
+ALTER TABLE `ebh_members`
+	CHANGE COLUMN `realname` `realname` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '真实姓名' AFTER `memberid`,
+	CHANGE COLUMN `nickname` `nickname` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '昵称' AFTER `realname`,
+	CHANGE COLUMN `phone` `phone` VARCHAR(20) NOT NULL DEFAULT '' AFTER `birthdate`,
+	CHANGE COLUMN `mobile` `mobile` VARCHAR(11) NOT NULL DEFAULT '' COMMENT '手机号' AFTER `phone`,
+	CHANGE COLUMN `email` `email` VARCHAR(150) NOT NULL DEFAULT '' AFTER `mobile`,
+	CHANGE COLUMN `citycode` `citycode` VARCHAR(10) NOT NULL DEFAULT '' COMMENT '居住城市' AFTER `native`,
+	CHANGE COLUMN `address` `address` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '居住地址' AFTER `citycode`,
+	CHANGE COLUMN `face` `face` VARCHAR(150) NOT NULL DEFAULT '' COMMENT '个人头像地址' AFTER `address`,
+	CHANGE COLUMN `signature` `signature` VARCHAR(100) NOT NULL DEFAULT '' AFTER `rank`;
+
+UPDATE `ebh_teachers` SET `realname`='' WHERE `realname` IS NULL;
+UPDATE `ebh_teachers` SET `nickname`='' WHERE `nickname` IS NULL;
+UPDATE `ebh_teachers` SET `mobile`='' WHERE `mobile` IS NULL;
+UPDATE `ebh_teachers` SET `phone`='' WHERE `phone` IS NULL;
+UPDATE `ebh_teachers` SET `address`='' WHERE `address` IS NULL;
+
+ALTER TABLE `ebh_teachers`
+	CHANGE COLUMN `realname` `realname` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '教师真实姓名' AFTER `teacherid`,
+	CHANGE COLUMN `nickname` `nickname` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '教师昵称' AFTER `realname`,
+	CHANGE COLUMN `mobile` `mobile` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '手机号码' AFTER `fax`,
+	CHANGE COLUMN `phone` `phone` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '联系电话' AFTER `profile`,
+	CHANGE COLUMN `address` `address` VARCHAR(10) NULL DEFAULT '' COMMENT '地址' AFTER `mobile`;
+
+
+/*
+导入数据
+*/
+UPDATE ebh_users,ebh_members SET ebh_users.sex = ebh_members.sex,ebh_users.realname=ebh_members.realname,
+ebh_users.nickname=ebh_members.nickname,ebh_users.face=ebh_members.face,ebh_users.email=ebh_members.email,
+ebh_users.mobile=ebh_members.mobile,ebh_users.credit=ebh_members.credit,
+ebh_users.citycode=ebh_members.citycode,ebh_users.address=ebh_members.address
+where ebh_users.uid = ebh_members.memberid;
+
+UPDATE ebh_users,ebh_teachers SET ebh_users.sex = ebh_teachers.sex,ebh_users.realname=ebh_teachers.realname,
+ebh_users.nickname=ebh_teachers.nickname,
+ebh_users.mobile=ebh_teachers.mobile,ebh_users.credit=ebh_teachers.credit,
+ebh_users.citycode=ebh_teachers.address
+where ebh_users.uid = ebh_teachers.teacherid;
+
+/*
+teacher的vitae字段导入到ebh_users 的face和ebh_teachers的message字段
+*/

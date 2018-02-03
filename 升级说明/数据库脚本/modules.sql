@@ -1,0 +1,15 @@
+UPDATE ebh_modules SET redir = 'action=module' WHERE moduleid = 49;
+UPDATE ebh_modules SET identifier = 'category/channel' WHERE moduleid = 52;
+UPDATE ebh_modules SET identifier = 'category/channel' WHERE moduleid = 53;
+UPDATE ebh_modules SET redir = 'member' WHERE moduleid = 70;
+UPDATE ebh_modules SET redir = 'news' WHERE moduleid = 86;
+UPDATE ebh_modules SET redir = 'review' WHERE moduleid = 104;
+UPDATE ebh_modules SET redir = 'setting' WHERE moduleid = 159;
+UPDATE ebh_modules SET redir = 'goods' WHERE moduleid = 205;
+UPDATE ebh_modules SET redir = 'serial' WHERE moduleid = 269;
+UPDATE ebh_modules SET identifier = 'resources/addType' WHERE moduleid = 276;
+UPDATE ebh_modules SET identifier = 'category/resources' WHERE moduleid = 277;
+UPDATE ebh_modules SET identifier = 'resources&op=showlist' WHERE moduleid = 279;
+UPDATE ebh_modules SET identifier = 'rfile' WHERE moduleid = 292;
+UPDATE ebh_modules SET identifier = 'billlist' WHERE moduleid = 309;
+UPDATE ebh_modules SET identifier = 'action=billlist&op=detail' WHERE moduleid = 310;

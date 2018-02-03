@@ -1,0 +1,166 @@
+
+2014/11/04-11:33:48 TrustPay Client PHP 交易开始==========================
+2014/11/04-11:33:48 配置文件中商户数为2请求指定的商户配置编号为 2
+2014/11/04-11:33:48 检查交易请求是否合法：正确
+2014/11/04-11:33:48 交易报文
+2014/11/04-11:33:48 完整交易报文：
+2014/11/04-11:33:48 签名后的报文
+2014/11/04-11:33:48 提交网上支付平台的报文：
+                    <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxRequest><TrxType>PayReq</TrxType><Order><OrderNo>10406</OrderNo><ExpiredDate>10</ExpiredDate><OrderAmount>192</OrderAmount><OrderDesc>开通 初一数学 服务</OrderDesc><OrderDate>2014/11/04</OrderDate><OrderTime>11:33:48</OrderTime><OrderURL>http://jsez.ebh.net/</OrderURL><BuyIP>123.157.100.74</BuyIP><OrderItems><OrderItem><ProductID>IP000001</ProductID><ProductName>开通 初一数学 服务</ProductName><UnitPrice>192</UnitPrice><Qty>1</Qty></OrderItem></OrderItems></Order><ProductType>1</ProductType><PaymentType>6</PaymentType><NotifyType>1</NotifyType><ResultNotifyURL>http://jsez.ebh.net/ibuy/abcnotify.html?orderid=10406</ResultNotifyURL><MerchantRemarks>初一数学-5 月 -192.00 元</MerchantRemarks><PaymentLinkType>1</PaymentLinkType></TrxRequest></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>e+br5pLMiITgyVbPaXt4m5CiSZLYl/iYcOeVUpfTBgAEJcRVnZh9TzejpF6o/YBQq8ah2VjC88qpvs6uFr1GA4jsibHnzOWqmOH+WNTk63QZv6BseIZ+77ubCWeHXjEDgwiSIVbbHK6PwpeEWpSfbPtwpkNlTY2L2MhGuVh2+v4=</Signature></MSG>
+2014/11/04-11:33:48 报文长度：1148<br>
+2014/11/04-11:33:48 连线网上支付平台
+2014/11/04-11:33:48 网上支付平台URL：[https://www.95599.cn/b2c/trustpay/ReceiveMerchantTrxReqServlet] 
+2014/11/04-11:33:48 成功
+2014/11/04-11:33:48 提交交易报文：
+2014/11/04-11:33:48 <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxRequest><TrxType>PayReq</TrxType><Order><OrderNo>10406</OrderNo><ExpiredDate>10</ExpiredDate><OrderAmount>192</OrderAmount><OrderDesc>开通 初一数学 服务</OrderDesc><OrderDate>2014/11/04</OrderDate><OrderTime>11:33:48</OrderTime><OrderURL>http://jsez.ebh.net/</OrderURL><BuyIP>123.157.100.74</BuyIP><OrderItems><OrderItem><ProductID>IP000001</ProductID><ProductName>开通 初一数学 服务</ProductName><UnitPrice>192</UnitPrice><Qty>1</Qty></OrderItem></OrderItems></Order><ProductType>1</ProductType><PaymentType>6</PaymentType><NotifyType>1</NotifyType><ResultNotifyURL>http://jsez.ebh.net/ibuy/abcnotify.html?orderid=10406</ResultNotifyURL><MerchantRemarks>初一数学-5 月 -192.00 元</MerchantRemarks><PaymentLinkType>1</PaymentLinkType></TrxRequest></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>e+br5pLMiITgyVbPaXt4m5CiSZLYl/iYcOeVUpfTBgAEJcRVnZh9TzejpF6o/YBQq8ah2VjC88qpvs6uFr1GA4jsibHnzOWqmOH+WNTk63QZv6BseIZ+77ubCWeHXjEDgwiSIVbbHK6PwpeEWpSfbPtwpkNlTY2L2MhGuVh2+v4=</Signature></MSG>
+2014/11/04-11:33:48 成功
+2014/11/04-11:33:48 接受到的响应报文：
+                    HTTP/1.1 200 OK
+                    Date: Tue, 04 Nov 2014 03:33:55 GMT
+                    Server: Microsoft-IIS/6.0
+                    X-Powered-By: ASP.NET
+                    X-AspNet-Version: 2.0.50727
+                    Set-Cookie: ASP.NET_SessionId=yj0z3h55cl2gbb45mzkwmu45; path=/; HttpOnly
+                    Cache-Control: private
+                    Content-Type: text/html; charset=gb2312
+                    Connection: close
+                    Set-Cookie: BIGipServerpool_ec_b2c=3931958026.56611.0000; path=/
+                    
+                    <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxResponse><ReturnCode>0000</ReturnCode><ErrorMessage>交易成功</ErrorMessage><TrxType>PayReq</TrxType><OrderNo>10406</OrderNo><PaymentURL>https://easyabc.95599.cn/b2c/NotCheckStatus/PaymentModeUCBPAct.ebf?TOKEN=14150720357080679713</PaymentURL><OrderAmount>192</OrderAmount></TrxResponse></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>UnAPcvkksB4NIY6ytZTqpRGNcHYp/E1uaOfV9R0LO8viD6kLkabe771zcfPgmiQobXCXmmsAaxYm8mwNV/2eADjv5fd7NEuNOMaBC46Rx2BDucqWBoZv5UKWzQAk+OYK8mF/v0a35+MjGEcMGWo6PNmR7YxrEouSZSLKyr9+04U=</Signature></MSG>
+2014/11/04-11:33:48 接收报文：
+2014/11/04-11:33:48 <Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxResponse><ReturnCode>0000</ReturnCode><ErrorMessage>交易成功</ErrorMessage><TrxType>PayReq</TrxType><OrderNo>10406</OrderNo><PaymentURL>https://easyabc.95599.cn/b2c/NotCheckStatus/PaymentModeUCBPAct.ebf?TOKEN=14150720357080679713</PaymentURL><OrderAmount>192</OrderAmount></TrxResponse></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>UnAPcvkksB4NIY6ytZTqpRGNcHYp/E1uaOfV9R0LO8viD6kLkabe771zcfPgmiQobXCXmmsAaxYm8mwNV/2eADjv5fd7NEuNOMaBC46Rx2BDucqWBoZv5UKWzQAk+OYK8mF/v0a35+MjGEcMGWo6PNmR7YxrEouSZSLKyr9+04U=</Signature>
+2014/11/04-11:33:48 验证网上支付平台响应报文的签名：正确
+2014/11/04-11:33:48 生成交易响应对象：
+2014/11/04-11:33:48 交易结果：[0000]
+2014/11/04-11:33:48 错误信息：[交易成功]
+2014/11/04-11:33:48 交易结束==================================================
+                    
+                    
+                    
+                    
+2014/11/04-11:46:43 TrustPay Client PHP 交易开始==========================
+2014/11/04-11:46:43 配置文件中商户数为2请求指定的商户配置编号为 2
+2014/11/04-11:46:43 检查交易请求是否合法：正确
+2014/11/04-11:46:43 交易报文
+2014/11/04-11:46:43 完整交易报文：
+2014/11/04-11:46:43 签名后的报文
+2014/11/04-11:46:43 提交网上支付平台的报文：
+                    <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxRequest><TrxType>PayReq</TrxType><Order><OrderNo>10407</OrderNo><ExpiredDate>10</ExpiredDate><OrderAmount>192</OrderAmount><OrderDesc>开通 初一数学 服务</OrderDesc><OrderDate>2014/11/04</OrderDate><OrderTime>11:46:43</OrderTime><OrderURL>http://jsez.ebh.net/</OrderURL><BuyIP>123.157.100.74</BuyIP><OrderItems><OrderItem><ProductID>IP000001</ProductID><ProductName>开通 初一数学 服务</ProductName><UnitPrice>192</UnitPrice><Qty>1</Qty></OrderItem></OrderItems></Order><ProductType>1</ProductType><PaymentType>6</PaymentType><NotifyType>1</NotifyType><ResultNotifyURL>http://jsez.ebh.net/ibuy/abcnotify.html?orderid=10407</ResultNotifyURL><MerchantRemarks>初一数学-5 月 -192.00 元</MerchantRemarks><PaymentLinkType>1</PaymentLinkType></TrxRequest></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>OnDG3/BMB8BMZA7xRqa5LQSqqxBDPZg0eLn6k7OOGyuTeszEpEBJKplghKH0UhZBYwp7CbKCkjcXBeDQhrnHTe3v+fd63mgK2t4qQ84QgM1IIXolX0DJM6DYAivnm4yVVDKQWxB67TZ4zrCa6Bj4z7o1lr4LQWoHmO75za9DcWQ=</Signature></MSG>
+2014/11/04-11:46:43 报文长度：1148<br>
+2014/11/04-11:46:43 连线网上支付平台
+2014/11/04-11:46:43 网上支付平台URL：[https://www.95599.cn/b2c/trustpay/ReceiveMerchantTrxReqServlet] 
+2014/11/04-11:46:43 成功
+2014/11/04-11:46:43 提交交易报文：
+2014/11/04-11:46:43 <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxRequest><TrxType>PayReq</TrxType><Order><OrderNo>10407</OrderNo><ExpiredDate>10</ExpiredDate><OrderAmount>192</OrderAmount><OrderDesc>开通 初一数学 服务</OrderDesc><OrderDate>2014/11/04</OrderDate><OrderTime>11:46:43</OrderTime><OrderURL>http://jsez.ebh.net/</OrderURL><BuyIP>123.157.100.74</BuyIP><OrderItems><OrderItem><ProductID>IP000001</ProductID><ProductName>开通 初一数学 服务</ProductName><UnitPrice>192</UnitPrice><Qty>1</Qty></OrderItem></OrderItems></Order><ProductType>1</ProductType><PaymentType>6</PaymentType><NotifyType>1</NotifyType><ResultNotifyURL>http://jsez.ebh.net/ibuy/abcnotify.html?orderid=10407</ResultNotifyURL><MerchantRemarks>初一数学-5 月 -192.00 元</MerchantRemarks><PaymentLinkType>1</PaymentLinkType></TrxRequest></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>OnDG3/BMB8BMZA7xRqa5LQSqqxBDPZg0eLn6k7OOGyuTeszEpEBJKplghKH0UhZBYwp7CbKCkjcXBeDQhrnHTe3v+fd63mgK2t4qQ84QgM1IIXolX0DJM6DYAivnm4yVVDKQWxB67TZ4zrCa6Bj4z7o1lr4LQWoHmO75za9DcWQ=</Signature></MSG>
+2014/11/04-11:46:43 成功
+2014/11/04-11:46:43 接受到的响应报文：
+                    HTTP/1.1 200 OK
+                    Date: Tue, 04 Nov 2014 03:46:49 GMT
+                    Server: Microsoft-IIS/6.0
+                    X-Powered-By: ASP.NET
+                    X-AspNet-Version: 2.0.50727
+                    Set-Cookie: ASP.NET_SessionId=wtngsn451kfj1t453zvyji45; path=/; HttpOnly
+                    Cache-Control: private
+                    Content-Type: text/html; charset=gb2312
+                    Connection: close
+                    Set-Cookie: BIGipServerpool_ec_b2c=912583434.56867.0000; path=/
+                    
+                    <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxResponse><ReturnCode>0000</ReturnCode><ErrorMessage>交易成功</ErrorMessage><TrxType>PayReq</TrxType><OrderNo>10407</OrderNo><PaymentURL>https://easyabc.95599.cn/b2c/NotCheckStatus/PaymentModeUCBPAct.ebf?TOKEN=14150728097766635644</PaymentURL><OrderAmount>192</OrderAmount></TrxResponse></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>8vGJViGdIOCYzpGz4EMqh7x7bblbHAblAEH57ktmuHCq6u2NI35tPERZRLedDqkqPcm0uINVMyzi1+JAqO0onhZvW9/jEqr6M7Qzox0OMPVGZRyb5Ng/NOtA5nJNGMQ+xjHpWJWRCwbYlhNLn9VTy+BaPivbmXDCKzEXSn1VwwQ=</Signature></MSG>
+2014/11/04-11:46:43 接收报文：
+2014/11/04-11:46:43 <Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxResponse><ReturnCode>0000</ReturnCode><ErrorMessage>交易成功</ErrorMessage><TrxType>PayReq</TrxType><OrderNo>10407</OrderNo><PaymentURL>https://easyabc.95599.cn/b2c/NotCheckStatus/PaymentModeUCBPAct.ebf?TOKEN=14150728097766635644</PaymentURL><OrderAmount>192</OrderAmount></TrxResponse></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>8vGJViGdIOCYzpGz4EMqh7x7bblbHAblAEH57ktmuHCq6u2NI35tPERZRLedDqkqPcm0uINVMyzi1+JAqO0onhZvW9/jEqr6M7Qzox0OMPVGZRyb5Ng/NOtA5nJNGMQ+xjHpWJWRCwbYlhNLn9VTy+BaPivbmXDCKzEXSn1VwwQ=</Signature>
+2014/11/04-11:46:43 验证网上支付平台响应报文的签名：正确
+2014/11/04-11:46:43 生成交易响应对象：
+2014/11/04-11:46:43 交易结果：[0000]
+2014/11/04-11:46:43 错误信息：[交易成功]
+2014/11/04-11:46:43 交易结束==================================================
+                    
+                    
+                    
+                    
+2014/11/04-11:56:42 TrustPay Client PHP 交易开始==========================
+2014/11/04-11:56:42 配置文件中商户数为2请求指定的商户配置编号为 2
+2014/11/04-11:56:42 检查交易请求是否合法：正确
+2014/11/04-11:56:42 交易报文
+2014/11/04-11:56:42 完整交易报文：
+2014/11/04-11:56:42 签名后的报文
+2014/11/04-11:56:42 提交网上支付平台的报文：
+                    <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxRequest><TrxType>PayReq</TrxType><Order><OrderNo>10408</OrderNo><ExpiredDate>10</ExpiredDate><OrderAmount>192</OrderAmount><OrderDesc>开通 初一科学 服务</OrderDesc><OrderDate>2014/11/04</OrderDate><OrderTime>11:56:42</OrderTime><OrderURL>http://jsez.ebh.net/</OrderURL><BuyIP>123.157.100.74</BuyIP><OrderItems><OrderItem><ProductID>IP000001</ProductID><ProductName>开通 初一科学 服务</ProductName><UnitPrice>192</UnitPrice><Qty>1</Qty></OrderItem></OrderItems></Order><ProductType>1</ProductType><PaymentType>6</PaymentType><NotifyType>1</NotifyType><ResultNotifyURL>http://jsez.ebh.net/ibuy/abcnotify.html?orderid=10408</ResultNotifyURL><MerchantRemarks>初一科学-5 月 -192.00 元</MerchantRemarks><PaymentLinkType>1</PaymentLinkType></TrxRequest></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>LaQSQNEcDzypooP5ptCm5dwvPgvemGaOBYOtPk4rxcuaZESALyxSkDSpHx1hI4wvZvC+0C3Gc+gBLsR7FZ50FAfB3U4L50c742kGLbaDGF7ETeTouXA9JOgNyBLxLTXlVmgONc3HilryN5EH0rUm7JMV85CEXkdHWz1nUMpPZxI=</Signature></MSG>
+2014/11/04-11:56:42 报文长度：1148<br>
+2014/11/04-11:56:42 连线网上支付平台
+2014/11/04-11:56:42 网上支付平台URL：[https://www.95599.cn/b2c/trustpay/ReceiveMerchantTrxReqServlet] 
+2014/11/04-11:56:42 成功
+2014/11/04-11:56:42 提交交易报文：
+2014/11/04-11:56:42 <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxRequest><TrxType>PayReq</TrxType><Order><OrderNo>10408</OrderNo><ExpiredDate>10</ExpiredDate><OrderAmount>192</OrderAmount><OrderDesc>开通 初一科学 服务</OrderDesc><OrderDate>2014/11/04</OrderDate><OrderTime>11:56:42</OrderTime><OrderURL>http://jsez.ebh.net/</OrderURL><BuyIP>123.157.100.74</BuyIP><OrderItems><OrderItem><ProductID>IP000001</ProductID><ProductName>开通 初一科学 服务</ProductName><UnitPrice>192</UnitPrice><Qty>1</Qty></OrderItem></OrderItems></Order><ProductType>1</ProductType><PaymentType>6</PaymentType><NotifyType>1</NotifyType><ResultNotifyURL>http://jsez.ebh.net/ibuy/abcnotify.html?orderid=10408</ResultNotifyURL><MerchantRemarks>初一科学-5 月 -192.00 元</MerchantRemarks><PaymentLinkType>1</PaymentLinkType></TrxRequest></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>LaQSQNEcDzypooP5ptCm5dwvPgvemGaOBYOtPk4rxcuaZESALyxSkDSpHx1hI4wvZvC+0C3Gc+gBLsR7FZ50FAfB3U4L50c742kGLbaDGF7ETeTouXA9JOgNyBLxLTXlVmgONc3HilryN5EH0rUm7JMV85CEXkdHWz1nUMpPZxI=</Signature></MSG>
+2014/11/04-11:56:42 成功
+2014/11/04-11:56:42 接受到的响应报文：
+                    HTTP/1.1 200 OK
+                    Date: Tue, 04 Nov 2014 03:56:49 GMT
+                    Server: Microsoft-IIS/6.0
+                    X-Powered-By: ASP.NET
+                    X-AspNet-Version: 2.0.50727
+                    Set-Cookie: ASP.NET_SessionId=cn01lo55t1hvtcrjz5e3rh45; path=/; HttpOnly
+                    Cache-Control: private
+                    Content-Type: text/html; charset=gb2312
+                    Connection: close
+                    Set-Cookie: BIGipServerpool_ec_b2c=1046801162.56611.0000; path=/
+                    
+                    <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxResponse><ReturnCode>0000</ReturnCode><ErrorMessage>交易成功</ErrorMessage><TrxType>PayReq</TrxType><OrderNo>10408</OrderNo><PaymentURL>https://easyabc.95599.cn/b2c/NotCheckStatus/PaymentModeUCBPAct.ebf?TOKEN=14150734095186266934</PaymentURL><OrderAmount>192</OrderAmount></TrxResponse></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>KjTRI5cJ5darDqZ96HwlG9L4fX+ah803ftuM4ODahg32BvTQUIWbbm0bEVMzMA8aRfrZUnhV4Gtdqry8p6vTdfF5fEmeB6vUtKWdCacZADLNpLRPqszly01UT1fan93X5t6A3OAqDoCTnfCYLDVz+W7v/UDsSKHpJTnMWF3V8qs=</Signature></MSG>
+2014/11/04-11:56:42 接收报文：
+2014/11/04-11:56:42 <Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxResponse><ReturnCode>0000</ReturnCode><ErrorMessage>交易成功</ErrorMessage><TrxType>PayReq</TrxType><OrderNo>10408</OrderNo><PaymentURL>https://easyabc.95599.cn/b2c/NotCheckStatus/PaymentModeUCBPAct.ebf?TOKEN=14150734095186266934</PaymentURL><OrderAmount>192</OrderAmount></TrxResponse></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>KjTRI5cJ5darDqZ96HwlG9L4fX+ah803ftuM4ODahg32BvTQUIWbbm0bEVMzMA8aRfrZUnhV4Gtdqry8p6vTdfF5fEmeB6vUtKWdCacZADLNpLRPqszly01UT1fan93X5t6A3OAqDoCTnfCYLDVz+W7v/UDsSKHpJTnMWF3V8qs=</Signature>
+2014/11/04-11:56:42 验证网上支付平台响应报文的签名：正确
+2014/11/04-11:56:42 生成交易响应对象：
+2014/11/04-11:56:42 交易结果：[0000]
+2014/11/04-11:56:42 错误信息：[交易成功]
+2014/11/04-11:56:42 交易结束==================================================
+                    
+                    
+                    
+                    
+2014/11/04-14:41:50 TrustPay Client PHP 交易开始==========================
+2014/11/04-14:41:50 配置文件中商户数为2请求指定的商户配置编号为 2
+2014/11/04-14:41:50 检查交易请求是否合法：正确
+2014/11/04-14:41:50 交易报文
+2014/11/04-14:41:50 完整交易报文：
+2014/11/04-14:41:50 签名后的报文
+2014/11/04-14:41:50 提交网上支付平台的报文：
+                    <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxRequest><TrxType>PayReq</TrxType><Order><OrderNo>10410</OrderNo><ExpiredDate>10</ExpiredDate><OrderAmount>192</OrderAmount><OrderDesc>开通 初一数学 服务</OrderDesc><OrderDate>2014/11/04</OrderDate><OrderTime>14:41:50</OrderTime><OrderURL>http://jsez.ebh.net/</OrderURL><BuyIP>123.157.100.74</BuyIP><OrderItems><OrderItem><ProductID>IP000001</ProductID><ProductName>开通 初一数学 服务</ProductName><UnitPrice>192</UnitPrice><Qty>1</Qty></OrderItem></OrderItems></Order><ProductType>1</ProductType><PaymentType>6</PaymentType><NotifyType>1</NotifyType><ResultNotifyURL>http://jsez.ebh.net/ibuy/abcnotify.html?orderid=10410</ResultNotifyURL><MerchantRemarks>初一数学-5 月 -192.00 元</MerchantRemarks><PaymentLinkType>1</PaymentLinkType></TrxRequest></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>NX6VxpkbIaPIh1M+QpD0Prw/0ZZpZ37S7dTKIZpEnKAjkD98M2Bs2y9d7HCcjtt0iapcnolohhdEQw/9IsfX5xk6cYtNoJo8jRJJh9tkM/WwW04Cvi2DfoA6Ic/F7YpeBvSKQ/GVVwy/jQfld1Gi52t/muVJYAcaEX04M53nzg4=</Signature></MSG>
+2014/11/04-14:41:50 报文长度：1148<br>
+2014/11/04-14:41:50 连线网上支付平台
+2014/11/04-14:41:50 网上支付平台URL：[https://www.95599.cn/b2c/trustpay/ReceiveMerchantTrxReqServlet] 
+2014/11/04-14:41:50 成功
+2014/11/04-14:41:50 提交交易报文：
+2014/11/04-14:41:50 <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxRequest><TrxType>PayReq</TrxType><Order><OrderNo>10410</OrderNo><ExpiredDate>10</ExpiredDate><OrderAmount>192</OrderAmount><OrderDesc>开通 初一数学 服务</OrderDesc><OrderDate>2014/11/04</OrderDate><OrderTime>14:41:50</OrderTime><OrderURL>http://jsez.ebh.net/</OrderURL><BuyIP>123.157.100.74</BuyIP><OrderItems><OrderItem><ProductID>IP000001</ProductID><ProductName>开通 初一数学 服务</ProductName><UnitPrice>192</UnitPrice><Qty>1</Qty></OrderItem></OrderItems></Order><ProductType>1</ProductType><PaymentType>6</PaymentType><NotifyType>1</NotifyType><ResultNotifyURL>http://jsez.ebh.net/ibuy/abcnotify.html?orderid=10410</ResultNotifyURL><MerchantRemarks>初一数学-5 月 -192.00 元</MerchantRemarks><PaymentLinkType>1</PaymentLinkType></TrxRequest></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>NX6VxpkbIaPIh1M+QpD0Prw/0ZZpZ37S7dTKIZpEnKAjkD98M2Bs2y9d7HCcjtt0iapcnolohhdEQw/9IsfX5xk6cYtNoJo8jRJJh9tkM/WwW04Cvi2DfoA6Ic/F7YpeBvSKQ/GVVwy/jQfld1Gi52t/muVJYAcaEX04M53nzg4=</Signature></MSG>
+2014/11/04-14:41:50 成功
+2014/11/04-14:41:50 接受到的响应报文：
+                    HTTP/1.1 200 OK
+                    Date: Tue, 04 Nov 2014 06:41:57 GMT
+                    Server: Microsoft-IIS/6.0
+                    X-Powered-By: ASP.NET
+                    X-AspNet-Version: 2.0.50727
+                    Set-Cookie: ASP.NET_SessionId=is3t3i45tfkzxc45hljv2lvj; path=/; HttpOnly
+                    Cache-Control: private
+                    Content-Type: text/html; charset=gb2312
+                    Connection: close
+                    Set-Cookie: BIGipServerpool_ec_b2c=946137866.56611.0000; path=/
+                    
+                    <MSG><Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxResponse><ReturnCode>0000</ReturnCode><ErrorMessage>交易成功</ErrorMessage><TrxType>PayReq</TrxType><OrderNo>10410</OrderNo><PaymentURL>https://easyabc.95599.cn/b2c/NotCheckStatus/PaymentModeUCBPAct.ebf?TOKEN=14150833177726614894</PaymentURL><OrderAmount>192</OrderAmount></TrxResponse></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>sphN52s/5ZhM9aP7RjjMR0jce44+EqjPK0hNPaVBd9wC3hhCXafnWy1lZaDPMROMzIyH58dktyswikJdT2z8z6vSW9Yksf/qnQ+bH0vJP6BnxSoIp/VF70hviaZmE9ZtaDcvcjYvTqHiXa8sxa5qOp8YFUqJxd7ApbDVttCJzMs=</Signature></MSG>
+2014/11/04-14:41:50 接收报文：
+2014/11/04-14:41:50 <Message><Merchant><ECMerchantType>B2C</ECMerchantType><MerchantID>233010103354A02</MerchantID></Merchant><TrxResponse><ReturnCode>0000</ReturnCode><ErrorMessage>交易成功</ErrorMessage><TrxType>PayReq</TrxType><OrderNo>10410</OrderNo><PaymentURL>https://easyabc.95599.cn/b2c/NotCheckStatus/PaymentModeUCBPAct.ebf?TOKEN=14150833177726614894</PaymentURL><OrderAmount>192</OrderAmount></TrxResponse></Message><Signature-Algorithm>SHA1withRSA</Signature-Algorithm><Signature>sphN52s/5ZhM9aP7RjjMR0jce44+EqjPK0hNPaVBd9wC3hhCXafnWy1lZaDPMROMzIyH58dktyswikJdT2z8z6vSW9Yksf/qnQ+bH0vJP6BnxSoIp/VF70hviaZmE9ZtaDcvcjYvTqHiXa8sxa5qOp8YFUqJxd7ApbDVttCJzMs=</Signature>
+2014/11/04-14:41:50 验证网上支付平台响应报文的签名：正确
+2014/11/04-14:41:50 生成交易响应对象：
+2014/11/04-14:41:50 交易结果：[0000]
+2014/11/04-14:41:50 错误信息：[交易成功]
+2014/11/04-14:41:50 交易结束==================================================
+                    
+                    
+                    
+                    
+2014/11/04-15:57:28 TrustPay Client PHP 交易开始==========================
+2014/11/04-15:57:28 配置文件中商户数为2请求指定的商户配置编号为 1
+2014/11/04-15:57:28 检查交易请求是否合法：
+2014/11/04-15:57:28 1101]    错误信息：[商户提交的交易资料不合法 - 订单信息不合法！]
+2014/11/04-15:57:28 交易结束==================================================
+                    
+                    
+                    
+                    

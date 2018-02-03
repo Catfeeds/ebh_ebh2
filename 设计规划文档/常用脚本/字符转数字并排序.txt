@@ -1,0 +1,4 @@
+select *from(
+select c.cwid,c.title,c.cwname,c.cwurl,cast(SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(c.cwname,'.',1),'_',1),'_',1),' ',1),'',1) as SIGNED)  orderid from ebh_coursewares c 
+join ebh_roomcourses rc on (c.cwid=rc.cwid) where rc.folderid=26444) a 
+order by a.orderid

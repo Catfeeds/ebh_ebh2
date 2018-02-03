@@ -1,0 +1,19 @@
+-- 更新 学生和教师作业
+create table t22 as select crid from ebh_roommodules where moduleid=22;
+
+update ebh_roommodules set moduleid=22 where moduleid=3 
+and crid not in(select crid from t22);
+
+delete from ebh_roommodules where moduleid=3 ;
+
+drop table t22;
+
+
+--更新教师我的题库
+create table t31 as select crid from ebh_roommodules where moduleid=31;
+
+update ebh_roommodules set moduleid=31 where moduleid=16 
+and crid not in(select crid from t31);
+
+delete from ebh_roommodules where moduleid=16 ;
+drop table t31;

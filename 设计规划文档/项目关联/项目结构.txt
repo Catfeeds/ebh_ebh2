@@ -1,0 +1,57 @@
+微信：
+	项目 wap2 wap.ebh.net
+	接口 server
+	嵌入 ebh2/icourse 等页面 聊天室
+	第三方微信号：
+		1，链接到PC端网校地址
+		2，http://www.ebh.net/wxbind/towap.html?state=wapshop_school_xiaoxue  这样的格式
+
+移动APP：
+	项目 app
+	接口 app
+	嵌入 ebh2 wap2	聊天室
+ebh平台：
+	项目 ebh2
+	接口 ebh2 ebhservice	java(作业)	聊天室
+	
+
+所有上传相关：
+	项目 upload
+
+所有视频播放(m3u8)：
+	项目 m3u8
+
+云盘
+	项目 kpan uppan
+静态项目
+	项目 static
+
+个人空间
+	项目 sns
+
+客服系统
+	项目 kf
+结算系统
+	项目 js2
+微校通
+	项目 eth
+支付中心
+	项目 pay
+
+im聊天  
+	项目 workerman
+家长
+	项目 jiazhang
+
+
+第三方客户平台打通(第三方过来 可以自动将对方账号注册到平台) 用于钉钉  微信等以一个模块方式集成我们的功能进去
+	移动页面  wap2/osapi
+	PC版本	  ebh2/osapi
+
+
+需要考虑
+1，所有对外项目都调用 ebhservice接口 完善ebhservice接口文档
+2，数据缓存逻辑等由 ebhservice 做统一处理 规范redis缓存key规则
+3，添加对外的第三方API接口
+4，考虑相关网页嵌入方式接口，如APP包含的webview页面，
+第三方包含的播放界面。课件详情页面等，从第三方过来的自动注册关联页面等。
