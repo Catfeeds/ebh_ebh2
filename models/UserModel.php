@@ -390,7 +390,7 @@ class UserModel extends CModel {
      * @return array 
      */
 	public function getUserinfoByname($realname,$crid) {
-		if (empty($realname) || empty($crid)) {
+		if (empty($realname) && $realname != '0' || empty($crid)) {
 			return;
 		}
 		$sql = 'select u.uid,u.groupid,u.username,u.realname,u.sex,u.email,u.face from ebh_roomusers ru left join ebh_users u on u.uid=ru.uid where ru.crid='.$crid.' and (u.realname like \'%'.$this->db->escape_str($realname).'%\' or u.username like \'%'.$this->db->escape_str($realname).'%\')';
