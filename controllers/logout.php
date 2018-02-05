@@ -37,6 +37,7 @@ class LogoutController extends CControl{
 				}
 			}
 		}
+		$durl = '';//不做sso处理
 		$this->assign('returnurl',$returnurl);
 		$this->assign('durl',$durl);
         $this->display('common/logout');

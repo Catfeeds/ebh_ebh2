@@ -73,7 +73,8 @@ class LoginController extends CControl {
 					$screen = $this->input->post('screen');
 					$other['sc'] = $screen;
 				}
-				$durl = $this->savecookie($user,$other);
+				$durl = null;//不做sso处理
+				$this->savecookie($user,$other);
 				$status['code']= 1;
                 $status['message'] = '登录成功';
 				$status['durl'] = $durl;
@@ -199,7 +200,7 @@ class LoginController extends CControl {
 	/**
 	*保存登录状态，同时生成多域名处理请求
 	*/
-	private function savecookie($user,$other){	
+	private function savecookie($user,$other = null){	
 		header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
 		$uid = $user['uid'];
 		$pwd = $user['password'];
