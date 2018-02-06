@@ -24,6 +24,11 @@
         </div>
     </div>
 </div>
-<script src="http://static.ebanhui.com/design/wapdesign/js/module.js?v=1236"></script>
+<?php if(is_mobile()) {?>
+    <script src="http://static.ebanhui.com/design/wapdesign/js/mobile.js?v=1236"></script>
+    <script src="http://static.ebanhui.com/design/wapdesign/js/module.js?v=1236"></script>
+     <link rel="stylesheet" href="http://static.ebanhui.com/design/wapdesign/css/common.css?version=20160614001">
+    <link rel="stylesheet" href="http://static.ebanhui.com/design/wapdesign/css/module.css?version=20160614001">
+<?php }?>
 <script src="http://static.ebanhui.com/design/js/getroominfo.js"></script>
 <script src="http://static.ebanhui.com/design/js/player.js"></script>
