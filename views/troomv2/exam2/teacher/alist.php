@@ -627,7 +627,12 @@ $(function(){
 			url = '/troomv2/examv2/alistAjaxbyname.html';
 		}
 	   var title = $("#title").val();
+	   var ttitle = $.trim(title);
+	   if(ttitle=="" || ttitle=="请输入学生姓名"){
+		   return getElist();
+	   }
 	   var folderid = $("a.curr").attr('tag');
+	   var classid = $("#gardesList").val();
 	   if(title == searchtext) 
 	       title = "";
 	   $.ajax({
@@ -636,7 +641,9 @@ $(function(){
 			dataType:'json',
 			data : {
 				eid : eid,
-				realname : title
+				realname : title,
+				classid:classid,
+				sstatus:$('.lishnrt .xhusre').attr('value')
 			}
 		}).done(function(res){
 			var $pagedom = $(res.datas.pagestr);
@@ -657,6 +664,10 @@ $(function(){
 	function getElist(order,url) {
 		if(typeof url == "undefined") {
 			url = '/troomv2/examv2/alistAjax.html';
+		}
+		var ttitle = $.trim($("#title").val());
+		if(ttitle!="" && ttitle!="请输入学生姓名"){
+			return getser();
 		}
 		$.ajax({	
 			url:url,
