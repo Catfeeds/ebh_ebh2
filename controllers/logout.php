@@ -30,14 +30,13 @@ class LogoutController extends CControl{
 				$ssovalue = '0___0___0___0___0___0___'.$ctime;
 				$ssovalue = base64_encode($ssovalue);
 				foreach(Ebh::app()->domains as $mydomain) {
-					if($mydomain != $curdomain) {
+					if($mydomain != $curdomain && $mydomain != 'ebanhui.com') {//ebanhui.com不做处理
 						$newdurl = 'http://www.'.$mydomain.'/sso.html?k='.$ssovalue;
 						$durl = empty($durl) ? $newdurl : $durl.','.$newdurl;
 					}
 				}
 			}
 		}
-		$durl = '';//不做sso处理
 		$this->assign('returnurl',$returnurl);
 		$this->assign('durl',$durl);
         $this->display('common/logout');

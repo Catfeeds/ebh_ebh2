@@ -21,7 +21,7 @@
   	<script src="http://static.ebanhui.com/design/js/jquery-1.11.1.min.js"></script> 
   	<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/js/dialog/css/dialog.css" />
     <script type="text/javascript" src="http://static.ebanhui.com/js/dialog/dialog-plus.js"></script>
-    <script type="text/javascript" src="http://static.ebanhui.com/ebh/js/common.js?version=20160614001"></script>
+    <script type="text/javascript" src="http://static.ebanhui.com/ebh/js/common.js<?=getv()?>"></script>
     <script type="text/javascript" charset="utf-8" src="http://api.map.baidu.com/api?v=2.0&ak=H8Y9OO2Gt8C584uRpzC4LED4"></script>
 
   <style>     
