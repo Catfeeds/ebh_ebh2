@@ -39,7 +39,7 @@ class WapqviewController extends ApiControl{
 		$eid = $this->input->post('eid');
 		$qid = $this->input->post('qid');
 		$url = "/exam/simpleinfo/".$eid;
-		$postRet = $this->do_post($url,array());
+		$postRet = $this->do_post($url,array('k'=>$this->k));
 		// var_dump($postRet);
 		$info = $postRet->info;
 		if(empty($info) || empty($info->eid)){

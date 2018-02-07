@@ -1274,12 +1274,14 @@ class Examv2Controller extends ApiControl {
 	 *通过学生名查看学生答题情况，兼容以后的免费课有权限表
 	 */
 	public function alistAjaxbyname() {
+		$sstatus = intval($this->input->post('sstatus'));
 		$eid = intval($this->input->post('eid'));
+		$classid = intval($this->input->post('classid'));
 		if (empty($eid)) {
 			$this->renderJson('0','missing eid',0);
 		} 
 		$realname = trim($this->input->post('realname'));
-		if (empty($realname)) {
+		if (empty($realname) && $realname != '0') {
 			$this->renderJson('0','missing realname',0);
 		} 
 		$users = $this->model('user')->getUserinfoByname($realname, $this->room['crid']);//用户组
@@ -1354,7 +1356,17 @@ class Examv2Controller extends ApiControl {
 				}
 			}
 		}
-		$this->getClassName($userAnswerList);
+		$sort_scorearr = array();
+		foreach($userAnswerList as $k=>$ua){
+			//根据已做，未作筛选
+			if($sstatus == 1 && !isset($ua['anstotalscore']) || $sstatus == 2 && isset($ua['anstotalscore'])){
+				unset($userAnswerList[$k]);
+				continue;
+			}
+			$sort_scorearr[] = isset($ua['anstotalscore'])?$ua['anstotalscore']:-1;
+		}
+		array_multisort($userAnswerList , SORT_DESC ,$sort_scorearr);
+		$this->getClassName($userAnswerList,null,$classid);
 		$datas = array(
 			'userAnswerList'=>array_values($userAnswerList),
 			'pagestr'=>''
@@ -2913,7 +2925,7 @@ class Examv2Controller extends ApiControl {
 	/*
 	获取班级名称
 	*/
-	private function getClassName(&$users,$alluserids){
+	private function getClassName(&$users,$alluserids=null,$classid=null){
 		if(empty($users)){
 			return array();
 		}
@@ -2927,6 +2939,9 @@ class Examv2Controller extends ApiControl {
 		$userClassArr = array();
 		if(!empty($classes)){
 			foreach($classes as $class){
+				if(!empty($classid) && $classid != $class['classid']){
+					continue;
+				}
 				if(!isset($classArr[$class['classid']])){
 					$classArr[$class['classid']] = $class['classname'];
 				}
@@ -2934,12 +2949,15 @@ class Examv2Controller extends ApiControl {
 			}
 		}
 		//当前页用户班级名称
-		foreach($users as &$user){
+		foreach($users as $k=>&$user){
 			$uid = $user['uid'];
+			if(!empty($classid) && empty($userClassArr[$uid])){
+				unset($users[$k]);
+			}
 			$user['classname'] = !empty($userClassArr[$uid])?$userClassArr[$uid]:'';
 		}
 		return $classArr;
 		// var_dump($classes);
 	}
 
-}//class end
+}

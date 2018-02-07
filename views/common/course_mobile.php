@@ -250,7 +250,7 @@ a.play-courseware.playscal:hover {
             </form>
         </div>
     </div>
-    <script type="text/javascript" src="http://static.ebanhui.com/ebh/tpl/newschoolindex/plate-login-window.js?v=20170119001"></script>
+    <script type="text/javascript" src="http://static.ebanhui.com/ebh/tpl/newschoolindex/plate-login-window.js<?=getv()?>"></script>
     <script type="text/javascript">
         $("a.reginpage").bind('click', function() {
             var ifheight;

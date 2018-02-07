@@ -36,7 +36,7 @@
     <script type="text/javascript" src="http://static.ebanhui.com/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="http://static.ebanhui.com/js/dialog/dialog-plus.js"></script>
     <script type="text/javascript" src="http://static.ebanhui.com/js/html5.hack.js"></script>
-    <script type="text/javascript" src="http://static.ebanhui.com/ebh/js/common.js?version=20160614001"></script>
+    <script type="text/javascript" src="http://static.ebanhui.com/ebh/js/common.js<?=getv()?>"></script>
     <link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/ebh/tpl/newschoolindex/css/courseware.css?v=201705130001" />
     <link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/ebh/tpl/newschoolindex/css/newindex.css?v=201705250004" />
     <link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/ebh/tpl/newschoolindex/css/course_type_menu_theme.css?v=201705130001" />

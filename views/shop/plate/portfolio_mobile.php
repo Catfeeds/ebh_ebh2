@@ -135,7 +135,7 @@
             </form>
         </div>
     </div>
-    <script type="text/javascript" src="http://static.ebanhui.com/ebh/tpl/newschoolindex/plate-login-window.js?v=20170119001"></script>
+    <script type="text/javascript" src="http://static.ebanhui.com/ebh/tpl/newschoolindex/plate-login-window.js<?=getv()?>"></script>
 
 <div class="baoke" id="free-dialog" style="display:none">
     <img class="imgrts" src="" />

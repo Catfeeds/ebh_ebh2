@@ -74,6 +74,9 @@ class LoginController extends CControl {
 					$other['sc'] = $screen;
 				}
 				$durl = $this->savecookie($user,$other);
+				if(empty($durl)){
+					$durl = null;//兼容js
+				}
 				$status['code']= 1;
                 $status['message'] = '登录成功';
 				$status['durl'] = $durl;
@@ -199,7 +202,7 @@ class LoginController extends CControl {
 	/**
 	*保存登录状态，同时生成多域名处理请求
 	*/
-	private function savecookie($user,$other){	
+	private function savecookie($user,$other = null){	
 		header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
 		$uid = $user['uid'];
 		$pwd = $user['password'];
@@ -232,7 +235,7 @@ class LoginController extends CControl {
 				$ssovalue = $auth.'___'.$user['lastlogintime'].'___'.SYSTIME.'___'.$user['lastloginip'].'___'.$cookietime.'___'.$sc.'___'.$ctime;
 				$ssovalue = base64_encode($ssovalue);
 				foreach(Ebh::app()->domains as $mydomain) {
-					if($mydomain != $curdomain) {
+					if($mydomain != $curdomain && $mydomain != 'ebanhui.com') {//ebanhui.com不做处理
 						$newdurl = 'http://www.'.$mydomain.'/sso.html?k='.$ssovalue;
                         $durl = empty($durl) ? $newdurl : $durl.','.$newdurl;
 					}
