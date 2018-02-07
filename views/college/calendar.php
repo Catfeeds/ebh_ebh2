@@ -377,7 +377,7 @@
 <script type="text/javascript" src="http://static.ebanhui.com/ebh/tpl/wnl/js/common.js" style="position:absolute"></script>
 <script type="text/javascript" src="http://static.ebanhui.com/ebh/tpl/wnl/js/wnl.js?v=01"></script>
 <!--宜，忌数据<script type="text/javascript" src="http://static.ebanhui.com/ebh/tpl/wnl/js/lunarjson.js"></script>-->
-<script type="text/javascript" src="http://static.ebanhui.com/ebh/tpl/wnl/js/makeCal.js"></script>
+<script type="text/javascript" src="http://static.ebanhui.com/ebh/tpl/wnl/js/makeCal.js?v=1"></script>
 <script type="text/javascript" src="http://static.ebanhui.com/ebh/tpl/wnl/js/index.js"></script>
 <script type="text/javascript" src="http://static.ebanhui.com/ebh/tpl/wnl/js/city.js"></script>
 <script src="http://static.ebanhui.com/ebh/tpl/wnl/js/zhwnl.js"></script>
