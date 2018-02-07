@@ -531,7 +531,7 @@ class SporderController extends AdminControl{
                 if (!isset($reader->sheets[0]['cells'][$rowIndex][$colIndex])) {
                     break;
                 }
-                $cellValue = preg_replace('/\s/', '', $reader->sheets[0]['cells'][$rowIndex][$colIndex]);
+                $cellValue = preg_replace('/[\s　]/', '', $reader->sheets[0]['cells'][$rowIndex][$colIndex]);
                 if (isset($titles[$cellValue])) {
                     $titles[$cellValue]['colIndex'] = $colIndex;
                 }
