@@ -12,7 +12,7 @@
 		<script type="text/javascript" src="http://static.ebanhui.com/snsv2/js/echo-reply.js?v=20171025001"></script>
 		<script type="text/javascript" src="http://static.ebanhui.com/snsv2/js/echo-drag.js?v=20171025001"></script>
 		<script type="text/javascript" src="http://static.ebanhui.com/snsv2/js/common.sns.js?v=20171025001"></script>
-		<script type="text/javascript" src="http://static.ebanhui.com/snsv2/js/mypublish.js?v=20171031003"></script>
+		<script type="text/javascript" src="http://static.ebanhui.com/snsv2/js/mypublish.js?v=20180207001"></script>
 		<title></title>
 	</head>
 	<body>
