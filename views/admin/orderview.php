@@ -28,7 +28,7 @@ $(function(){
     <td class="txtlft">真实姓名：</td>
     <td><?=!empty($order['realname'])?$order['realname']:"无"?></td>    
     <td class="txtlft">支付方式：</td>
-    <td><?=$payfrom[$order['payfrom']]?></td>    
+    <td><?=$order['payfrom'] != 11 ? $payfrom[$order['payfrom']] : '批量删除'?></td>
   </tr>
   <tr>
     <td class="txtlft">金额(元)：</td>

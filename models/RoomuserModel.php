@@ -547,4 +547,18 @@ class RoomuserModel extends CModel {
         return $res;
 
     }
+
+    /**
+     * 根据学生帐号获取用户信息
+     * @param array $usernames 学生帐号集
+     * @param int $crid 网校ID
+     * @return mixed
+     */
+    public function getUsersFromNames($usernames, $crid) {
+        $usernames = array_map(function($username) {
+            return $this->db->escape($username);
+        }, $usernames);
+        $sql = 'SELECT `b`.`uid`,`b`.`username`,`b`.`realname` FROM `ebh_roomusers` `a` JOIN `ebh_users` `b` ON `b`.`uid`=`a`.`uid` WHERE `a`.`crid`='.$crid.' AND `b`.`username` IN('.implode(',', $usernames).')';
+        return $this->db->query($sql)->list_array('uid');
+    }
 }

@@ -27,6 +27,7 @@ $this->display('admin/header');
             <tr>
             <td  class="active"><a href="<?php echo geturl('admin/sporder');?>">订单列表</a></td>
 			<td><a href="<?php echo geturl('admin/sporder/input');?>">批量开通</a></td>
+                <td><a href="<?=geturl('admin/sporder/btachremove')?>">批量删除</a></td>
             </tr>
             </table>
         </td>
@@ -91,7 +92,7 @@ $this->display('admin/header');
     </table>
 </div>
 <script type="text/javascript">
-   var payfrom = ['','年卡开通','快钱开通','支付宝','人工开通','内部测试','农行支付','银联支付','余额支付','微信支付'];
+   var payfrom = ['','年卡开通','快钱开通','支付宝','人工开通','内部测试','农行支付','银联支付','余额支付','微信支付','批量删除'];
     function _render(_data){
         $(".moduletbody").html('');
         $.each($(_data),function(k,v){
@@ -108,7 +109,7 @@ $this->display('admin/header');
         row.push('<td class="realname">'+(v.realname||'')+'</td>');
 		row.push('<td class="mobile">'+(v.crname||'精品课堂')+'</td>');
         row.push('<td class="nickname">'+(v.totalfee||'')+'</td>');
-        row.push('<td class="payfrom" align="center">'+payfrom[v.payfrom]+'</td>');
+        row.push('<td class="payfrom" align="center">'+(v.payfrom != 11 ? payfrom[v.payfrom] : '批量删除')+'</td>');
         row.push('<td class="nickname" align="center">'+(v.sourceid>0?'退款账单':'购买订单')+'</td>');
         if(v.sourceid>0){
             var status = (v.status==0)?'退款失败':'退款成功';
@@ -460,4 +461,3 @@ function showcr(){
 </div>
 <?php
 $this->display('admin/footer');
-?>

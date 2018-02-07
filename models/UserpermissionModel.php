@@ -664,7 +664,28 @@ class UserpermissionModel extends CModel{
 	*根据用户编号和folderid课程编号获取购买权限、有效期
 	*/
 	public function getFolderPermission($uid,$crid,$folderid){
-		$sql = "select type,crid,startdate,enddate from ebh_userpermisions where uid = $uid and folderid = $folderid and crid = $crid ";
+		$sql = "select `type`,crid,startdate,enddate from ebh_userpermisions where uid = $uid and folderid = $folderid and crid = $crid ";
 		return $this->db->query($sql)->row_array();
 	}
+
+    /**
+     * 删除学生课程权限
+     * @param array $folderids 课程ID
+     * @param array $uids 学生ID
+     * @param int $crid 网校ID
+     * @return mixed
+     */
+	public function deletePermissionByFolderidsForUsers($folderids, $uids, $crid) {
+	    if (empty($folderids) || empty($uids)) {
+	        return 0;
+        }
+	    $wheres = array(
+	        '`folderid` IN('.implode(',', $folderids).')',
+            '`uid` IN('.implode(',', $uids).')',
+            '`crid`='.$crid
+        );
+	    $sql = 'DELETE FROM `ebh_userpermisions` WHERE '.implode(' AND ', $wheres);
+        $this->db->query($sql);
+        return $this->db->affected_rows();
+    }
 }
