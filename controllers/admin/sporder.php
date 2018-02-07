@@ -271,8 +271,8 @@ class SporderController extends AdminControl{
 				$result['errormsg'] = '第 '.$i.' 行 登录账号太长，请调整。';
 				break;
 			}
-			if(!preg_match('/^[a-zA-Z][a-z0-9A-Z_]{5,19}$/',$username)) {
-				$result['errormsg'] = '第 '.$i.' 行登录账号格式不正确，登录账号只能为6-20位英文、数字的组合字符，必须以英文字母打头，请调整。';
+			if(!preg_match('/^[a-z0-9A-Z_]{6,20}$/',$username)) {
+				$result['errormsg'] = '第 '.$i.' 行登录账号格式不正确，登录账号只能为6-20位英文、数字的组合字符，请调整。';
 				break;
 			}
 			$username = str_replace('\'','',$username);
