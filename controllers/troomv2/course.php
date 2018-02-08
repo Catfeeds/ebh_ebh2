@@ -835,6 +835,8 @@ class CourseController extends CControl{
             if(in_array($user['uid'],$assistantidArr)){
                 $assistant = true;
             }
+			$assistantlist = $this->model('user')->getUserInfoByUid(explode(',',$course['assistantid']));
+			$this->assign('assistantlist',$assistantlist);
         }
         $this->assign('assistant',$assistant);
         $uid = $user['uid'];//教室ID
