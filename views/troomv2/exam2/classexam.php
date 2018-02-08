@@ -294,8 +294,8 @@ a:hover{text-decoration: none}
 		    	if(answercount <= 0 && data.status == 1){
 		    		var bottom = '<div class="hsidts1s ml25" style="float:left;display:inline;width:100%;"><a href="javascript:void(0)" onclick="getDSword('+data.eid+')"  class="lasrnwe">导出为word</a></div>';
 		    	}else if (data.status == 1) {
-		    	    let errorRanking = '/troomv2/examv2/errorRanking/'+ data.eid + '.html?classids='+JSON.stringify(classids)
-		    	    let efenxi = '/troomv2/examv2/efenxi/'+ data.eid + '.html?classids='+JSON.stringify(classids)
+		    	    var errorRanking = '/troomv2/examv2/errorRanking/'+ data.eid + '.html?classids='+JSON.stringify(classids)
+		    	    var efenxi = '/troomv2/examv2/efenxi/'+ data.eid + '.html?classids='+JSON.stringify(classids)
 		    		var bottom = '<div class="hsidts1s ml25" style="float:left;display:inline;width:100%;"><a href="javascript:void(0)" onclick="getDSword('+data.eid+')"  class="lasrnwe">导出为word</a><a class="lasrnwe" target="_blank" href="'+efenxi+'">统计分析</a><a href="'+errorRanking+'" target="_blank" class="lasrnwe">错题排名</a></div>';
 		    	}
 				var $dom = $('<div class="workdatabzylist1">'+title + middle + bottom + '</div>');

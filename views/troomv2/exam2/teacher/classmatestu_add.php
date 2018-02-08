@@ -342,7 +342,7 @@
 	               	getTeacher:function(){
 	               		var self = this;
 	               		var folderid = window.parent.$('#folderid').val();
-	               		let $plustab_class = window.parent.$('.plustab_class');
+	               		var $plustab_class = window.parent.$('.plustab_class');
 	               		var classidArr = [];
 	               		for(var i=0;i<$plustab_class.length;i++){
 	               			classidArr.push($($plustab_class[i]).attr('classid'))
