@@ -86,7 +86,11 @@ $this->assign("uername",$uername);
                 <?php } ?>
                 <a class="sttryu <?=($controller=='notice')?"onhover":""?>" href="/homev2/notice.html" title="消息通知">消息通知</a>
                 <?php if(isset($enable_sns) && $enable_sns && (!$is_zjdlr) && $roominfo['crid'] > 0){?>
-                <a class="mykong" target="_blank" href="/myroom.html?url=/sns/feeds.html" title="我的空间">我的空间</a>
+					<?php if($user['groupid'] == 5) {?>
+						<a class="mykong" target="_blank" href="/troomv2.html?url=/sns/feeds.html" title="我的空间">我的空间</a>
+					<?php }else{ ?>
+						<a class="mykong" target="_blank" href="/myroom.html?url=/sns/feeds.html" title="我的空间">我的空间</a>
+					<?php } ?>
                 <?php }?>
             </div>
         </div>

@@ -432,7 +432,7 @@
 							html+='<ul>';
 							html+='<li class="replycommentli last" id="comment_'+result.logid+'">';
 							html+='<div class="replycommentliright">';
-							html+='<a href="http://sns.ebh.net/'+<?=$user['uid']?>+'/main.html" target="_blank" class="studentname"><?=$user['username']?>（<?=$user['realname']?>）</a>';
+							html+='<a href="/sns/feeds/'+<?=$user['uid']?>+'.html" class="studentname"><?=$user['username']?>（<?=$user['realname']?>）</a>';
 							html+='<span class="totalscore">'+get_now_tiem()+'</span>';
 							html+='<div class="commentsright-center">';
 							html+=replace_em(msg);
@@ -460,7 +460,7 @@
 							var html='';
 							html+='<li class="replycommentli last" id="comment_'+result.logid+'">';
 							html+='<div class="replycommentliright">';
-							html+='<a href="http://sns.ebh.net/'+<?=$user['uid']?>+'/main.html" target="_blank" class="studentname"><?=$user['username']?>（<?=$user['realname']?>）</a>';
+							html+='<a href="/sns/feeds/'+<?=$user['uid']?>+'.html" class="studentname"><?=$user['username']?>（<?=$user['realname']?>）</a>';
 							html+='<span class="totalscore">'+get_now_tiem()+'</span>';
 							html+='<div class="commentsright-center">';
 							html+=replace_em(msg);
@@ -485,9 +485,9 @@
 							+'<ul>'
 							+'<li class="replycommentli1 first" id="comment_'+result.logid+'">'
 							+'<div class="replycommentliright">'
-							+'<a href="http://sns.ebh.net/'+<?=$user['uid']?>+'/main.html" target="_blank" class="studentname"><?= $user['username'] ?>（<?= $user['realname']?>）</a>'
+							+'<a href="/sns/feeds/'+<?=$user['uid']?>+'.html" class="studentname"><?= $user['username'] ?>（<?= $user['realname']?>）</a>'
 							+'<span class="comment">回复</span>'
-							+'<a href="http://sns.ebh.net/'+toid+'/main.html" target="_blank" class="studentname">'+toname+'</a>'
+							+'<a href="/sns/feeds/'+toid+'.html" class="studentname">'+toname+'</a>'
 							+' <span class="totalscore">'+get_now_tiem()+'</span>'
 							+'<div class="commentsright-center">'
 							+replace_em(msg)
@@ -500,9 +500,9 @@
 							var html = '';
 							html = '<li class="replycommentli1 first" id="comment_'+result.logid+'">'
 							+'<div class="replycommentliright">'
-							+'<a href="http://sns.ebh.net/'+<?=$user['uid']?>+'/main.html" target="_blank" class="studentname"><?= $user['username'] ?>（<?= $user['realname']?>）</a>'
+							+'<a href="/sns/feeds/'+<?=$user['uid']?>+'.html" class="studentname"><?= $user['username'] ?>（<?= $user['realname']?>）</a>'
 							+'<span class="comment">回复</span>'
-							+'<a href="http://sns.ebh.net/'+toid+'/main.html" target="_blank" class="studentname">'+toname+'</a>'
+							+'<a href="/sns/feeds/'+toid+'.html" class="studentname">'+toname+'</a>'
 							+' <span class="totalscore">'+get_now_tiem()+'</span>'
 							+'<div class="commentsright-center">'
 							+replace_em(msg)
@@ -587,7 +587,7 @@
             		demohtml+='<div class="avatar-1"><img src="'+get_avatar(json[i])+'" class="circular" /></div>'
             		+'<div class="commentsright">'
             		+'<div class="commentsright-top">'
-            		+'<a href="http://sns.ebh.net/'+json[i].uid+'/main.html" target="_blank" class="studentname">'+json[i].username+'（'+json[i].realname+'）</a>';
+            		+'<a href="/sns/feeds/'+json[i].uid+'.html" class="studentname">'+json[i].username+'（'+json[i].realname+'）</a>';
 
             		if(json[i].uid != <?=$user['uid']?>){
             			demohtml+='<a class="hrelh1s" href="javascript:;" title="给他发私信" tid="'+json[i].uid+'" tname="'+json[i].username+'"></a>';
@@ -655,7 +655,7 @@
             					demohtml+='<li class="replycommentli" id="comment_'+json[i].children[second].logid+'">';
             				}
             				demohtml+='<div class="replycommentliright">'
-            				+'<a href="http://sns.ebh.net/'+json[i].children[second].uid+'/main.html" target="_blank"  class="studentname">'+json[i].children[second].username+'（'+json[i].children[second].realname+'）</a>'
+            				+'<a href="/sns/feeds/'+json[i].children[second].uid+'.html"  class="studentname">'+json[i].children[second].username+'（'+json[i].children[second].realname+'）</a>'
             				+'<span class="totalscore">'+get_time(json[i].children[second].dateline)+'</span>'
             				+'<div class="commentsright-center">'
             				+replace_em(json[i].children[second].subject)
@@ -681,9 +681,9 @@
 		            					demohtml+='<li class="replycommentli1 first" id="comment_'+json[i].children[second].children[third].logid+'">';
 		            				}
 		            				demohtml+='<div class="replycommentliright">'
-		            				+'<a href="http://sns.ebh.net/'+json[i].children[second].children[third].uid+'/main.html" target="_blank" class="studentname">'+json[i].children[second].children[third].username+'（'+json[i].children[second].children[third].realname+'）</a>'
+		            				+'<a href="/sns/feeds/'+json[i].children[second].children[third].uid+'.html" class="studentname">'+json[i].children[second].children[third].username+'（'+json[i].children[second].children[third].realname+'）</a>'
 		            				+'<span class="comment">回复</span>'
-		            				+'<a href="http://sns.ebh.net/'+json[i].children[second].children[third].toid+'/main.html" target="_blank" class="studentname">'+json[i].children[second].children[third].tousername+'（'+json[i].children[second].children[third].torealname+'）</a>'
+		            				+'<a href="/sns/feeds/'+json[i].children[second].children[third].toid+'.html" class="studentname">'+json[i].children[second].children[third].tousername+'（'+json[i].children[second].children[third].torealname+'）</a>'
 		            				+'<span class="totalscore">'+get_time(json[i].children[second].children[third].dateline)+'</span>'
 		            				+'<div class="commentsright-center">'
 		            				+replace_em(json[i].children[second].children[third].subject)

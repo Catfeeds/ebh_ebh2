@@ -332,7 +332,7 @@ class GhrecordController extends CControl{
 		foreach($ranklist as $item){
 			$name = !empty($item['realname']) ? $item['realname'] : $item['username'];
 			$imgtit = $name.'的个人空间';
-			$html .= '<li class="dtuwrs"><a href="http://sns.ebh.net/'.$item['uid'].'/main.html" class="destgy" target="_blank"><span class="egirey">'.$name;
+			$html .= '<li class="dtuwrs"><a href="/sns/feeds/'.$item['uid'].'.html" class="destgy"><span class="egirey">'.$name;
 			$html .= '</span><img src="'.getavater($item,'50_50').'" title = "'.$imgtit.'" /></a><span class="srusdyt">'.$item['credit'].'</span>';
 			$html .= '<span class="srusdyt">'.$item['ranktit'].'</span></li>';
 		}

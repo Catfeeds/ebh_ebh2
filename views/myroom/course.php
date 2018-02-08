@@ -3371,7 +3371,7 @@ if($type == 'ebhp') {
 							html+='<li class="replycommentli last" id="comment_'+result.logid+'">';
 							html+='<div class="replycommentliright">';
 							<?php if (empty($iszjdlr)) { ?>
-								html+='<a href="http://sns.ebh.net/'+<?=$user['uid']?>+'/main.html" target="_blank" class="studentname"><?=$user['username']?>（<?=$user['realname']?>）</a>';
+								html+='<a href="javascript:void(0);" class="studentname"><?=$user['username']?>（<?=$user['realname']?>）</a>';
 							<?php }else{ ?>
 								html+='<a href="javascript:void(0)" class="studentname"><?=$user['realname']?></a>';
             				<?php } ?>
@@ -3404,7 +3404,7 @@ if($type == 'ebhp') {
 							html+='<li class="replycommentli last" id="comment_'+result.logid+'">';
 							html+='<div class="replycommentliright">';
 							<?php if (empty($iszjdlr)) { ?>
-								html+='<a href="http://sns.ebh.net/'+<?=$user['uid']?>+'/main.html" target="_blank" class="studentname"><?=$user['username']?>（<?=$user['realname']?>）</a>';
+								html+='<a href="javascript:void(0);" class="studentname"><?=$user['username']?>（<?=$user['realname']?>）</a>';
 							<?php }else{ ?>
 								html+='<a href="javascript:void(0)" class="studentname"><?=$user['realname']?></a>';
             				<?php } ?>
@@ -3437,10 +3437,10 @@ if($type == 'ebhp') {
 							+'<ul>'
 							+'<li class="replycommentli1 first" id="comment_'+result.logid+'">'
 							+'<div class="replycommentliright">'
-							+'<a href="http://sns.ebh.net/'+<?=$user['uid']?>+'/main.html" target="_blank" class="studentname"><?= $user['username'] ?>（<?= $user['realname']?>）</a>'
+							+'<a href="javascript:void(0);" class="studentname"><?= $user['username'] ?>（<?= $user['realname']?>）</a>'
 							html+='<span class="comment">回复</span>'
 							<?php if (empty($iszjdlr)) { ?>
-								html+='<a href="http://sns.ebh.net/'+toid+'/main.html" target="_blank" class="studentname">'+toname+'</a>'
+								html+='<a href="javascript:void(0);" class="studentname">'+toname+'</a>'
 							<?php }else{ ?>
 								html+='<a href="javascript:void(0)" class="studentname">'+toname+'</a>';
             				<?php } ?>
@@ -3458,9 +3458,9 @@ if($type == 'ebhp') {
 							html = '<li class="replycommentli1 first" id="comment_'+result.logid+'">'
 							html+='<div class="replycommentliright">'
 							<?php if (empty($iszjdlr)) { ?>
-								html+='<a href="http://sns.ebh.net/'+<?=$user['uid']?>+'/main.html" target="_blank" class="studentname"><?= $user['username'] ?>（<?= $user['realname']?>）</a>'
+								html+='<a href="javascript:void(0);" class="studentname"><?= $user['username'] ?>（<?= $user['realname']?>）</a>'
 								html+='<span class="comment">回复</span>'
-								html+='<a href="http://sns.ebh.net/'+toid+'/main.html" target="_blank" class="studentname">'+toname+'</a>'
+								html+='<a href="javascript:void(0);" class="studentname">'+toname+'</a>'
 							<?php }else{ ?>
 								html+='<a href="javascript:void(0)" class="studentname"><?= $user['realname']?></a>'
 								html+='<span class="comment">回复</span>'
@@ -3604,7 +3604,7 @@ if($type == 'ebhp') {
 						}
 						<?php }?>
 					<?php }else{?>
-					demohtml+='<a href="http://sns.ebh.net/'+json[i].uid+'/main.html" target="_blank" class="studentname" title="'+json[i].fromip+'('+json[i].ipaddress+')">'+json[i].username+'（'+json[i].realname+'）</a>';
+					demohtml+='<a href="javascript:void(0);" class="studentname" title="'+json[i].fromip+'('+json[i].ipaddress+')">'+json[i].username+'（'+json[i].realname+'）</a>';
 					<?php }?>
             		<?php if(!$iszjdlr){?>
             		demohtml+=getstar_new(json[i].score);
@@ -3672,7 +3672,7 @@ if($type == 'ebhp') {
 
             				demohtml+='<div class="replycommentliright">'
             				<?php if (empty($iszjdlr)) { ?>
-            					demohtml+='<a href="http://sns.ebh.net/'+json[i].children[second].uid+'/main.html" target="_blank" class="studentname">'+json[i].children[second].username+'（'+json[i].children[second].realname+'）</a>'
+            					demohtml+='<a href="javascript:void(0);" class="studentname">'+json[i].children[second].username+'（'+json[i].children[second].realname+'）</a>'
             				<?php }else{ ?>
             					demohtml+='<a href="javascript:void(0)" class="studentname">'+json[i].children[second].realname+'</a>'
             				<?php } ?>
@@ -3702,9 +3702,9 @@ if($type == 'ebhp') {
 		            				}
 		            				demohtml+='<div class="replycommentliright">'
 		            				<?php if (empty($iszjdlr)) { ?>
-			            				demohtml+='<a href="http://sns.ebh.net/'+json[i].children[second].children[third].uid+'/main.html" target="_blank"  class="studentname">'+json[i].children[second].children[third].username+'（'+json[i].children[second].children[third].realname+'）</a>'
+			            				demohtml+='<a href="javascript:void(0);" class="studentname">'+json[i].children[second].children[third].username+'（'+json[i].children[second].children[third].realname+'）</a>'
 										demohtml+='<span class="comment">回复</span>'
-			            				demohtml+='<a href="http://sns.ebh.net/'+json[i].children[second].children[third].toid+'/main.html" target="_blank" class="studentname">'+json[i].children[second].children[third].tousername+'（'+json[i].children[second].children[third].torealname+'）</a>'
+			            				demohtml+='<a href="javascript:void(0);" class="studentname">'+json[i].children[second].children[third].tousername+'（'+json[i].children[second].children[third].torealname+'）</a>'
 									<?php }else{ ?>
 										demohtml+='<a href="javascript:void(0)" class="studentname">'+json[i].children[second].children[third].realname+'</a>'
 			            				demohtml+='<span class="comment">回复</span>'
