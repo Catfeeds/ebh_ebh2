@@ -161,6 +161,10 @@ body{
 .problemdetail {
 	line-height:normal;
 }
+.problemdetail-1 {
+	width:840px;
+	line-height:normal;
+}
 </style>
 <body>
 <div class="lefrig">
