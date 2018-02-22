@@ -4,6 +4,9 @@
  * Author: jw
  * Email: 345468755@qq.com
  */
+defined('EBHSERVICE_PATH') || define('EBHSERVICE_PATH', '/data0/htdocs/ebhservice/index.php'); //ebhservice 入口文件路径
+defined('PHP_PATH') || define('PHP_PATH', '/usr/local/php/bin/php'); //到php可执行目录文件地址
+defined('CLIENT_MODE') || define('CLIENT_MODE', 1); //1 =CLI 模式 2=CURL模式
 class EbhClient{
     protected $appid;
     protected $appsecret;
@@ -13,7 +16,7 @@ class EbhClient{
     protected $timeout = 3000;//超时时间
     protected $filter = NULL;//过滤器
     protected $parser = NULL;
-
+    protected $errMsg = '';
     public function __construct($appid = '',$appsecret = ''){
         $this->appid = $appid;
         $this->appsecret = $appsecret;
@@ -31,6 +34,15 @@ class EbhClient{
         $this->host = $host;
         return $this;
     }
+
+    public function setErrMsg($msg){
+        $this->errMsg = $msg;
+    }
+
+    public function getErrMsg(){
+        return $this->errMsg;
+    }
+
     //设置服务名称
     public function setService($service){
         $this->service = $service;
@@ -71,16 +83,22 @@ class EbhClient{
     }
 
     public function request(){
-        $url = $this->host;
+        //$url = $this->host;
         if(!empty($this->service)){
             //$url .= '?service=' . $this->service;
-            $url .= str_replace(".","/",$this->service);
+            $url = str_replace(".","/",$this->service);
         }
         if ($this->filter !== NULL) {
             $this->filter->filter($this->service, $this->params);
         }
-        $rs = $this->doRequest($url, $this->params, $this->timeout);
-
+		
+		if(CLIENT_MODE == 1){
+			//CLI模式
+			//修改原来的请求模式改为cli请求
+			$rs = $this->doCli($url,$this->params);
+		}else{
+			$rs = $this->doRequest($url, $this->params, $this->timeout);
+		}
         if($this->parser != NULL){
             return $this->parser->parse($rs);
         }else{
@@ -88,6 +106,35 @@ class EbhClient{
         }
     }
 
+    /**
+     * CLI请求模式
+     * @param $url
+     * @param $data
+     * @return string
+     */
+    public function doCli($url,$data){
+        $user_agent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36";
+        if(!empty($_SERVER['HTTP_USER_AGENT'])){
+            $user_agent = $_SERVER['HTTP_USER_AGENT'];
+        }
+        //加上客户端ip
+        $data['client_ip'] = getip();
+        //将ip传给请求
+        if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
+            $data['realip'] = $_SERVER["HTTP_CLIENT_IP"];
+        } else if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+            $data['realip'] = $_SERVER["HTTP_X_FORWARDED_FOR"];
+        } else if (!empty($_SERVER["REMOTE_ADDR"])) {
+            $data['realip'] = $_SERVER["REMOTE_ADDR"];
+        }else{
+            $data['realip'] = '127.0.0.1';
+        }
+        $data['realip'] = preg_match('/[\d\.]{7,15}/', $data['realip'], $matches) ? $matches[0] : '';
+        $paramStr = http_build_query($data);
+        $rs = exec(PHP_PATH.' '.EBHSERVICE_PATH.' -u '.$url. ' -p '.urlencode($paramStr));
+
+        return $rs;
+    }
     
     /**
      * 发送请求
@@ -112,7 +159,17 @@ class EbhClient{
         } 
         //加上客户端ip
         $data['client_ip'] = getip();
-        
+        //将ip传给请求
+        if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
+            $data['realip'] = $_SERVER["HTTP_CLIENT_IP"];
+        } else if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+            $data['realip'] = $_SERVER["HTTP_X_FORWARDED_FOR"];
+        } else if (!empty($_SERVER["REMOTE_ADDR"])) {
+            $data['realip'] = $_SERVER["REMOTE_ADDR"];
+        }else{
+            $data['realip'] = '127.0.0.1';
+        }
+        $data['realip'] = preg_match('/[\d\.]{7,15}/', $data['realip'], $matches) ? $matches[0] : '';
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER,$headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -231,6 +288,7 @@ class ParserDemo implements EbhClientParser{
         }else{
             $uri = $_SERVER['REQUEST_URI'];
             log_message('ApiServer Error-> ret code:'.$result['ret'].' ret msg:'.$result['msg'] .' url:'.$uri);
+            Ebh::app()->getApiServer('ebh')->setErrMsg($result['msg']);
             return false;
         }
 
