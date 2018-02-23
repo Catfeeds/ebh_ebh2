@@ -232,7 +232,7 @@ $roominfo = Ebh::app()->room->getcurroom();
 			</div>
 			<div class="coursecontent">
 				<p>
-					<a class="titlecour" href="<?= geturl('troomv2/classsubject/'.$item['folderid']) ?>" title="<?=$item['foldername']?>"><?=(strlen($item['foldername'])<=30?$item['foldername']:mb_substr($item['foldername'],0,30).'...')?></a>
+					<a class="titlecour" href="<?= geturl('troomv2/classsubject/'.$item['folderid']) ?>" title="<?=$item['foldername']?>"><?=(mb_strlen($item['foldername'],'UTF8')<=30?$item['foldername']:mb_substr($item['foldername'],0,30,'UTF8').'...')?></a>
 					<span style="color: #FF6663;position: absolute;top: 0;right: 50px;font-weight: 100;"><?=($item['price']==0?'':'单价')?>
 						<span class="size20"><?=($item['price']==0?'免费':$item['price'].'元')?></span>
 						<span><?=($item['iday']>0?'/'.$item['iday'].'天':'')?></span>
@@ -297,6 +297,7 @@ $roominfo = Ebh::app()->room->getcurroom();
 
     window.onload=function () {
         parent.window.layer.closeAll();
+
     }
 
     $.extend ({
