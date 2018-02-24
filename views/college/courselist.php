@@ -263,8 +263,8 @@ if(!empty($roominfo['crid'])){
                                             <div class="kcbj"><img width="167" height="100" src="<?=$logo?>"></div>
                                         </div>
                                         <div class="kcjsnr fl">
-                                            <h2><a href="<?=geturl('myroom/mycourse/'.$cw['cwid'])?>" target="_blank"><?=$cw['title']?></a></h2>
-                                            <p><?=$cw['summary']?></p>
+                                            <h2><a href="<?=geturl('myroom/mycourse/'.$cw['cwid'])?>" target="_blank" title="<?=$cw['title']?>"><?=shortstr($cw['title'],66)?></a></h2>
+                                            <p title="<?=$cw['summary']?>"><?=shortstr($cw['summary'],200)?></p>
                                             <p class="zjlsp">主讲：<?=$cw['realname']?></p>
                                         </div>
                                     </div>
