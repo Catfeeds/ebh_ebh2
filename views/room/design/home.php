@@ -70,6 +70,7 @@
 	var roominfo = <?=!empty($roominfo) ? json_encode($roominfo):'{}'?>;
   var loginUrl = '<?=geturl('room/design/getajaxhtml')?>';
   var did = <?=!empty($did) ? $did : 0?>;
+  var backvedio = <?=!empty($settings->backvedio) ? $settings->backvedio : 0?>;
   </script>
 </head>
 <body>
