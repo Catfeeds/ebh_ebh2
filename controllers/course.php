@@ -85,7 +85,7 @@ class CourseController extends CControl {
             ), true);
         }
 
-        if (!isset($freeware_list[$course['cwid']])) {
+        if (!isset($freeware_list[$course['cwid']]) && empty($course['looktime'])) {
             exit();
         }
         if (isset($freeware_list[$course['cwid']]['administrator'])) {

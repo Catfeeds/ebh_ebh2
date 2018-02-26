@@ -142,10 +142,7 @@ class ProfileController extends CControl {
 		$param['status'] = 1;
 		$payorderModel = $this->model('payorder');
 		$payorderList = $payorderModel->getOrderDetailList($param);
-<<<<<<< .mine
-=======
-		//print_r($payorderList);exit;
->>>>>>> .r9876
+
 		$this->assign('payorderList',$payorderList);
 		$payorderCount = $payorderModel->getOrderDetailListCount($param);
 		$pageStr = show_page($payorderCount,$param['pagesize']);

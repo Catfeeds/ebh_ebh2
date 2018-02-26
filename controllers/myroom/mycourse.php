@@ -245,6 +245,10 @@ class MycourseController extends CControl {
 			$cwuserinfo = $coursemodel->getcwUserinfo($course['cwid']);
 			$this->assign('cwuser',$cwuserinfo);
 		}
+		if(!empty($course['islive']) && !empty($course['assistantid'])){
+			$assistantlist = $this->model('user')->getUserInfoByUid(explode(',',$course['assistantid']));
+			$this->assign('assistantlist',$assistantlist);
+		}
         $this->assign('course', $course);
         $this->assign('course_detail',$course_detail);
         $attachmodel = $this->model('Attachment');

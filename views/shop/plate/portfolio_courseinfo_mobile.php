@@ -216,15 +216,24 @@
             //课程分享
             var coursename = '<?php echo isset($inner_data['pay_item']['iname']) ? $inner_data['pay_item']['iname'] : ''; ?>';
             var shareitemid = <?=(isset($inner_data['pay_item']['itemid'])?$inner_data['pay_item']['itemid']:0)?>;
-            var sharekey = usersharekey;
-            var url = window.location.href;
-            if (url.indexOf('?') < 0) {
-                var wapcourseurl = window.location.href+'?sharekey='+sharekey;
-            } else {
-                var wapcourseurl = url.substr(0,url.indexOf('?'))+'?sharekey='+sharekey;
-            }
+            <?php 
+                $othersetting = Ebh::app()->getConfig()->load('othersetting');
+                if (!empty($othersetting['shareToIndex']) && in_array($roominfo['crid'], $othersetting['shareToIndex'])) {
+            ?>
+                var sharekey = schoolsharekey;
+                var url = 'http://'+ window.location.host;
+                var wapcourseurl = url+'?sharekey='+sharekey;
+            <?php } else {?>
+                var sharekey = usersharekey;
+                var url = window.location.href;
+                if (url.indexOf('?') < 0) {
+                    var wapcourseurl = window.location.href+'?sharekey='+sharekey;
+                } else {
+                    var wapcourseurl = url.substr(0,url.indexOf('?'))+'?sharekey='+sharekey;
+                }
+            <?php }?>
             
-            //console.log(wapcourseurl)
+            console.log(wapcourseurl);
             var content_course = escape(encodeURIComponent(wapcourseurl));
             var showcoursesrc = baseurl+'?content='+content_course+'&show=1&size=6';
             //打印输出

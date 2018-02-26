@@ -1538,4 +1538,17 @@ class FolderModel extends CModel{
             ' WHERE '.implode(' AND ', $params);
         return $this->db->query($sql)->list_array($setKey ? 'itemid' : '');
     }
+
+    /**
+     * @param array $foldernames 课程名称集
+     * @param int $crid 网校ID
+     * @return mixed
+     */
+    public function getFoldersForNames($foldernames, $crid) {
+        $foldernames = array_map(function($foldername) {
+            return $this->db->escape($foldername);
+        }, $foldernames);
+        $sql = 'SELECT `folderid`,`foldername` FROM `ebh_folders` WHERE `crid`='.$crid.' AND `foldername` IN('.implode(',', $foldernames).')';
+        return $this->db->query($sql)->list_array('folderid');
+    }
 }

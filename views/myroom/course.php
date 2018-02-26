@@ -401,7 +401,34 @@ if(empty($fromintro)){?>
 	background:#fff;
 }
 <?php }?>
-
+.starting {
+    background: url(http://static.ebanhui.com/ebh/tpl/2016/images/dates3.png?v=02) no-repeat scroll center center;
+    color: #fff;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+    height: 28px;
+    left: 2px;
+    line-height: 28px;
+    position: relative;
+    text-align: center;
+    top: 50px;
+    width: 93px;
+}
+.expired {
+    background: url(http://static.ebanhui.com/ebh/tpl/2016/images/dates2.png?v=02) no-repeat scroll center center;
+    color: #fff;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    height: 28px;
+    left: 2px;
+    line-height: 28px;
+    position: relative;
+    text-align: center;
+    top: 50px;
+    width: 93px;
+}
 
 </style>
 <div id="flvcontrol1"></div>
@@ -517,6 +544,14 @@ if(empty($fromintro)){?>
 		.newTip_btn{
 			bottom:200px!important;
 		}
+		.jjikk_sons_r {
+			width: 840px;
+		}
+		.jijiangkk {width:980px;}
+.shenlse {
+	width:620px;
+	overflow:hidden;
+}
     </style>
 <script type="text/javascript">
     var isFree = <?=!empty($is_free) ? 'true' : 'false'?>;
@@ -1418,16 +1453,26 @@ $domain=$this->uri->uri_domain();//测试用
 
 <input type="hidden" value='' id='screenShotPath'>
 <input type="hidden" value='' id='screenShotPath2'>
+<?php if(empty($course['islive'])){?>
 <div id="main-box" <?php if($course['open_chatroom'] > 0 && $course['islive'] == 0 && $folder_detail['showmode'] != 3){ ?>style="width:1310px;margin:0 auto;position: relative;" <?php }else{?>style="margin:0 auto;width:980px;" <?php }?>>
+<?php } else {?>
+<div>
+<?php }?>
 
 <?php if($course['open_chatroom'] > 0 && $course['islive'] == 0 && $folder_detail['showmode'] != 3){ ?>
 <?php $this->display('common/chatroom'); ?>
 <?php } ?>
-
+<?php if(empty($course['islive'])){?>
 <div class="cright" style="display: block;margin: 0 auto;width:980px;margin-bottom:20px;<?php if($course['open_chatroom'] > 0 && $course['islive'] == 0 && $folder_detail['showmode'] != 3){ ?>float:left;margin-top:0px!important; <?php }?>">
-
-
+<?php } else {?>
+<div>
+<?php }?>
+<?php if(empty($course['islive'])){?>
 <div class="lefrig" style="margin-top:0;float:none;padding:0px;width: 980px">
+<?php } else {?>
+<div class="lefrig" style="width:980px;float:none;position: relative;margin-top:100px;">
+<?php }?>
+<?php if(empty($course['islive'])){//----直播不要这些.开始?>
 			<div class="classbox" style="width:980px;border:none;background: #FFF;min-height:0;">
 			<div style="float:left;margin:5px 15px 0 18px; text-align:center;">
 			<?php
@@ -1506,6 +1551,8 @@ $domain=$this->uri->uri_domain();//测试用
 					</p>
 				</div>
 			</div>
+
+<?php }//----直播不要这些.结束?>
 			<?php if(($type != 'flv' && $type != 'mp3'&&$type!='swf')){ ?>
 			<!-- 巴南网校普通课件加入录入笔记功能 (全部网校)-->
 			<div id="notecontent" style="display:none">
@@ -1516,7 +1563,7 @@ $domain=$this->uri->uri_domain();//测试用
 						  <?php $editor->xEditor('message','978px','300px',$mynote['ftext']); ?>
 					<?php } ?>
 					</div>
-				  <div style="float:right;margin-top:5px;">
+				  <div style="float:right;margin:5px 0;">
 					<a href="javascript:;" id="cancel" style="margin-right:80px;background: none repeat scroll 0 0 #18a8f7;color: #fff;float: right;height: 29px;line-height: 29px;margin-right: 9px;text-align: center;text-decoration: none;width: 96px; border-radius:4px;">取消</a>
 					<a href="javascript:;" onclick="submitnote(<?= $course['cwid']?>);" id="submit" style="margin-right:100px;background: none repeat scroll 0 0 #18a8f7;color: #fff;float: right;height: 29px;line-height: 29px;margin-right: 9px;text-align: center;text-decoration: none;width: 96px;border-radius:4px;">提交</a>
 				  </div>
@@ -1891,79 +1938,111 @@ $domain=$this->uri->uri_domain();//测试用
 						  <?php $editor->xEditor('message','978px','300px',$mynote['ftext']); ?>
 					<?php } ?>
 					</div>
-				  <div style="float:right;margin-top:5px;">
+				  <div style="float:right;margin:5px 0;">
 					<a href="javascript:;" id="cancel" style="margin-right:80px;background: none repeat scroll 0 0 #18a8f7;color: #fff;float: right;height: 29px;line-height: 29px;margin-right: 9px;text-align: center;text-decoration: none;width: 96px; border-radius:4px;">取消</a>
 					<a href="javascript:;" onclick="submitnote(<?= $course['cwid']?>);" id="submit" style="margin-right:100px;background: none repeat scroll 0 0 #18a8f7;color: #fff;float: right;height: 29px;line-height: 29px;margin-right: 9px;text-align: center;text-decoration: none;width: 96px;border-radius:4px;">提交</a>
 				  </div>
 			</div>
-			<?php } else if($course['islive']) {?>
-				<div style="color:red;position: relative;height:558px;z-index:601;float:left;">
+			<?php } else if($course['islive']) {//-----------直播逻辑开始
+				$statusstr = '';
+				$lineimg = '';
+				$starttime = $course['truedateline'];
+				$lineimgarr['todayunstart'] = 1;
+				$lineimgarr['now'] = 7;
+				$lineimgarr['unstart'] = 4;
+				$lineimgarr['end'] = 5;
+				$todaytime = strtotime('today');
+				if($course['truedateline']>$todaytime+86400){
+				  $lineimg = $lineimgarr['unstart'];
+				  $statusstr =  '<div class="fl jjikk_sons_l jjikk_sons_ls">'.Date('Y-m-d H:i',$course['truedateline']).'</div>';
+				} else {
+					if($isliverun){
+						$statusstr = '<div class="fl jjikk_sons_l starting">正在上课...&nbsp;</div>';
+						$lineimg = $lineimgarr['now'];
+					} elseif(empty($course['endat']) || SYSTIME<=$course['endat']){
+						$statusstr = '<div class="fl jjikk_sons_l">'.date('H:i',$starttime).'&nbsp;</div>';
+						$lineimg = $lineimgarr['todayunstart'];
+					} else {
+						$statusstr = '<div class="fl jjikk_sons_l '.(($starttime<SYSTIME)?'expired':'').'">'.date('H:i',$starttime).'&nbsp;</div>';
+						$lineimg = $lineimgarr['end'];
+					}
+				}
+			?>
+		<div class="jijiangkk" style="height:270px;box-shadow: 0px 1px 15px 12px rgba(0, 0, 0, 0.1);">
+			<h2 style="border-bottom: 1px solid #efefef;">直播课程</h2>
+			<div class="jjikk_sons" style="margin-top:12px;">
+				<!-- 正在上课 当前时间在课程发布时间+课件时间范围内 显示正在上课 -->
+				<!-- 即将开始上课  当前时间还未到课件发布时间的 显示橙色 -->
+				<!-- 已经结束的  当前时间已经超过课件发布+播放时间 显示灰色-->
+				<?=$statusstr?>
+				<div class="fl"><img src="http://static.ebanhui.com/ebh/tpl/2016/images/jijiangkk<?=$lineimg?>.png?v=20170718001" width="24" height="143"></div>
+				<div class="fl jjikk_sons_r">           	
+					<div class="fl jjkkkc">
+						<a class="kustgd" href="javascript:void(0)"><img src="http://static.ebanhui.com/ebh/tpl/2014/images/kustgd2.png"></a>
+						<div class="kcbj"><img width="167" height="100" src="<?=empty($course['logo'])?'http://static.ebanhui.com/ebh/tpl/2014/images/livelogo.jpg':$course['logo']?>"></div>
+					</div>
+					<div class="kcjsnr fl">
+						<h2 class="shenlse" title="<?=$course['title']?>"><?=$course['title']?></h2>
+						<p class="shenlse" title="<?=$course['summary']?>"><?=shortstr($course['summary'],400)?></p>
+						<?php $assistantstr = '';
+						if(!empty($assistantlist)){
+						  $asnarr = array_column($assistantlist,'realname');
+						  $assistantstr = '助教：'.implode(',',$asnarr);
+						}?>
+						<p class="zjlsp" style="background-position: left 6px;line-height:2;">主讲：<?=$course['realname']?><span style="margin-left:20px;"><?=$assistantstr?></span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+				<div >
 				<?php if($isliverun){?>
-				<div style="width:980px;height:558px;background:white;text-align:center">
+				<div >
 				<?php if(!empty($is_mobile)){?>
 					<?php if(!empty($is_app) && $is_app){?>
-					<span style="font-size:36px;width:970px;float:left;margin-top:200px">上课进行中...</span>
-					<span style="font-size:50px;width:970px;float:left;margin-top:10px">
+					<span>
 
-					<a id="notebtn" class="lanbtn liaskt" name="notes" href="<?=$runlink?>" style="font-family: 微软雅黑;font-weight:normal;margin-left:330px;height:65px;line-height:65px; margin-top:15px;margin-bottom:10px;font-size:36px;width:300px;background:#18a8f7;">进入学习</a>
+					<a class="lanbtn liaskt" name="notes" href="<?=$runlink?>" style="position: absolute;top:210px;right:15px;font-family: 微软雅黑;font-weight:normal;height:42px;line-height:42px;font-size:20px;width:120px;background:#18a8f7;box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.3);">进入学习</a>
 
 					</span>
 					<?}else{?>
 
-					<span style="font-size:36px;width:970px;float:left;margin-top:200px">上课进行中...</span>
-					<span style="font-size:50px;width:970px;float:left;margin-top:10px">
+					<span>
 
-					<a id="notebtn" class="lanbtn liaskt" name="notes" href="/myroom/mycourse/<?= $course['cwid'] ?>.html?flag=1" style="font-family: 微软雅黑;font-weight:normal;margin-left:330px;height:65px;line-height:65px; margin-top:15px;margin-bottom:10px;font-size:36px;width:300px;background:#18a8f7;">进入学习</a>
+					<a class="lanbtn liaskt" name="notes" href="/myroom/mycourse/<?= $course['cwid'] ?>.html?flag=1" style="position: absolute;top:210px;right:15px;font-family: 微软雅黑;font-weight:normal;height:42px;line-height:42px;font-size:20px;width:120px;background:#18a8f7;box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.3);">进入学习</a>
 
 					</span>
 		            <?php } ?>
 				<?php }else{ ?>
-				<span style="font-size:36px;width:970px;float:left;margin-top:200px">上课进行中...</span>
-				<span style="font-size:50px;width:970px;float:left;margin-top:10px">
+				<span>
 
-				<a id="notebtn" class="lanbtn liaskt isPC" name="notes" href="<?php if($showebhbrowser){?>javascript:void(0);<?php }else{ ?>/myroom/mycourse/<?= $course['cwid'] ?>.html?flag=1 <?php } ?>" style="font-family: 微软雅黑;font-weight:normal;margin-left:330px;height:65px;line-height:65px; margin-top:15px;margin-bottom:10px;font-size:36px;width:300px;background:#18a8f7;">进入学习</a>
+				<a class="lanbtn liaskt isPC" name="notes" href="<?php if($showebhbrowser){?>javascript:void(0);<?php }else{ ?>/myroom/mycourse/<?= $course['cwid'] ?>.html?flag=1 <?php } ?>" style="position: absolute;top:210px;right:15px;font-family: 微软雅黑;font-weight:normal;height:42px;line-height:42px;font-size:20px;width:120px;background:#18a8f7;box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.3);">进入学习</a>
 
 				</span>
 				<?php } ?>
 				</div>
 				<?php }elseif(empty($course['endat']) || SYSTIME<=$course['endat']){?>
-				<div style="width:980px;height:560px;background:white;text-align:center">
-				<span style="font-size:50px;width:970px;float:left;margin-top:200px">课程将于 <?=Date('Y-m-d H:i',$course['submitat'])?> 开始</span>
-				<span style="font-size:50px;width:970px;float:left;margin-top:50px">倒计时：<span id="countdown"><?=secondToStr($course['submitat']-SYSTIME)?></span></span>
-				<span style="font-size:50px;width:970px;float:left;margin-top:50px">请耐心等候...</span>
-				</div>
+				<p style="font-size:20px;float:left;margin-top:-60px;margin-left:125px;color:#ff0000;">课程将于 <?=Date('Y-m-d H:i',$course['submitat'])?> 开始
+				<span style="margin-left:20px;">倒计时：<span id="countdown"><?=secondToStr($course['submitat']-SYSTIME)?></span></span>
+				<span style="margin-left:20px;">请耐心等候...</span>
+				</p>
 				<?php }else{?>
 				<?php if($liveinfo['review'] == 1){?>
 					<?php if($liveinfo['review_start'] != 0 && $liveinfo['review_start'] > SYSTIME){ ?>
-					<div style="width:980px;height:560px;background:white;text-align:center">
-					<span style="font-size:30px;width:970px;float:left;margin-top:200px;color:#000;">回看将于 <?=Date('Y-m-d H:i',$liveinfo['review_start'])?> 开始,敬请期待</span>
-					</div>
+					<span style="font-size:20px;float:left;margin-top:-60px;margin-left:125px;color:#ff0000;">回看将于 <?=Date('Y-m-d H:i',$liveinfo['review_start'])?> 开始,敬请期待</span>
 					<?php }else if($liveinfo['review_end'] != 0 && $liveinfo['review_end'] < SYSTIME){ ?>
-					<div style="width:980px;height:560px;background:white;text-align:center">
-					<span style="font-size:50px;width:970px;float:left;margin-top:200px">已于 <?=Date('Y-m-d H:i',$liveinfo['review_end'])?> 结束</span>
-					</div>
+					<span style="font-size:20px;float:left;margin-top:-60px;margin-left:125px;color:#FF0000;">已于 <?=Date('Y-m-d H:i',$liveinfo['review_end'])?> 结束</span>
 					<?php }else{ ?>
 					<?if ( $course['ism3u8'] == 1){ ?>
-						<div style="width:980px;height:560px;background:white;text-align:center">
-							<span style="font-size:20px;font-weight:bold;width:970px;float:left;margin-top:200px;color:#000;">直播结束</span>
-							<span style="font-size:50px;width:970px;float:left;margin-top:10px">
-								<a class="lanbtn liaskt" name="notes" href="/myroom/mycourse/<?= $course['cwid'] ?>.html?review=1" style="font-family: 微软雅黑;font-weight:normal;margin-left:330px;height:65px;line-height:65px; margin-top:15px;margin-bottom:10px;font-size:25px;width:300px;background:#18a8f7;">进入回看</a>
-							</span>
-						</div>
+							<span style="font-size:20px;float:left;margin-top:-60px;margin-left:125px;color:#ff0000;">直播结束</span>
+								<a class="lanbtn liaskt" name="notes" href="/myroom/mycourse/<?= $course['cwid'] ?>.html?review=1" style="position: absolute;top:210px;right:15px;font-family: 微软雅黑;font-weight:normal;height:42px;line-height:42px;font-size:20px;width:120px;background:#18a8f7;box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.3);">进入回看</a>
 					<?php }else{ ?>
-						<div style="width:980px;height:560px;background:white;text-align:center">
-							<span style="font-size:20px;font-weight:bold;width:970px;float:left;margin-top:200px;color:#000;">直播已结束，视频正在转码中，请稍候...</span>
-							<span style="font-size:50px;width:970px;float:left;margin-top:10px">
-								<a class="lanbtn liaskt" name="notes" href="javascript:;" style="font-family: 微软雅黑;font-weight:normal;margin-left:330px;height:65px;line-height:65px; margin-top:15px;margin-bottom:10px;font-size:25px;width:300px;background:#999;">进入回看</a>
-							</span>
-						</div>
+							<span style="font-size:20px;float:left;margin-top:-60px;margin-left:125px;color:#ff0000;">直播已结束，视频正在转码中，请稍候...</span>
+								<a class="lanbtn liaskt" name="notes" href="javascript:;" style="position: absolute;top:210px;right:15px;font-family: 微软雅黑;font-weight:normal;height:42px;line-height:42px;font-size:20px;width:120px;box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.3);background:#999;">进入回看</a>
 					<?php } ?>
 					<?php } ?>
 					
 				<?php } else{ ?>
-					<div style="width:980px;height:560px;background:white;text-align:center">
-					<span style="font-size:50px;width:970px;float:left;margin-top:200px">已于 <?=Date('Y-m-d H:i',$course['endat'])?> 结束</span>
-					</div>
+					<span style="font-size:20px;float:left;margin-top:-60px;margin-left:125px;color:#FF0000;">已于 <?=Date('Y-m-d H:i',$course['endat'])?> 结束</span>
 				<?php } ?>
 				
 				
@@ -1990,7 +2069,7 @@ $domain=$this->uri->uri_domain();//测试用
 				
 				
 				</div>
-			<?php } ?>
+			<?php } //---------直播逻辑结束?>
 
 
 		<!-- 课件 ppt/word等预览 开始 -->
@@ -3371,7 +3450,7 @@ if($type == 'ebhp') {
 							html+='<li class="replycommentli last" id="comment_'+result.logid+'">';
 							html+='<div class="replycommentliright">';
 							<?php if (empty($iszjdlr)) { ?>
-								html+='<a href="http://sns.ebh.net/'+<?=$user['uid']?>+'/main.html" target="_blank" class="studentname"><?=$user['username']?>（<?=$user['realname']?>）</a>';
+								html+='<a href="javascript:void(0);" class="studentname"><?=$user['username']?>（<?=$user['realname']?>）</a>';
 							<?php }else{ ?>
 								html+='<a href="javascript:void(0)" class="studentname"><?=$user['realname']?></a>';
             				<?php } ?>
@@ -3404,7 +3483,7 @@ if($type == 'ebhp') {
 							html+='<li class="replycommentli last" id="comment_'+result.logid+'">';
 							html+='<div class="replycommentliright">';
 							<?php if (empty($iszjdlr)) { ?>
-								html+='<a href="http://sns.ebh.net/'+<?=$user['uid']?>+'/main.html" target="_blank" class="studentname"><?=$user['username']?>（<?=$user['realname']?>）</a>';
+								html+='<a href="javascript:void(0);" class="studentname"><?=$user['username']?>（<?=$user['realname']?>）</a>';
 							<?php }else{ ?>
 								html+='<a href="javascript:void(0)" class="studentname"><?=$user['realname']?></a>';
             				<?php } ?>
@@ -3437,10 +3516,10 @@ if($type == 'ebhp') {
 							+'<ul>'
 							+'<li class="replycommentli1 first" id="comment_'+result.logid+'">'
 							+'<div class="replycommentliright">'
-							+'<a href="http://sns.ebh.net/'+<?=$user['uid']?>+'/main.html" target="_blank" class="studentname"><?= $user['username'] ?>（<?= $user['realname']?>）</a>'
+							+'<a href="javascript:void(0);" class="studentname"><?= $user['username'] ?>（<?= $user['realname']?>）</a>'
 							html+='<span class="comment">回复</span>'
 							<?php if (empty($iszjdlr)) { ?>
-								html+='<a href="http://sns.ebh.net/'+toid+'/main.html" target="_blank" class="studentname">'+toname+'</a>'
+								html+='<a href="javascript:void(0);" class="studentname">'+toname+'</a>'
 							<?php }else{ ?>
 								html+='<a href="javascript:void(0)" class="studentname">'+toname+'</a>';
             				<?php } ?>
@@ -3458,9 +3537,9 @@ if($type == 'ebhp') {
 							html = '<li class="replycommentli1 first" id="comment_'+result.logid+'">'
 							html+='<div class="replycommentliright">'
 							<?php if (empty($iszjdlr)) { ?>
-								html+='<a href="http://sns.ebh.net/'+<?=$user['uid']?>+'/main.html" target="_blank" class="studentname"><?= $user['username'] ?>（<?= $user['realname']?>）</a>'
+								html+='<a href="javascript:void(0);" class="studentname"><?= $user['username'] ?>（<?= $user['realname']?>）</a>'
 								html+='<span class="comment">回复</span>'
-								html+='<a href="http://sns.ebh.net/'+toid+'/main.html" target="_blank" class="studentname">'+toname+'</a>'
+								html+='<a href="javascript:void(0);" class="studentname">'+toname+'</a>'
 							<?php }else{ ?>
 								html+='<a href="javascript:void(0)" class="studentname"><?= $user['realname']?></a>'
 								html+='<span class="comment">回复</span>'
@@ -3604,7 +3683,7 @@ if($type == 'ebhp') {
 						}
 						<?php }?>
 					<?php }else{?>
-					demohtml+='<a href="http://sns.ebh.net/'+json[i].uid+'/main.html" target="_blank" class="studentname" title="'+json[i].fromip+'('+json[i].ipaddress+')">'+json[i].username+'（'+json[i].realname+'）</a>';
+					demohtml+='<a href="javascript:void(0);" class="studentname" title="'+json[i].fromip+'('+json[i].ipaddress+')">'+json[i].username+'（'+json[i].realname+'）</a>';
 					<?php }?>
             		<?php if(!$iszjdlr){?>
             		demohtml+=getstar_new(json[i].score);
@@ -3672,7 +3751,7 @@ if($type == 'ebhp') {
 
             				demohtml+='<div class="replycommentliright">'
             				<?php if (empty($iszjdlr)) { ?>
-            					demohtml+='<a href="http://sns.ebh.net/'+json[i].children[second].uid+'/main.html" target="_blank" class="studentname">'+json[i].children[second].username+'（'+json[i].children[second].realname+'）</a>'
+            					demohtml+='<a href="javascript:void(0);" class="studentname">'+json[i].children[second].username+'（'+json[i].children[second].realname+'）</a>'
             				<?php }else{ ?>
             					demohtml+='<a href="javascript:void(0)" class="studentname">'+json[i].children[second].realname+'</a>'
             				<?php } ?>
@@ -3702,9 +3781,9 @@ if($type == 'ebhp') {
 		            				}
 		            				demohtml+='<div class="replycommentliright">'
 		            				<?php if (empty($iszjdlr)) { ?>
-			            				demohtml+='<a href="http://sns.ebh.net/'+json[i].children[second].children[third].uid+'/main.html" target="_blank"  class="studentname">'+json[i].children[second].children[third].username+'（'+json[i].children[second].children[third].realname+'）</a>'
+			            				demohtml+='<a href="javascript:void(0);" class="studentname">'+json[i].children[second].children[third].username+'（'+json[i].children[second].children[third].realname+'）</a>'
 										demohtml+='<span class="comment">回复</span>'
-			            				demohtml+='<a href="http://sns.ebh.net/'+json[i].children[second].children[third].toid+'/main.html" target="_blank" class="studentname">'+json[i].children[second].children[third].tousername+'（'+json[i].children[second].children[third].torealname+'）</a>'
+			            				demohtml+='<a href="javascript:void(0);" class="studentname">'+json[i].children[second].children[third].tousername+'（'+json[i].children[second].children[third].torealname+'）</a>'
 									<?php }else{ ?>
 										demohtml+='<a href="javascript:void(0)" class="studentname">'+json[i].children[second].children[third].realname+'</a>'
 			            				demohtml+='<span class="comment">回复</span>'

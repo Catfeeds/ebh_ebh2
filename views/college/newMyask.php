@@ -285,7 +285,7 @@ if(!empty($roominfo['crid'])){
             <ul id="ranklist">
                 <?php foreach ($list as $value) {
                     echo '<li class="dtuwrs">';
-                    echo '<a href="http://sns.ebh.net/'.$value['uid'].'/.html" target="_blank" class="destgy">';
+                    echo '<a href="/sns/feeds/'.$value['uid'].'.html" class="destgy">';
                     echo '<img class="imgrdu" src="' . (empty($value['face']) ? 'http://static.ebanhui.com/ebh/tpl/default/images/m_'.($value['sex']==0?'man':'woman').'_50_50.jpg"' : $value['face']) . '" title="' . (empty($value['realname'])?$value['username']:$value['realname']) . '">';
                     echo '</a>';
                     echo '<span class="srusdyt">' . (empty($value['realname'])?$value['username']:$value['realname'])  . '</span>';

@@ -98,7 +98,6 @@ class DefaultController extends CControl{
 					//某些网校分销分享到首页，设置网校sharekeycookie,过期一年
 			        $sharekey = $this->input->get('sharekey');
 			        if (!empty($sharekey)) {
-			        	print_r($sharekey);exit;
 			        	//判断是否开启分享到首页的网校列表
 			        	$othersetting = Ebh::app()->getConfig()->load('othersetting');
             			if (!empty($othersetting['shareToIndex']) && in_array($roominfo['crid'], $othersetting['shareToIndex'])) {

@@ -73,8 +73,10 @@ class LoginController extends CControl {
 					$screen = $this->input->post('screen');
 					$other['sc'] = $screen;
 				}
-				$durl = null;//不做sso处理
-				$this->savecookie($user,$other);
+				$durl = $this->savecookie($user,$other);
+				if(empty($durl)){
+					$durl = null;//兼容js
+				}
 				$status['code']= 1;
                 $status['message'] = '登录成功';
 				$status['durl'] = $durl;
@@ -233,7 +235,7 @@ class LoginController extends CControl {
 				$ssovalue = $auth.'___'.$user['lastlogintime'].'___'.SYSTIME.'___'.$user['lastloginip'].'___'.$cookietime.'___'.$sc.'___'.$ctime;
 				$ssovalue = base64_encode($ssovalue);
 				foreach(Ebh::app()->domains as $mydomain) {
-					if($mydomain != $curdomain) {
+					if($mydomain != $curdomain && $mydomain != 'ebanhui.com') {//ebanhui.com不做处理
 						$newdurl = 'http://www.'.$mydomain.'/sso.html?k='.$ssovalue;
                         $durl = empty($durl) ? $newdurl : $durl.','.$newdurl;
 					}

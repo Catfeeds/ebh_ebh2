@@ -627,19 +627,27 @@ class Examv2Controller extends ApiControl {
 		}
 		$resultjson = $this->do_post($url,$param,false);
 		//print_r($resultjson);exit;
+		$temp = json_decode($resultjson);
 		if($simpleinfo->info->canreexam == 1 && $simpleinfo->info->etype == 'SSMART'){
-			$temp = json_decode($resultjson);
+			// $temp = json_decode($resultjson);
 			$temp->datas->canreexam = 1;
 			$resultjson = json_encode($temp);
 		}
 		if (isset($doAlert)) {
-			$temp = json_decode($resultjson);
+			// $temp = json_decode($resultjson);
 			if (!empty($temp)) {
 				$temp->datas->doAlert = 1;
 				$resultjson = json_encode($temp);
 			}
 		}
+		if(!empty($temp->errCode)){
+			log_message('答题出错,errCode: '.$temp->errCode);
+		}
+		if(empty($resultjson) || empty($temp)){
+			log_message('答题出错,空的返回');
+		}
 		echo $resultjson;
+		fastcgi_finish_request();
 		$answerRet = json_decode($resultjson);
 		if (!empty($answerRet->datas->userAnswer->aid)) {
 			$aid = $answerRet->datas->userAnswer->aid;

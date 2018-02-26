@@ -86,7 +86,7 @@
 	<script type="text/javascript" src="http://static.ebanhui.com/chatroom/js/flv.min.js"></script>
 	<script type="text/javascript" src="http://static.ebanhui.com/chatroom/js/hls.js"></script>
 	<script type="text/javascript" src="http://static.ebanhui.com/chatroom/layui/layui.js"></script>
-	<script type="text/javascript" src="http://static.ebanhui.com/chatroom/js/h5live.js?v=20180117001"></script>
+	<script type="text/javascript" src="http://static.ebanhui.com/chatroom/js/h5live.js?v=20180207001"></script>
 	<script type="text/javascript" src="http://static.ebanhui.com/chatroom/js/json2/json2.js?v=2016122101"></script>
 	<script type="text/javascript" src="http://static.ebanhui.com/chatroom/js/ebhdialog.js?v=20171128002"></script>
 	<script type="text/javascript" src="http://static.ebanhui.com/ebh/js/playlive.js?v=20171225002"></script>

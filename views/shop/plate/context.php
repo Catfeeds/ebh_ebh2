@@ -13,13 +13,6 @@ if (!empty($syimg) && $roominfo['domain'] == 'nbrazx') { ?>
     <a class="fenstbtn" href="http://static.ebanhui.com/ebh/file/nbrazx2.htm" style="display:block;width:224px;height:149px;float:left" target="_blank">
     </a>
     </div>
-<?php } else if(!empty($syimg) && $roominfo['domain'] == 'jscz') { ?>
-    <div id="edrghgh" style="position:absolute;z-index:1001;width:448px;height:149px;background:url(<?= $syimg ?>) no-repeat;background-color:#fff">
-        <a class="fenstbtn" href="http://static.ebanhui.com/ebh/file/jscz.htm" style="display:block;width:224px;height:149px;float:left" target="_blank">
-        </a>
-        <a class="fenstbtn" href="http://static.ebanhui.com/ebh/file/jsczer.htm" style="display:block;width:224px;height:149px;float:left" target="_blank">
-        </a>
-    </div>
 <?php } else if(!empty($syimg) && $roominfo['domain'] == 'dczz') { ?>
     <div id="edrghgh" style="position:absolute;z-index:1001;width:448px;height:149px;background:url(<?= $syimg ?>) no-repeat;background-color:#fff">
         <a class="fenstbtn" href="http://static.ebanhui.com/ebh/file/dczz.htm" style="display:block;width:224px;height:149px;float:left" target="_blank">

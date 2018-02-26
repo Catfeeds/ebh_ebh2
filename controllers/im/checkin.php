@@ -73,6 +73,7 @@ class CheckinController extends CControl{
         $parameters = array();
         $parameters['crid'] = $roominfo['crid'];
         $parameters['folderid'] = $course['folderid'];
+        $parameters['cwid'] = $cwid;
         $userList = $apiServer->reSetting()->setService('Classroom.Folder.getFolderStudent')->addParams($parameters)->request();
         //获取已签到的学生数组
         $redis = Ebh::app()->getCache('cache_redis')->getRedis();
@@ -154,6 +155,7 @@ class CheckinController extends CControl{
         $parameters = array();
         $parameters['crid'] = $roominfo['crid'];
         $parameters['folderid'] = $course['folderid'];
+        $parameters['cwid'] = $cwid;
         $userList = $apiServer->reSetting()->setService('Classroom.Folder.getFolderStudent')->addParams($parameters)->request();
         //获取已签到的学生数组
         $redis = Ebh::app()->getCache('cache_redis')->getRedis();

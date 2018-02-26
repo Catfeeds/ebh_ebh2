@@ -271,7 +271,7 @@ class SporderController extends AdminControl{
 				$result['errormsg'] = '第 '.$i.' 行 登录账号太长，请调整。';
 				break;
 			}
-			if(!preg_match('/^[a-z0-9A-Z_]{6,19}$/',$username)) {
+			if(!preg_match('/^[a-z0-9A-Z_]{6,20}$/',$username)) {
 				$result['errormsg'] = '第 '.$i.' 行登录账号格式不正确，登录账号只能为6-20位英文、数字的组合字符，请调整。';
 				break;
 			}
@@ -466,5 +466,250 @@ class SporderController extends AdminControl{
 		return  ltrim($dayspath,'.');
 		
 	}
+
+    /**
+     * 批量删除
+     */
+	function btachremove() {
+	    if ($this->input->post()) {
+            set_time_limit(0);
+            ini_set('memory_limit', '200M');
+	        $crid = intval($this->input->post('crid'));
+	        $msgs = array();
+	        if ($crid < 1) {
+                $msgs[] = '请选择所属网校';
+            }
+            if (empty($_FILES) || empty($_FILES['inputfile']) || empty($_FILES['inputfile']['tmp_name']) || $_FILES['inputfile']['error'] > 0) {
+                $msgs[] = '请选择要上传的文件';
+            }
+
+	        if (empty($msgs)) {
+	            $datas = $this->getDataFromExcel($_FILES['inputfile']['tmp_name'], array('登录账号' => 0, '删除课程' => 1));
+	            if (is_scalar($datas)) {
+                    $inputresult['errormsg'] = '错误：'.$datas;
+                } else {
+                    $inputresult = $this->removePermisions($datas, $crid);
+                }
+            } else {
+                $inputresult['errormsg'] = '错误：'.implode('；', $msgs);
+            }
+            $this->assign('inputresult',$inputresult);
+        }
+        $this->display('admin/batch_remove');
+    }
+
+    /**
+     * @param string $filepath 文件路径
+     * @param array $templates 导入模块格式，例子：
+     * array(
+        字段 => 返回数组数据中的索引
+     * )
+     * @return array|string
+     */
+    private function getDataFromExcel($filepath, $templates) {
+        $reader = Ebh::app()->lib('PhpExcelReader');
+        $reader->setOutputEncoding('UTF-8');
+        $r = $reader->read($filepath);
+        if($r === false) {	//不支持的文件格式
+            return '不支持的文件格式';
+        }
+        $rowNumber = isset($reader->sheets[0]['numRows']) ? $reader->sheets[0]['numRows'] : 0;
+        $colNumber = isset($reader->sheets[0]['numCols']) ? $reader->sheets[0]['numCols'] : 0;
+        if ($rowNumber == 0 || $colNumber == 0) {
+            return '文件为空或文件不支持';
+        }
+        $start = 0;
+        $templates = array_map(function($template) {
+            return array(
+                'index' => $template,
+                'colIndex' => 0
+            );
+        }, $templates);
+        for ($rowIndex = 1; $rowIndex <= $rowNumber; $rowIndex++) {
+            $titles = $templates;
+            for ($colIndex = 1; $colIndex <= $colNumber; $colIndex++) {
+                if (!isset($reader->sheets[0]['cells'][$rowIndex][$colIndex])) {
+                    break;
+                }
+                $cellValue = preg_replace('/[\s　]/', '', $reader->sheets[0]['cells'][$rowIndex][$colIndex]);
+                if (isset($titles[$cellValue])) {
+                    $titles[$cellValue]['colIndex'] = $colIndex;
+                }
+            }
+            $notitles = array_filter($titles, function($title) {
+                return $title['colIndex'] == 0;
+            });
+            if (empty($notitles)) {
+                $start = $rowIndex + 1;
+                break;
+            }
+        }
+        if ($start == 0) {
+            return '文件不合规格';
+        }
+        for ($rowIndex = $start; $rowIndex <= $rowNumber; $rowIndex++) {
+            $row = array();
+            foreach ($titles as $title => $col) {
+                $colIndex = $col['colIndex'];
+                if (!isset($reader->sheets[0]['cells'][$rowIndex][$colIndex])) {
+                    $row[$title] = '';
+                    continue;
+                }
+                $cellValue = preg_replace('/\s/', '', $reader->sheets[0]['cells'][$rowIndex][$colIndex]);
+                $row[$title] = $cellValue;
+            }
+            $notemptys = array_filter($row, function($rowitem) {
+               return $rowitem != '';
+            });
+            if (!empty($notemptys)) {
+                $row['rowIndex'] = $rowIndex;
+                $result[] = $row;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * 删除学生课程权限，增加删除订单记录
+     * @param array $datas 导入数据
+     * @param int $crid 网校ID
+     * @return array
+     */
+    private function removePermisions($datas, $crid) {
+        $inputresult = array();
+        $repeats = array();
+	    foreach ($datas as $index => $data) {
+	        if ($data['登录账号'] == '') {
+                $inputresult['erroritems'][] = '第'.$data['rowIndex'].'行“登录账号”为空';
+            }
+            if ($data['删除课程'] == '') {
+                $inputresult['erroritems'][] = '第'.$data['rowIndex'].'行“开通课程”为空';
+            }
+            $datas[$index]['删除课程'] = str_replace('，', ',', $data['删除课程']);
+            $repeats[$data['登录账号']][] = $data['rowIndex'];
+            continue;
+        }
+        $repeats = array_filter($repeats, function($repeat) {
+            return count($repeat) > 1;
+        });
+	    if (!empty($repeats)) {
+            foreach ($repeats as $repeat) {
+                $inputresult['erroritems'][] = '第'.implode(',', $repeat).'行登录帐号重复';
+            }
+        }
+        if (!empty($inputresult['erroritems'])) {
+            $inputresult['errormsg'] = '导入数据错误';
+            $inputresult['hasresult'] = true;
+            return $inputresult;
+        }
+        $courses = array_column($datas, '删除课程');
+	    $courses = implode(',', $courses);
+	    $courses = explode(',', $courses);
+	    $courses = array_unique($courses);
+	    $courses = array_filter($courses, function($course) {
+	       return !empty($course);
+        });
+	    $usernames = array_column($datas, '登录账号');
+	    $usernames = array_unique($usernames);
+        Ebh::app()->getDb()->set_con(0);
+        $folderModel = $this->model('folder');
+        $roomUserModel = $this->model('roomuser');
+        $userPermissionModel = $this->model('userpermission');
+        $classroomModel = $this->model('classroom');
+        $payOrderModel = $this->model('payorder');
+        $classroom = $classroomModel->getdetailclassroommulti($crid);
+        $classroom = reset($classroom);
+        $folders = $folderModel->getFoldersForNames($courses, $crid);
+        $foldernames = array_column($folders, 'foldername');
+        $courses = array_diff($courses, $foldernames);
+        if (!empty($courses)) {
+            $inputresult['errormsg'] = '导入数据错误';
+            $inputresult['hasresult'] = true;
+            foreach ($courses as $course) {
+                $inputresult['erroritems'][] = '课程“'.$course.'”不存在';
+            }
+        }
+        $users = $roomUserModel->getUsersFromNames($usernames, $crid);
+        $usernames = array_diff($usernames, array_column($users, 'username'));
+
+        if (!empty($usernames)) {
+            $inputresult['errormsg'] = '导入数据错误';
+            $inputresult['hasresult'] = true;
+            foreach ($usernames as $username) {
+                $inputresult['erroritems'][] = '用户“'.$username.'”不存在';
+            }
+        }
+        if (!empty($inputresult)) {
+            return $inputresult;
+        }
+        $folders = array_combine(array_column($folders, 'foldername'), $folders);
+        $users = array_combine(array_column($users, 'username'), $users);
+        array_walk($datas, function(&$data, $index, $args) {
+            $data['uid'] = $args['users'][$data['登录账号']]['uid'];
+            $courses = explode(',', $data['删除课程']);
+            $data['folderids'] = array();
+            foreach ($courses as $course) {
+                if (isset($args['folders'][$course])) {
+                    $data['folderids'][] = $args['folders'][$course]['folderid'];
+                }
+            }
+        }, array(
+            'users' => $users,
+            'folders' => $folders
+        ));
+        $now = SYSTIME;
+        $ip = $this->input->getip();
+        $crname = $classroom['crname'];
+        $orders = array_map(function($data) use($crid, $now, $ip, $crname) {
+            $ret = array(
+                'ordername' => '删除“'.$data['登录账号'].'”在“'.$crname.'”网校的服务',
+                'crid' => $crid,
+                'uid' => $data['uid'],
+                'dateline' => $now,
+                'paytime' => $now,
+                'payfrom' => 11,
+                'ip' => $ip,
+                'payip' => $ip,
+                'buyer_info' => $data['登录账号'],
+                'status' => 1,
+                'itemlist' => array()
+            );
+            $folders = explode(',', $data['删除课程']);
+            foreach ($data['folderids'] as $idx => $folderid) {
+                $ret['itemlist'][] = array(
+                    'folderid' => $folderid,
+                    'crid' => $crid,
+                    'uid' => $data['uid'],
+                    'oname' => $folders[$idx],
+                    'osummary' => '删除“'.$data['登录账号'].'”在“'.$crname.'”网校的“'.$folders[$idx].'”课程权限',
+                    'dstatus' => 1
+                );
+            }
+            return $ret;
+        }, $datas);
+        //生成删除记录
+        $rowcount = 0;
+        foreach ($orders as &$order) {
+            $detailCount = 0;
+            foreach ($order['itemlist'] as $indx => $detail) {
+                $d = $userPermissionModel->deletePermissionByFolderidsForUsers(array($detail['folderid']), array($order['uid']), $crid);
+                if ($d > 0) {
+                    $detailCount++;
+                } else {
+                    unset($order['itemlist'][$indx]);
+                }
+            }
+            if ($detailCount > 0) {
+                $foldernames = array_column($order['itemlist'], 'oname');
+                $foldernames = implode('，', $foldernames);
+                $order['remark'] = '删除“'.$order['buyer_info'].'”在“'.$crname.'”网校的“'.$foldernames.'”课程权限';
+                $payOrderModel->addOrder($order);
+                $rowcount++;
+            }
+        }
+        $inputresult['result'] = true;
+        $inputresult['hasresult'] = true;
+        $inputresult['rowcount'] = intval($rowcount);
+        return $inputresult;
+    }
 }
-?>
