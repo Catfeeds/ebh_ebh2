@@ -376,12 +376,115 @@ a.reviews {color:#fff;}
 .ml25{
 	margin-left: 20px;
 }
-#inputrating img ,.commentsright-center img {
-	display: none;
+.icont {
+    width: 32px;
+    height: 32px;
 }
- #inputrating .mention ,.commentsright-center .mention {
-    display: inline-block;
-    line-height: 1.23em;
+.ico-ppt {
+	background:url(http://static.ebanhui.com/pan/images/anste21.png) no-repeat;
+}
+.ico-mp3 {
+	background:url(http://static.ebanhui.com/pan/images/anste22.png) no-repeat;
+}
+.ico-doc {
+	background:url(http://static.ebanhui.com/pan/images/anste23.png) no-repeat;
+}
+.ico-zip {
+	background:url(http://static.ebanhui.com/pan/images/anste24.png) no-repeat;
+}
+.ico-swf {
+	background:url(http://static.ebanhui.com/pan/images/anste25.png) no-repeat;
+}
+.ico-xls {
+	background:url(http://static.ebanhui.com/pan/images/anste26.png) no-repeat;
+}
+.ico-html {
+	background:url(http://static.ebanhui.com/pan/images/anste27.png) no-repeat;
+}
+.ico-txt {
+	background:url(http://static.ebanhui.com/pan/images/anste28.png) no-repeat;
+}
+.ico-avi {
+	background:url(http://static.ebanhui.com/pan/images/listico1.png) no-repeat;
+}
+.ico-jpg {
+	background:url(http://static.ebanhui.com/pan/images/listico2.png) no-repeat;
+}
+.ico-jpeg {
+	background:url(http://static.ebanhui.com/pan/images/listico3.png) no-repeat;
+}
+.ico-gif {
+	background:url(http://static.ebanhui.com/pan/images/listico4.png) no-repeat;
+}
+.ico-bmp {
+	background:url(http://static.ebanhui.com/pan/images/listico5.png) no-repeat;
+}
+.ico-png {
+	background:url(http://static.ebanhui.com/pan/images/listico6.png) no-repeat;
+}
+.ico-flv {
+	background:url(http://static.ebanhui.com/pan/images/listico7.png) no-repeat;
+}
+.ico-mp4 {
+	background:url(http://static.ebanhui.com/pan/images/listico8.png) no-repeat;
+}
+.ico-mpg {
+	background:url(http://static.ebanhui.com/pan/images/listico9.png) no-repeat;
+}
+.ico-rmvb {
+	background:url(http://static.ebanhui.com/pan/images/listico10.png) no-repeat;
+}
+.ico-wmv {
+	background:url(http://static.ebanhui.com/pan/images/listico11.png) no-repeat;
+}
+.ico-rar {
+	background:url(http://static.ebanhui.com/pan/images/listico12.png) no-repeat;
+}
+.ico-bt {
+	background:url(http://static.ebanhui.com/pan/images/listico13.png) no-repeat;
+}
+.ico-pdf {
+	background:url(http://static.ebanhui.com/pan/images/listico14.png) no-repeat;
+}
+.ico-mov {
+	background:url(http://static.ebanhui.com/pan/images/listico15.png) no-repeat;
+}
+.ico-file {
+	background:url(http://static.ebanhui.com/pan/images/anste1.png) no-repeat;
+}
+.jjikk_sons_r {width: 840px;}
+.jijiangkk {width:980px;}
+.starting {
+    background: url(http://static.ebanhui.com/ebh/tpl/2016/images/dates3.png?v=02) no-repeat scroll center center;
+    color: #fff;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+    height: 28px;
+    left: 2px;
+    line-height: 28px;
+    position: relative;
+    text-align: center;
+    top: 50px;
+    width: 93px;
+}
+.expired {
+    background: url(http://static.ebanhui.com/ebh/tpl/2016/images/dates2.png?v=02) no-repeat scroll center center;
+    color: #fff;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    height: 28px;
+    left: 2px;
+    line-height: 28px;
+    position: relative;
+    text-align: center;
+    top: 50px;
+    width: 93px;
+}
+.shenlse {
+	width:620px;
+	overflow: hidden;
 }
 </style>
 </head>
@@ -394,42 +497,80 @@ a.reviews {color:#fff;}
 <input type="hidden" value="<?=$course['uid']?>" id="courseuid" /><!--课件教师id-->
 <input type="hidden" value="<?=$user['uid']?>" id="useruid" /><!--用户id-->
 <input type="hidden" value="<?=$domain?>" id="domain">
-<div style="margin:0 auto;width:978px;">
-<div class="cright_cher" style="width:978px;margin-bottom:20px; background: #FFF;margin-top:0;">
-<div class="lefrig" style="padding:0;width:978px;">
-    <div class="classbox" style="width:978px;background: #FFF;">
-				<div style="float:left;margin:5px 15px 0 18px;">
-    				<?php 					
-    					if($course['sex'] == 1) {
-    						$defaulturl='http://static.ebanhui.com/ebh/tpl/default/images/t_woman.jpg';
-    					} else {
-    						$defaulturl='http://static.ebanhui.com/ebh/tpl/default/images/t_man.jpg';
-    					}
-    					$face = empty($course['face']) ? $defaulturl : $course['face'];
-    					$face = getthumb($face,'50_50');
-                	?>
-                <img src="<?=$face?>" title="<?=$course['realname']?>" style="width:30px;height:30px; border-radius:20px;">
-                </div>
-        <h1 class="rygers"><?= $course['title'] ?></h1>
-    			<div style=" float:left;position: relative;height:600px;margin-left:10px;z-index:601;">
-                    <div class="msgbox" style="width:960px;height:560px;background:white;text-align:center">
+<div>
+<div>
+<div class="lefrig" style="width:980px;float:none;position: relative;margin-top:100px;">
+    <div>
+					<?php
+				$statusstr = '';
+				$lineimg = '';
+				$starttime = $course['truedateline'];
+				$lineimgarr['todayunstart'] = 1;
+				$lineimgarr['now'] = 7;
+				$lineimgarr['unstart'] = 4;
+				$lineimgarr['end'] = 5;
+				$todaytime = strtotime('today');
+				if($course['truedateline']>$todaytime+86400){
+				  $lineimg = $lineimgarr['unstart'];
+				  $statusstr =  '<div class="fl jjikk_sons_l jjikk_sons_ls">'.Date('Y-m-d H:i',$course['truedateline']).'</div>';
+				} else {
+					if(SYSTIME >= $starttime && SYSTIME <= ($starttime + $course['cwlength'] )){
+						$statusstr = '<div class="fl jjikk_sons_l starting">正在上课...&nbsp;</div>';
+						$lineimg = $lineimgarr['now'];
+					} elseif(empty($course['endat']) || SYSTIME<=$course['endat']){
+						$statusstr = '<div class="fl jjikk_sons_l">'.date('H:i',$starttime).'&nbsp;</div>';
+						$lineimg = $lineimgarr['todayunstart'];
+					} else {
+						$statusstr = '<div class="fl jjikk_sons_l '.(($starttime<SYSTIME)?'expired':'').'">'.date('H:i',$starttime).'&nbsp;</div>';
+						$lineimg = $lineimgarr['end'];
+					}
+				}
+			?>
+		<div class="jijiangkk" style="height:270px;box-shadow: 0px 1px 15px 12px rgba(0, 0, 0, 0.1);">
+			<h2 style="border-bottom: 1px solid #efefef;">直播课程</h2>
+			<div class="jjikk_sons" style="margin-top:12px;">
+				<!-- 正在上课 当前时间在课程发布时间+课件时间范围内 显示正在上课 -->
+				<!-- 即将开始上课  当前时间还未到课件发布时间的 显示橙色 -->
+				<!-- 已经结束的  当前时间已经超过课件发布+播放时间 显示灰色-->
+				<?=$statusstr?>
+				<div class="fl"><img src="http://static.ebanhui.com/ebh/tpl/2016/images/jijiangkk<?=$lineimg?>.png?v=20170718001" width="24" height="143"></div>
+				<div class="fl jjikk_sons_r">           	
+					<div class="fl jjkkkc">
+						<a class="kustgd" href="javascript:void(0)"><img src="http://static.ebanhui.com/ebh/tpl/2014/images/kustgd2.png"></a>
+						<div class="kcbj"><img width="167" height="100" src="<?=empty($course['logo'])?'http://static.ebanhui.com/ebh/tpl/2014/images/livelogo.jpg':$course['logo']?>"></div>
+					</div>
+					<div class="kcjsnr fl">
+						<h2 class="shenlse" title="<?=$course['title']?>"><?=$course['title']?></h2>
+						<p class="shenlse" title="<?=$course['summary']?>"><?=shortstr($course['summary'],400)?></p>
+						<?php $assistantstr = '';
+						if(!empty($assistantlist)){
+						  $asnarr = array_column($assistantlist,'realname');
+						  $assistantstr = '助教：'.implode(',',$asnarr);
+						}?>
+						<p class="zjlsp" style="background-position: left 6px;line-height:2;">主讲：<?=$course['realname']?><span style="margin-left:20px;"><?=$assistantstr?></span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+    			<div>
+                    <div>
 					<?php if($isexpired) {?>
-						<span style="font-size:50px;width:970px;float:left;margin-top:150px">课程已于 <?=Date('Y-m-d H:i',$course['submitat']+$course['cwlength'])?> 结束</span>
+						<span style="font-size:20px;float:left;margin-top:-60px;margin-left:125px;color:#ff0000;">课程已于 <?=Date('Y-m-d H:i',$course['submitat']+$course['cwlength'])?> 结束</span>
                     <?php }else if($course['uid'] != $user['uid'] && !$assistant) {?>
-                        <span style="font-size:50px;width:970px;float:left;margin-top:150px">您无权进入此课程</span>        
+                        <span style="font-size:20px;float:left;margin-top:-60px;margin-left:125px;color:#ff0000;">您无权进入此课程</span>        
 					<?php }elseif(!$isexpired){?>
                         <?php if($course['live_type'] == 4 && ($course['uid'] == $user['uid'])){?>
                         	
-                        	<span style="position:relative;font-size:50px;width:970px;float:left;margin-top:10px">
+                        	<span>
                         		<?php if(SYSTIME > $course['submitat']){?>
-                        		<span style="width:100%;font-size:20px;color:#000;font-weight:bold;position: absolute;top:190px;left:0;">直播正在进行中，请使用其他账号登录观看</span>
+                        		<span style="font-size:20px;float:left;margin-top:-60px;margin-left:125px;color:#ff0000;">直播正在进行中，请使用其他账号登录观看</span>
                         		<?php } else { ?>
-                        		<span style="width:100%;font-size:20px;color:#000;font-weight:bold;position: absolute;top:190px;left:0;">直播未开始，请使用其他账号登录观看</span>
+                        		<span style="font-size:20px;float:left;margin-top:-60px;margin-left:125px;color:#ff0000;">直播未开始，请使用其他账号登录观看</span>
                         		<?php }?>
-                        		<a id="notebtn" class="lanbtn liaskt" name="notes" href="javascript:;" style="font-family: 微软雅黑;font-weight:normal;margin-left:330px;height:65px;line-height:65px; margin-top:240px;margin-bottom:10px;font-size:36px;width:300px;background:#ccc;float:left;">开始直播</a>
+                        		<a class="lanbtn liaskt" name="notes" href="javascript:;" style="position: absolute;top:210px;right:15px;font-family: 微软雅黑;font-weight:normal;height:42px;line-height:42px;font-size:20px;width:120px;background:#999;box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.3);border-radius:4px;">开始直播</a>
                         	</span>	
                         <?php } else { ?> 
-                        	<span style="font-size:50px;width:970px;float:left;margin-top:10px"><a id="notebtn" class="lanbtn liaskt" name="notes" href="<?= $live_url ?>" style="font-family: 微软雅黑;font-weight:normal;margin-left:330px;height:65px;line-height:65px; margin-top:240px;margin-bottom:10px;font-size:36px;width:300px;background:#18a8f7;float:left;">开始直播</a></span>
+                        	<a class="lanbtn liaskt" name="notes" href="<?= $live_url ?>" style="position: absolute;top:210px;right:15px;font-family: 微软雅黑;font-weight:normal;height:42px;line-height:42px;font-size:20px;width:120px;background:#18a8f7;box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.3);border-radius:4px;">开始直播</a>
                         <?php } ?>			
 					<?php } else {?>
 						<span style="font-size:50px;width:970px;float:left;margin-top:150px">首次进入请先安装&nbsp;<a style="color:red;" href="http://chat3.ebh.net:82/tbedu.exe">直播客户端</a></span>						
@@ -441,7 +582,7 @@ a.reviews {color:#fff;}
 </div>
 <?php $domain=$this->uri->uri_domain();?>
 		<?php if(!empty($course['message'])){?>
-        <div class="introduce" style="padding-top: 10px;float:left;width:978px;">
+        <div class="introduce" style="padding-top: 10px;float:left;width:980px;">
             <div class="intitle" style="width:978px;"><h2><a id="rid">课件介绍</a></h2></div>
             <div class="inconts" style="width:978px;">
                 <?= $course['message'] ?>
@@ -449,13 +590,14 @@ a.reviews {color:#fff;}
         </div>
 		<?php } ?>
 		
-		<div class="introduce" id="examworkList" style="width:978px;padding-top: 10px;float:left;">
-			<div class="intitle" style=" width: 978px;">
+		<div class="introduce" id="examworkList" style="width:980px;padding-top: 10px;float:left;">
+			<div class="intitle" style=" width: 978px;position: relative;">
 				<h2 style="padding: 0;">
 					<a class="onlinework active" id="rid" onclick="parse_Joblist()">在线作业</a>
+					<a class="tiewes" href="/troomv2/examv2/add.html">布置作业</a
 				</h2>
 			</div>
-            <div class="incont" style="width:978px;">
+            <div class="incont" style="width:980px;">
             	<table width="100%" class="datatab powerfalse" style="border:none;width: 978px;">
 					<thead class="tabhead">
 						<tr>
@@ -478,20 +620,11 @@ a.reviews {color:#fff;}
 		
 		
         <?php if (!empty($attachments)) { ?>
-            <div class="introduce" style="padding-top: 10px;float:left;width:978px;">
+            <div class="introduce" style="padding-top: 10px;float:left;width:980px;">
 				<a name="upduce"> </a>
-                <div class="intitle" style="width:978px;position: relative;"><h2><a id="rid">附件管理</a><a class="tiewes upattach" url="<?= geturl('troomv2/classcourse/upattach-0-0-0-'.$course['cwid']) ?>?dialog=1&selfrefresh=1" href="javascript:;">上传附件</a></h2></div>
+                <div class="intitle" style="width:978px;position: relative;"><h2><a id="rid">附件管理</a><a class="tiewes upattach" url="<?= geturl('troomv2/classcourse/upattach-0-0-0-'.$course['cwid']) ?>?dialog=1&selfrefresh=1" title="上传附件" href="javascript:;">上传附件</a></h2></div>
                 <div class="incont">
                     <table width="100%" class="datatab" style="border:none;width: 978px;">
-                        <thead class="tabhead">
-                            <tr>
-                                <th>附件名称</th>
-                                <th>上传时间</th>
-                                <th>审核状态</th>
-                                <th>附件大小</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
                         <tbody>
                             <?php EBH::app()->helper('fileico');
 							foreach ($attachments as $atta) {
@@ -499,12 +632,23 @@ a.reviews {color:#fff;}
                                 <tr>
                                     <?php if ($atta['suffix'] != 'ebh' || $atta['suffix'] != 'ebhp') { ?>
                                         <?php if ($atta['suffix'] != 'swf' && $atta['suffix'] != 'mp3' && $atta['suffix'] != 'flv') { ?>
-                                            <td width="35%"><i class=" icont <?=$ico?>" style="margin: 3px 4px 0 22px"></i><span style="width:270px;word-wrap: break-word;float:left; padding-left:5px;"><a href="<?= (empty($source) ?$atta['source']:$source) . 'attach.html?attid=' . $atta['attid'] ?>" ><?= $atta['title'] ?></a></span></td>
+                                            <td width="60%">
+												<i class=" icont <?=$ico?>" style="margin: 3px 4px 10px 22px"></i>
+												<span style="width:500px;word-wrap: break-word;float:left; padding-left:5px;line-height: 20px;">
+													<a href="<?= (empty($source) ?$atta['source']:$source) . 'attach.html?attid=' . $atta['attid'] ?>" ><?= $atta['title'] ?></a>
+												</span>
+												<span style="width:500px;float:left; padding-left:5px;color:#999;"><span style="margin-right:15px;"><?= date('Y-m-d H:i', $atta['dateline']) ?></span><?= getsize($atta['size'])?></span>
+											</td>
                                         <?php } else { ?>
-                                            <td width="35%"><i class=" icont <?=$ico?>" style="margin: 3px 4px 0 22px"></i><span style="width:270px;word-wrap: break-word;float:left; padding-left:5px;"><a href="javascript:void(0);" class="atfalsh" source="<?= (empty($source) ?$atta['source']:$source) ?>" title="<?= $atta['title']?>" suffix="<?= $atta['suffix'] ?>" cwid="<?= $course['cwid'] ?>" aid="<?= $atta['attid'] ?>" ><?= $atta['title'] ?></a></span></td>
+                                            <td width="60%">
+												<i class=" icont <?=$ico?>" style="margin: 3px 4px 10px 22px"></i>
+												<span style="width:500px;word-wrap: break-word;float:left; padding-left:5px;line-height: 20px;">
+													<a href="javascript:void(0);" class="atfalsh" source="<?= (empty($source) ?$atta['source']:$source) ?>" title="<?= $atta['title']?>" suffix="<?= $atta['suffix'] ?>" cwid="<?= $course['cwid'] ?>" aid="<?= $atta['attid'] ?>" ><?= $atta['title'] ?></a>
+												</span>
+												<span style="width:500px;float:left; padding-left:5px;color:#999;"><span style="margin-right:15px;"><?= date('Y-m-d H:i', $atta['dateline']) ?></span><?= getsize($atta['size'])?></span>
+											</td>
                                         <?php } ?>
                                     <?php } ?>
-                                    <td width="15%"><?= date('Y-m-d H:i', $atta['dateline']) ?></td>
                                     <td width="12%" style="text-align:center">
                                         <?php if ($atta['status'] == 0) { ?>
                                             <font color="#ff6600">未审核</font>
@@ -514,10 +658,9 @@ a.reviews {color:#fff;}
                                             <font color="#a7a7a7">审核未通过</font>
                                         <?php } ?>
                                     </td>
-									<td width="12%" style="text-align:center"><?= getsize($atta['size'])?></td>
                                     <td width="26%" style="padding-right:22px;">
 										<?php if($atta['uid'] == $user['uid']){?>
-											<a href="javascript:;" class="lasrnwe mt5 ml20 upattach" title="编辑附件" small="1" url="/troomv2/classcourse/editattach/<?=$atta['attid']?>.html?dialog=1&selfrefresh=1" style="float:left;display:inline;margin-top:8px;" target="_blank"><img src="http://static.ebanhui.com/ebh/tpl/troomv2/images/xiugai.png" /></a>
+											<a href="javascript:;" class="lasrnwe mt5 ml20 upattach" title="编辑附件" small="1" url="/troomv2/classcourse/editattach/<?=$atta['attid']?>.html?dialog=1&selfrefresh=1" style="float:left;display:inline;margin-top:8px;"><img src="http://static.ebanhui.com/ebh/tpl/troomv2/images/xiugai.png" /></a>
 											<a href="javascript:;" onclick="delattachment(<?=$atta['attid']?>)" class="lasrnwe mt5 ml20" title="删除附件" style="float:left;display:inline;margin-top:8px;"><img src="http://static.ebanhui.com/ebh/tpl/troomv2/images/shanchu.png" /></a>
 											<?php }?>
                                     <?php if ($atta['suffix'] != 'ebh' || $atta['suffix'] != 'ebhp') { ?>
@@ -542,7 +685,7 @@ a.reviews {color:#fff;}
         <?php } ?>
 
 	<?php if($roominfo['crid'] != 10420){ ?>
-        <div class="introduce" style="width:978px;padding-top: 10px;float:left;">
+        <div class="introduce" style="width:980px;padding-top: 10px;float:left;">
             <div class="work_mes" style="width:978px;margin-bottom:10px">
 				<ul>
 					<li class="workcurrent reviewtab" onclick="showreview()"><a name="reviewanc" href="javascript:void(0)"><span>课件评论 (<font color="red" id="reviewcount"><?=$reviewcount?></font>)</span></a></li>
@@ -596,7 +739,7 @@ a.reviews {color:#fff;}
 			</div>
 		<?php }else { ?>
 				<?php if($roominfo['isschool']!= 3){ ?>
-				<div class="introduce" style="width:978px;padding-top: 10px;float:left;">
+				<div class="introduce" style="width:980px;padding-top: 10px;float:left;">
             <div class="intitle"><h2><a id="rid">课件评论</a></h2></div>
                 <!--新评论开始-->
                 <div class="coursewareview">
@@ -1280,7 +1423,7 @@ a.reviews {color:#fff;}
             var html = '';
             html+='<div class="commentreply">';
             html+='<div class="restore_arrow1 restore_arrow1tea"></div>';
-	        html+='<div contenteditable="true"  id="inputrating" class="inputrating inputrating-reply" tips="'+$(obj).attr('tips')+'"><img class="mention" alt="'+$(obj).attr('tips')+'" /></div>'
+	        html+='<textarea id="inputrating" class="inputrating inputrating-reply" tips="'+$(obj).attr('tips')+'">'+$(obj).attr('tips')+'</textarea>'
             html+='<a href="javascript:;" class="face rate-face"></a>';
             html+='<a href="javascript:;" onclick="reply_review('+upid+','+toid+',this);" class="reviews publish" type="'+$(obj).attr('type')+'">发&nbsp;布</a>';
             html+='</div>';
@@ -1323,7 +1466,7 @@ a.reviews {color:#fff;}
     
     //回复评论
     function reply_review(upid,toid,objx){
-		var msg = $(objx).siblings('.inputrating').html().replace(/<br>/g,' ').replace(/<div>/g,' ').replace(/<\/div>/g,' ');
+		var msg = $(objx).siblings('.inputrating').val()
         if(msg == '' || msg == $(objx).siblings('.inputrating').attr('tips')){
             var d = dialog({
                 title: '提示',
