@@ -153,7 +153,7 @@ $description .= ' '.'<span class="shocolo">'.$othercredit['action'].$othercredit
 ?>
 <div class="kstjet" <?php if($oo == 0){?> style="margin-top:23px;"<?php } ?>>
 <p class="stgjudys">
-<a href="http://sns.ebh.net/<?=$othercredit['uid']?>/main.html" target="_blank" class="adtydr"><img class="stgfw" src="<?=getavater($othercredit,'40_40')?>" title="<?= empty($othercredit['realname'])?$othercredit['username']:$othercredit['realname'] ?>的个人空间"/></a>
+<a href="/sns/feeds/<?=$othercredit['uid']?>.html" class="adtydr"><img class="stgfw" src="<?=getavater($othercredit,'40_40')?>" title="<?= empty($othercredit['realname'])?$othercredit['username']:$othercredit['realname'] ?>的个人空间"/></a>
 <?=!empty($othercredit['realname']) ? $othercredit['realname'] : $othercredit['username']?><?=$description?></p>
 </div>
 <?php } ?>
@@ -167,7 +167,7 @@ $description .= ' '.'<span class="shocolo">'.$othercredit['action'].$othercredit
 <ul id="ranklist">
 <?php foreach ($ranklist as $rank){ ?>
 <li class="dtuwrs">
-<a href="http://sns.ebh.net/<?=$rank['uid']?>/main.html" target="_blank" class="destgy">
+<a href="/sns/feeds/<?=$rank['uid']?>.html" class="destgy">
 <span class="egirey"><?=!empty($rank['realname']) ? $rank['realname'] : $rank['username'] ?></span>
 <img src="<?=getavater($rank,'50_50')?>" title="<?= empty($rank['realname'])?$rank['username']:$rank['realname'] ?>的个人空间" />
 </a>

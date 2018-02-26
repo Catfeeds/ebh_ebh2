@@ -26,8 +26,8 @@ a .egory:hover{ text-decoration: underline;}
 			$face = getthumb($face,'50_50');
 			 ?>
 <li class="txkel">
-<a class="rtyutyt" href="http://sns.ebh.net/<?=$student['uid']?>/main.html" target="_blank"><img style="width:58px;height:58px; float:left;" src="<?= $face ?>" title="<?= !empty($student['realname'])?$student['realname']:$student['username'] ?>"/></a>
-	<a href="http://sns.ebh.net/<?=$student['uid']?>/main.html" target="_blank"><p class="egory" title="<?= !empty($student['realname'])?$student['realname']:$student['username']?>"><?= !empty($student['realname'])?shortstr($student['realname'] ,8,''):shortstr($student['username'] ,8,'') ?></p></a>
+<a class="rtyutyt" href="/sns/feeds/<?=$student['uid']?>.html"><img style="width:58px;height:58px; float:left;" src="<?= $face ?>" title="<?= !empty($student['realname'])?$student['realname']:$student['username'] ?>"/></a>
+	<a href="/sns/feeds/<?=$student['uid']?>.html"><p class="egory" title="<?= !empty($student['realname'])?$student['realname']:$student['username']?>"><?= !empty($student['realname'])?shortstr($student['realname'] ,8,''):shortstr($student['username'] ,8,'') ?></p></a>
 
 	<p class="span1s" title="<?= empty($student['mysign'])?'暂无签名':$student['mysign'] ?>"><?= empty($student['mysign'])?'暂无签名':shortstr($student['mysign'],30) ?></p>
 </li>
