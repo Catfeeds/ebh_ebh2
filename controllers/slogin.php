@@ -199,12 +199,12 @@ class SloginController extends CControl{
 		$durl = '';
 		if(!empty(Ebh::app()->domains)) {	//处理多域名配置，如果存在多域名，则需要对其他域名cookie注入操作
 			$curdomain = $this->uri->curdomain;
-			if(!empty($curdomain) && in_array($curdomain,Ebh::app()->domains)) {
+			if(!empty($curdomain)) {
 				$ctime = SYSTIME;	//当前时间，主要用于验证此SSO请求是否是已过期的
 				$ssovalue = $auth.'___'.$user['lastlogintime'].'___'.SYSTIME.'___'.$user['lastloginip'].'___'.$cookietime.'___'.$ctime;
 				$ssovalue = base64_encode($ssovalue);
 				foreach(Ebh::app()->domains as $mydomain) {
-					if($mydomain != $curdomain) {
+					if($mydomain != $curdomain && $mydomain != 'ebanhui.com') {//ebanhui.com不做处理
 						$durl = 'http://www.'.$mydomain.'/sso.html?k='.$ssovalue;
 						break;
 					}
