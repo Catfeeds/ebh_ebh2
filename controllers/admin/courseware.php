@@ -329,8 +329,22 @@ class CoursewareController extends AdminControl{
 
 					$courseparam['reviewnum'] = 0;
 					$courseparam['attachmentnum'] = 0;
-
+                    $courseparam['assistantid'] = '';
 					$courseparam['uid'] = $tid;
+
+					if($courseparam['islive'] == 1){
+                        $liveConfig = Ebh::app()->getConfig()->load('live');
+
+                        $rtmpServer = isset($liveConfig[$destcrid]) ? $liveConfig[$destcrid] : $liveConfig['default'];
+
+                        $liveLib = Ebh::app()->lib($rtmpServer,'Live');
+                        $liveinfoData = $liveLib->createLive($courseparam['submitat'],$courseparam['cwlength']);
+                        if(!$liveinfoData){
+                            $this->msg[] = "create liveinfo error error:sourcwcwid:$sourcecwid ";
+                            return FALSE;
+                        }
+                        $courseparam['liveid'] = $liveinfoData['liveid'];
+                    }
 					$destcwid = $this->db->insert('ebh_coursewares',$courseparam);	//复制课件表
 					if(empty($destcwid)) {
 						$this->msg[] = "insert ebh_coursewares error:sourcwcwid:$sourcecwid";
@@ -351,12 +365,29 @@ class CoursewareController extends AdminControl{
 					$rcitem['folderid'] = $destfolderid;
 					$rcitem['cwid'] = $destcwid;
 					$rcitem['sid'] = $destsid;
+                    $rcitem['classids'] = '';
 					$rcresult = $this->db->insert('ebh_roomcourses',$rcitem);	//复制课件学校关联表
 					if($rcresult === FALSE) {
 						$this->msg[] = "insert ebh_coursewares error:sourcwcwid:$sourcecwid destcwid:$destcwid destfolderid:$destfolderid destcrid:$destcrid";
 						return FALSE;
 					}
-
+                    //如果是直播课件 复制liveinfo信息
+                    if($courseparam['islive'] == 1){
+                        $liveinfoData['type'] = $rtmpServer;
+                        $liveinfoSql = 'select * from ebh_course_liveinfos where cwid='.$sourcecwid;
+                        $liveinfo = $this->db->query($liveinfoSql)->row_array();
+                        $liveinfoData['cwid'] = $destcwid;
+                        $liveinfoData['review'] = $liveinfo['review'];
+                        $liveinfoData['review_start'] = $liveinfo['review_start'];
+                        $liveinfoData['review_end'] = $liveinfo['review_end'];
+                        $liveinfoData['camera_sourceid'] = $liveinfo['camera_sourceid'];
+                        $liveinfoData['video_sourceid'] = $liveinfo['video_sourceid'];
+                        $liveinforesult = $this->db->insert('ebh_course_liveinfos',$liveinfoData);	//复制课件直播信息 并且创建liveif
+                        if($liveinforesult === false){
+                            $this->msg[] = "insert ebh_course_liveinfos error:sourcwcwid:$sourcecwid destcwid:$destcwid destfolderid:$destfolderid destcrid:$destcrid";
+                            return FALSE;
+                        }
+                    }
 					$count ++;
 				}
 			}
