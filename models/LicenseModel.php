@@ -39,9 +39,15 @@ class LicenseModel extends CModel
     public function getlicensecount($param)
     {
         $wherearr = array();
+        if(empty($param['crid'])){
+            return false;
+        }else{
+            $wherearr[] = ' r.crid='.(int)$param['crid'];
+        }
         $sql = 'SELECT COUNT(*) count FROM `ebh_users` u  JOIN `ebh_roomusers` r ON r.uid=u.uid LEFT JOIN `ebh_classstudents` cs ON u.uid = cs.uid LEFT JOIN `ebh_classes` c ON cs.classid = c.classid';
-        if (!empty($param['username']))
+        if (!empty($param['username'])){
             $wherearr[] = ' (u.username like \'%' . $this->db->escape_str($param['username']) . '%\')';
+        }
         if (!empty($wherearr))
             $sql .= ' WHERE ' . implode(' AND ', $wherearr);
         $count = $this->db->query($sql)->row_array();
@@ -56,9 +62,15 @@ class LicenseModel extends CModel
     public function getlicenselist($param)
     {
         $wherearr = array();
+        if(empty($param['crid'])){
+            return false;
+        }else{
+            $wherearr[] = ' r.crid='.(int)$param['crid'];
+        }
         $sql = 'SELECT u.uid,u.username,c.classname,r.telephone,u.sex,u.realname,u.dateline FROM `ebh_users` u JOIN `ebh_roomusers` r ON r.uid=u.uid LEFT JOIN `ebh_classstudents` cs ON u.uid = cs.uid LEFT JOIN `ebh_classes` c ON cs.classid = c.classid';
-        if (!empty($param['username']))
+        if (!empty($param['username'])){
             $wherearr[] = ' (u.username like \'%' . $this->db->escape_str($param['username']) . '%\')';
+        }
         if (!empty($wherearr))
             $sql .= ' WHERE ' . implode(' AND ', $wherearr);
         $sql .= ' ORDER BY u.uid DESC';
