@@ -636,49 +636,7 @@
 
         //导出word
         $(document).on('click', '#output', function () {
-//            if(!$('.layui-layer-dialog').is(':hidden')){
-//                return false;
-//            }
             parent.layer.load();
-//            //替换需要解析的图片资源为base64字符串
-//            var img = $('#errlist').find('img');
-//            $(img).each(function () {
-//               var src = this.src;
-//               var self = this;
-//               src = src.replace(/getsubthumb/,'getBase64');
-//
-//               if(src.indexOf('key') != -1){
-//                   $.ajax({
-//                       // 允许携带证书
-//                       xhrFields: {
-//                           withCredentials: true
-//                       },
-//                       url: src +'&isBase64=1',
-//                       type:'get',
-//                       dataType:'json',
-//                       async:false,
-//
-//                       success: function (r) {
-//
-//                           if(r.code == 0){
-//                               console.log(self.src);
-//                               self.src = r.data.src;
-//                           }
-//                       },
-//                       error: function (e) {
-//                           console.log(e)
-//                       }
-//                   })
-//               }
-//            })
-//            var html = getHtml();
-//            html += $('#errlist').html();
-//            var title = getTitle();
-//            var fileName = title;
-////            $('#output-box').empty().append(html);
-//            $('#output-box h4').html(title);
-//            $('#output-box').wordExport(fileName);return;
-
             param = {};
             param.size = getcookie('ebh_total_num');
             if (param.size <= 0) {
@@ -719,9 +677,9 @@
                 res = JSON.parse(res);
                 var totalNum = typeof res.datas.errList != 'undefined' ? res.datas.errList.length : 0;
                 if (totalNum > 0) {
-                    parent.layer.confirm('共导出数据' + totalNum + '道题,是否继续？', {
+                    parent.layer.confirm('共导出数据' + totalNum + '道题,是否继续？<p style="color: red;font-size: 11px;">注：导出后,涉及主观题图片,请用office2007或更高的版本打开,其他软件暂不支持,敬请期待!</p>', {
                         icon: 0,
-                        title: '确定操作！'
+                        title: '提示'
                     }, function () {
                         parent.layer.closeAll();
                         parent.layer.load();
@@ -905,11 +863,11 @@
                     var cwid = extdata.schcwid; //课件id
                     //原图地址
 
-                        var cwurlH = 'http://up.ebh.net/exam/copyFile.html?orinote=1&uid=' + uid+ '&origin=1&key=' + encodeURIComponent(imgkey)+'';
+                        var cwurlH = 'http://up.ebh.net/exam/getBase64.html?orinote=1&uid=' + uid+ '&origin=1&key=' + encodeURIComponent(imgkey)+'&isBase64=1';
                         //答题后的图
-                        var answerH = 'http://up.ebh.net/exam/copyFile.html?uid=' + uid + '&origin=1&key=' + encodeURIComponent(imgkey) + '';
-                        yimg = getImgUrl(cwurlH);//原图
-                        pimg = getImgUrl(answerH);//批阅后的图
+                        var answerH = 'http://up.ebh.net/exam/getBase64.html?uid=' + uid + '&origin=1&key=' + encodeURIComponent(imgkey) + '&isBase64=1';
+                        yimg = getImgBase64(cwurlH);//原图
+                        pimg = getImgBase64(answerH);//批阅后的图
 //                        yimg = /.*\.(jpg|png|bmp|gif|jpeg)$/.test(yimg) ? 'http://img.ebanhui.com/examcourse/' + yimg : '';
                       //  yimg = /.*\.(jpg|png|bmp|gif|jpeg)$/.test(yimg) ? 'http://img.ebanhui.com/schimages/' + yimg : '';
 //                    /    pimg = /.*\.(jpg|png|bmp|gif|jpeg)$/.test(pimg) ? 'http://img.ebanhui.com/examcourse/' + pimg : '';
@@ -1017,7 +975,7 @@
 
             }
         }
-        function getImgUrl(url) {
+        function getImgBase64(url) {
             var src = '';
             $.ajax({
                 // 允许携带证书
@@ -1030,7 +988,6 @@
                 async:false,
 
                 success: function (r) {
-                    console.log(r);
                     if(r.code == 0){
                        src = r.data.src;
                     }
