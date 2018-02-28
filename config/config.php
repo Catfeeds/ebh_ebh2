@@ -10,23 +10,23 @@ $config = array(
         'pconnect' => false,
         'dbcharset' => 'utf8',
 		'autoload' => true,
-        'dbhost' => '192.168.0.27',
+        'dbhost' => '192.168.0.24',
 //        'dbhost' => '192.168.0.216',
         'dbuser' => 'root',
         'dbport' => 3306,
         'dbpw' => '123456',
 //        'dbpw' => 'root',
-        'dbname' => 'e1127',
+        'dbname' => 'ebh2',
          'slave' => array(
-//             array(
-//                 'dbhost' => '192.168.0.24',
-////                 'dbhost' => '192.168.0.216',
-//                 'dbuser' => 'root',
-//                 'dbport' => 3306,
-//                 'dbpw' => '123456',
-////                 'dbpw' => 'root',
-//                 'dbname' => 'ebh2',
-//             )
+             array(
+                 'dbhost' => '192.168.0.24',
+//                 'dbhost' => '192.168.0.216',
+                 'dbuser' => 'root',
+                 'dbport' => 3306,
+                 'dbpw' => '123456',
+//                 'dbpw' => 'root',
+                 'dbname' => 'ebh2',
+             )
          )
     ),
 	'shopdb'=>array(
@@ -36,10 +36,10 @@ $config = array(
 			'pconnect' => false,
 			'dbcharset' => 'utf8',
 			'autoload' => true,
-			'dbhost' => '192.168.0.38',
-			'dbuser' => 'kingshard',
-			'dbport' => 9696,
-			'dbpw' => 'kingshard',
+			'dbhost' => '192.168.0.24',
+			'dbuser' => 'root',
+			'dbport' => 3306,
+			'dbpw' => '123456',
 			'dbname' => 'shop',
 			'slave' => array(
 			)
@@ -51,11 +51,11 @@ $config = array(
         'pconnect' => false,
         'dbcharset' => 'utf8',
         'autoload' => true,
-        'dbhost' => '192.168.0.38',
+        'dbhost' => '192.168.0.24',
 
-        'dbuser' => 'kingshard',
-        'dbport' => 9696,
-        'dbpw' => 'kingshard',
+        'dbuser' => 'root',
+        'dbport' => 3306,
+        'dbpw' => '123456',
         'dbname' => 'messagedb',
     ),
     'portaldb'=>array(
@@ -65,11 +65,11 @@ $config = array(
         'pconnect' => false,
         'dbcharset' => 'utf8',
         'autoload' => true,
-        'dbhost' => '192.168.0.38',
+        'dbhost' => '192.168.0.24',
         //'dbhost' => '192.168.0.28',
-        'dbuser' => 'kingshard',
-        'dbport' => 9696,
-        'dbpw' => 'kingshard',
+        'dbuser' => 'root',
+        'dbport' => 3306,
+        'dbpw' => '123456',
         //'dbpw' => '12345699',
         'dbname' => 'portal'),
 		
@@ -121,14 +121,13 @@ $config = array(
     'cache'=>array(
         'driver'=>'memcache',
         'servers'=>array(
-            array('host'=>'127.0.0.1','port'=>11200),
-			//array('host'=>'192.168.0.24','port'=>11200)
+            array('host'=>'127.0.0.1','port'=>11211)
         )
     ),
 	'cache_redis'=>array(
         'driver'=>'redis',
         'servers'=>array(
-            array('host'=>'192.168.0.200','port'=>6379)
+            array('host'=>'127.0.0.1','port'=>6379)
         )
     ),
     //输出编码等设置

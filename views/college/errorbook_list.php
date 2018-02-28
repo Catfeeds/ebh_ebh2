@@ -47,8 +47,8 @@
 
 	<div style="border:1px solid #f00;margin-top: 50px;padding:20px;">
 		试题列表：
-		<div id="kuqs"> 
-			
+		<div id="kuqs">
+
 		</div>
 	</div>
 
@@ -63,11 +63,12 @@
 	        <span>我的分数:<%=answerQueDetail.totalscore%></span>
 	    </div>
 	</script> -->
-	
+
 	<script type="text/javascript">
 		var crid = "<?=$crid?>";
 
 		function getKlist(url){
+
 			if(typeof url == "undefined") {
 				url = '/college/examv2/errlistAjax.html';
 			}
@@ -153,6 +154,7 @@
 		}
 
 		function ifaddtoerr() {
+
 			var url = '/college/examv2/hasaddedAjax.html';
 			$.ajax({
 				url:url,
@@ -171,7 +173,7 @@
 				}else {
 					alert(res.errMsg);
 				}
-				
+
 			});
 		}
 		// -------------------添加/查看错题功能结束--------------------
@@ -184,7 +186,7 @@
 	<br/>
 	<br/>
 	<div>------------------------------------------------------添加错题集功能----------------------------------------------------------------------------------</div>
-	
+
 	将dqid为<input id="adddqid" type="text" name="dqid"  />的试题回答 添加到错题集 <button onclick="addtoerr()">添 加</button>
 	<br />
 	<br />
