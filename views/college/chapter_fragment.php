@@ -703,7 +703,7 @@
                 }
 
 
-            }).fail(function (e) {
+            }).fail(function (e)  {
                 parent.layer.alert('请求错误');
                 setTimeout(function () {
                     parent.layer.closeAll();

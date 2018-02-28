@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/exam/css/wavplayer.css<?=$v?>" />
     <link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/js/dialog/css/dialog.css<?=$v?>" />
     <link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/exam/css/tikutop.css?v=20160412<?=$v?>" />
-    
+
     <script src="http://static.ebanhui.com/exam/js/jquery/jquery-1.11.0.min.js"></script>
 	<script src="http://static.ebanhui.com/exam/js/jquery/jquery-migrate-1.2.1.js"></script>
 	<script type="text/javascript" src="http://static.ebanhui.com/exam/js/template/template-native-debug.js<?=$v?>"></script>
@@ -30,7 +30,7 @@
 	<script type="text/javascript" src="http://static.ebanhui.com/ebh/js/xquestion_for_multic.js<?=$v?>"></script>
 	<script type="text/javascript" src="http://static.ebanhui.com/ebh/js/common2.js<?=$v?>"></script>
 	<style type="text/css">
-	
+
 .delabtn{background:url(http://exam.ebanhui.com/static/images/dela.png) no-repeat;width:79px;height:25px;float:right;cursor:pointer;margin-bottom:5px}
 .delahbtn{background:url(http://exam.ebanhui.com/static/images/delah.png) no-repeat;width:79px;height:25px;float:right;cursor:pointer;margin-bottom:5px}
 
@@ -205,7 +205,7 @@ a:hover{text-decoration: none}
 
 	</div>
 	<div class="workol" id="errlist">
-		
+
 	</div>
 	<div id="mpage" style="height:60px;clear:both; background: #fff;"></div>
 </div>
@@ -238,7 +238,7 @@ a:hover{text-decoration: none}
 					<span class="optionContent" style="display: block;width: 85%; margin-left: 36px; word-break: break-all;"><%=#blanks[i].bsubject%></span>
 					<span class="clearing"></span>
 				</li>
-				<%}%>							
+				<%}%>
 			</ul>
 		</div>
 		<div class="userAnswerBar">
@@ -251,17 +251,17 @@ a:hover{text-decoration: none}
         <%if(extdata == ''){%>
         <%}else{%>
         	<%if(extdata.fenxi == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">分析：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.fenxi%><br></p></div><div class="clearing"></div></div>
         	<%}%>
         	<%if(extdata.jx == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">解答：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.jx%><br></p></div><div class="clearing"></div></div>
         	<%}%>
         	<%if(extdata.dp == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">点评：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.dp%><br></p></div><div class="clearing"></div></div>
         	<%}%>
@@ -302,23 +302,23 @@ a:hover{text-decoration: none}
         <%if(extdata == ''){%>
         <%}else{%>
         	<%if(extdata.fenxi == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">分析：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.fenxi%><br></p></div><div class="clearing"></div></div>
         	<%}%>
         	<%if(extdata.jx == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">解答：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.jx%><br></p></div><div class="clearing"></div></div>
         	<%}%>
         	<%if(extdata.dp == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">点评：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.dp%><br></p></div><div class="clearing"></div></div>
         	<%}%>
         <%}%>
 		<div class="operateBar"><div class="delabtn delerror" name="84270"></div></div>
-    </div>	
+    </div>
 	<%}else if(queType == 'C'){%>
 	<div class="que singleContainer singleContainerFocused" qsval="<%=i + 1%>">
 		<p class="desc"><span><em>作业名称:</em><strong title="<%=esubject%>"><%=sesubject%></strong></span><span><em>添加时间:</em><strong><%=dateline%></strong></span><span><em>试题类型:</em><strong>填空</strong></span><span><em>错误数:</em><strong style="color:#f85c72;"><%=errorCount%></strong></span></p>
@@ -340,17 +340,17 @@ a:hover{text-decoration: none}
         <%if(extdata == ''){%>
         <%}else{%>
         	<%if(extdata.fenxi == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">分析：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.fenxi%><br></p></div><div class="clearing"></div></div>
         	<%}%>
         	<%if(extdata.jx == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">解答：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.jx%><br></p></div><div class="clearing"></div></div>
         	<%}%>
         	<%if(extdata.dp == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">点评：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.dp%><br></p></div><div class="clearing"></div></div>
         	<%}%>
@@ -389,25 +389,25 @@ a:hover{text-decoration: none}
             <%if(extdata == ''){%>
         <%}else{%>
         	<%if(extdata.fenxi == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">分析：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.fenxi%><br></p></div><div class="clearing"></div></div>
         	<%}%>
         	<%if(extdata.jx == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">解答：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.jx%><br></p></div><div class="clearing"></div></div>
         	<%}%>
         	<%if(extdata.dp == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">点评：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.dp%><br></p></div><div class="clearing"></div></div>
         	<%}%>
         <%}%>
         <div class="operateBar"><div class="delabtn delerror" name="84273"></div></div>
-	</div>	
+	</div>
 	<%}else if(queType == 'E'){%>
-	<div class="que singleContainer singleContainerFocused" qsval="<%=i + 1%>"> 
+	<div class="que singleContainer singleContainerFocused" qsval="<%=i + 1%>">
 		<p class="desc"><span><em>作业名称:</em><strong title="<%=esubject%>"><%=sesubject%></strong></span><span><em>添加时间:</em><strong><%=dateline%></strong></span><span><em>试题类型:</em><strong>文字</strong></span><span><em>错误数:</em><strong style="color:#f85c72;"><%=errorCount%></strong></span></p>
         <div class="subjectPane">
             <span class="stIndex" style=""><%=i + 1+(page *20)%>. </span>
@@ -419,25 +419,25 @@ a:hover{text-decoration: none}
 		<%if(extdata == ''){%>
         <%}else{%>
         	<%if(extdata.fenxi == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">分析：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.fenxi%><br></p></div><div class="clearing"></div></div>
         	<%}%>
         	<%if(extdata.jx == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">解答：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.jx%><br></p></div><div class="clearing"></div></div>
         	<%}%>
         	<%if(extdata.dp == ''){%>
-        		
+
         	<%}else{%>
         		<div class="title answerBar"><span style="float:left;">点评：</span><div class="resolve inputBox" style="width:85%;float:left;"><p><%=#extdata.dp%><br></p></div><div class="clearing"></div></div>
         	<%}%>
         <%}%>
-	</div>	
-	
+	</div>
+
 	<%}else if(queType == 'H'){%>
-		<div class="que singleContainer singleContainerFocused" qsval="<%=i + 1%>"> 
+		<div class="que singleContainer singleContainerFocused" qsval="<%=i + 1%>">
 			<p class="desc">
 				<span>
 					<em>作业名称:</em>
@@ -456,7 +456,7 @@ a:hover{text-decoration: none}
 					<strong style="color:#f85c72;"><%=errorCount%></strong>
 				</span>
 			</p>
-			
+
 	        <div class="subjectPane">
 	            <span class="stIndex" style=""><%=i + 1+(page *20)%>. </span>
 	            <span class="inputBox" style=" width:95%;"><%=#qsubject%>
@@ -470,12 +470,12 @@ a:hover{text-decoration: none}
 	            </div>
 	            <span class="clearing"></span>
 	        </div>
-	        
-	        
+
+
 	        <div class="answerBar" style="color: #20150B;width: 805px;display: block;">我的答案：
 	        	<%if(keyH == ''){%>
 	        		<font color="red">未作答</font>
-	        	<%}%>	
+	        	<%}%>
 	        	<div id="answerHimg">
         			<div>
         				<%if(keyH == ''){%>
@@ -514,13 +514,13 @@ a:hover{text-decoration: none}
         			</div>
 	        	<%}%>
 	        <%}%>
-		</div>	
-		
+		</div>
+
 	<%}%>
-	
+
 </script>
-	
-	
+
+
 	<script type="text/javascript">
 		var crid = "<?=$crid?>";
 		var searchtext = "请输入关键字";
@@ -528,15 +528,15 @@ a:hover{text-decoration: none}
 			if(typeof url == "undefined") {
 				url = '/college/examv2/errlistAjax.html';
 			}
+			tid = tid || $('#folderid').attr('tag');
 			//folderid:param.folderid,chapterid:param.chapterid,quetype:param.quetype,topchapterid:param.topchapterid,secchapterid:param.secchapterid
-			
 			var chapterpath = '';
 			var cur = $('.nodeSel');
 			while(cur.length){
 				if(cur.attr('id')=='smyd0')
 					break;
 				var h = cur.attr('href');
-				var reg = /([0-9]+)/g; 
+				var reg = /([0-9]+)/g;
 				var cid = h.match(reg)[0];
 				chapterpath = '/'+cid + chapterpath;
 				cur = cur.parent().parent().prev('.dTreeNode').find('.node');
@@ -549,18 +549,23 @@ a:hover{text-decoration: none}
 				dataType:'json',
 				data : {
 					ttype : ttype,
-					tid : param.folderid>0?param.folderid:'',
+					tid : tid,
 					quetype:param.quetype,
 					chapterid:param.chapterid,
 					topchapterid:param.topchapterid,
 					secchapterid:param.secchapterid,
 					path:path,
-					q:param.q
+					q:param.q,
+                    startdate:param.startdate,
+                    enddate:param.enddate
 				}
 			}).done(function(res){
-				
+
 				$("#errlist").empty();
 				var errList = res.datas.errList;
+				//添加错误列表总数到cookie中
+                var totalNum = typeof res.datas.totalNum != 'undefined'? res.datas.totalNum : 0;
+                setCookie('ebh_total_num',totalNum);
 				if(errList.length <=0){
 					$('#mpage').empty();
 					var cmain_bottom = '<div class="cmain_bottom " style="width: 100%; min-height: 400px; background:#fff">' +
@@ -579,7 +584,7 @@ a:hover{text-decoration: none}
 						}else{
 							var qsubject = errList[i].question.qsubject;
 						}
-						
+
 						if(queType == 'C'){
 							var choicestr = [];
 							var bidarr = [];
@@ -609,11 +614,11 @@ a:hover{text-decoration: none}
 								}else{
 									mychoicestr += answerblankarr[bidarr[key]].content?answerblankarr[bidarr[key]].content:'<font color="red">未作答</font>';
 								}
-								
+
 								if(key < bidarr.length-1)
 									mychoicestr += ';&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 							}
-							//var mychoicestr = errList[i].answerQueDetail.data; 
+							//var mychoicestr = errList[i].answerQueDetail.data;
 						}else if(queType == 'E'){
 							var choicestr = errList[i].question.blanks.blankList[0].bsubject;
 						}else if(queType == 'A' || queType == 'B'){
@@ -627,7 +632,7 @@ a:hover{text-decoration: none}
 									aindex = errList[i].question.choicestr.indexOf(1)
 								else
 									aindex = errList[i].question.choicestr.indexOf(1,aindex+1);
-								
+
 								if(aindex>=0)
 									trueanswer += String.fromCharCode(parseInt(aindex)+65);
 							}
@@ -640,14 +645,14 @@ a:hover{text-decoration: none}
 								if(maindex>=0){
 									myanswer += String.fromCharCode(parseInt(maindex)+65);
 								}
-									
+
 							}
 							var choicestr = trueanswer;
 							var mychoicestr = myanswer;
 						}else if(queType == 'H'){
 							//原图
 							var cwurlH = 'http://up.ebh.net/exam/getsubthumb.html?orinote=1&uid='+errList[i].uid+'&origin=1&key='+encodeURIComponent(errList[i].question.blanks.key);
-							//答题后的图	
+							//答题后的图
 							var answerH = 'http://up.ebh.net/exam/getsubthumb.html?uid='+errList[i].uid+'&origin=1&key='+encodeURIComponent(errList[i].question.blanks.key)+'';
 							var datelineH = getLocalTime(errList[i].dateline);
 							var choicestr = errList[i].question.choicestr;
@@ -660,7 +665,7 @@ a:hover{text-decoration: none}
 						}else{
 							var choicestr = errList[i].question.choicestr;
 						}
-						
+
 						if(errList[i].question.extdata == ''){
 							var extdata = '';
 						}else{
@@ -670,7 +675,7 @@ a:hover{text-decoration: none}
 							extdata.dp = extdata.dp.replace(/<br>/,'');
 						}
 						mychoicestr = mychoicestr?mychoicestr:'<font color="red">未作答</font>';
-					
+
 						var page = parseInt(res.datas.page)
 						if(errList[i].exam.esubject.length>40){
 						    var  sesubject = errList[i].exam.esubject.substring(0,40)+"...";
@@ -720,33 +725,52 @@ a:hover{text-decoration: none}
 							window.clearInterval(ii);
 						}
 					},1000);
-					
-					parent.resetmain();	
+
+					parent.resetmain();
 				}
-				
+
 				}).fail(function(){
 				console.log('req err');
 			});
-			
+
 		}
-		
+
 		$('.pages .listPage a').live('click',function(){
 			var url = $(this).attr('data');
 			if(!!url) {
-				getErrorList('',curparam,url);
-				parent.resetmain();
+                //取时间
+                curparam.startdate = document.getElementById('start').value;
+                curparam.enddate = document.getElementById('end').value;
+
+                //取题型过滤
+                curparam.quetype = [];
+                $('input[type="checkbox"]').each(function () {
+                    if (this.checked) {
+                        if (this.value != '0') {
+                            curparam.quetype.push(this.value);
+                        }
+                    }
+                });
+                //获取课程id
+                curparam.folderid = $('#folderid').attr('tag');
+                curparam.topchapterid = $('#middleselecttitle').attr('tag');
+                curparam.secchapterid = $('#mysecondselecttitle').attr('tag');
+                curparam.chapterid = $('#mythirdselecttitle').attr('tag');
+                getErrorList('', curparam, url);
+                parent.resetmain();
 			}
 		});
-				
+
 		$(function(){
 			//getKlist();
 			$("#queType,#ttype,#tid").on('change',function(){
+
 				getKlist();
 			})
 			Xques.doshow("<?=$crid?>");
 			initsearch("txtname",searchtext);
 			parent.resetmain();
-			
+
 		});
 		var curparam;
 		Xques.setCallback(function(param){
@@ -756,13 +780,14 @@ a:hover{text-decoration: none}
 			// $('#txtname').val('请输入关键字');
 			// $('#txtname').css("color","#CBCBCB");
 		});
-		
+
 		function searchs(strname){
 			var sname = $('#'+strname).val();
 			if(sname=='请输入关键字'){
 				sname = "";
 			}
 			curparam.q = sname;
+
 			getErrorList('',curparam);
 		}
 		//初始化搜索输入框
@@ -784,9 +809,10 @@ a:hover{text-decoration: none}
 				}
 			});
 		}
-		function getLocalTime(nS) {     
-		    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");      
+		function getLocalTime(nS) {
+		    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
 		}
 	</script>
+
 </body>
 </html>
