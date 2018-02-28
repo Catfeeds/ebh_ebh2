@@ -31,6 +31,14 @@ class EbhClient{
         $this->host = $host;
         return $this;
     }
+
+    public function setErrMsg($msg){
+        $this->errMsg = $msg;
+    }
+
+    public function getErrMsg(){
+        return $this->errMsg;
+    }
     //设置服务名称
     public function setService($service){
         $this->service = $service;
@@ -231,6 +239,7 @@ class ParserDemo implements EbhClientParser{
         }else{
             $uri = $_SERVER['REQUEST_URI'];
             log_message('ApiServer Error-> ret code:'.$result['ret'].' ret msg:'.$result['msg'] .' url:'.$uri);
+            Ebh::app()->getApiServer('ebh')->setErrMsg($result['msg']);
             return false;
         }
 
