@@ -90,7 +90,10 @@
 			    color: #c3c9ce;
 			    margin-top: 0;
 			}
-			
+			.check_btn{
+				display:inline-block;
+				cursor: pointer;
+			}
 			.borbottom{
 				display: block;
 				width: 100%;
@@ -351,6 +354,7 @@
 $url = geturl('slogin') . '?inajax=1&returnurl=' . $this->input->get('returnurl');
 ?>
 						<form id="form1" method="post" name="form1" action="<?= $url ?>" onsubmit="form_submit(); return false;">
+							<input type="hidden" name="cookietime" id="cookietime" value="0" />
 							<div class="usernamecont">
 								<div class="left-icon">
 									<i class="blurclassuser" id="useriocn"></i>
@@ -373,7 +377,7 @@ $url = geturl('slogin') . '?inajax=1&returnurl=' . $this->input->get('returnurl'
 							
 							<i class="borbottom"></i>
 							<div class="gkergw">
-								<input type="checkbox" name="cookietime" class="blurclass" value="1" />自动登录
+								<input type="checkbox" class="blurclass" value="0" /><div class="check_btn">自动登录</div>
 								<!--<a href="/forget.html">忘记密码？</a>-->
 							</div>
 							<div class="gkergjs">
@@ -453,6 +457,23 @@ if (!empty($systemsetting['analytics']) && !IS_DEBUG) {
 		</div>
 		<script>
 			$(function() {
+				//自动登录
+				$(".check_btn").click(function(){
+					if($(".blurclass")[0].checked){
+						$("#cookietime").val(0);
+						$(".blurclass")[0].checked = false;
+					}else{
+						$("#cookietime").val(1);
+						$(".blurclass")[0].checked = true;
+					}
+				});
+				$(".blurclass").click(function(){
+					if($(".blurclass")[0].checked){
+						$("#cookietime").val(1);
+					}else{
+						$("#cookietime").val(0);
+					}
+				});
 				$("#mod_login_close").click(function() {
 					$("#mod_login_tip").fadeOut();
 				});
