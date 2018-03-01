@@ -337,9 +337,9 @@
                     $('._class').hide();
                     return false;
                 }
-                $('._class ul').eq(1).empty();
+                $('._class ul').eq(1).empty().hide();
                 $('._class ul').eq(1).removeClass('add_roll');
-                $('._class ul').eq(2).empty();
+                $('._class ul').eq(2).empty().hide();
                 $('._class ul').eq(2).removeClass('add_roll');
                 addPid();
                 $('._class').show();
@@ -380,7 +380,6 @@
         function addSelectFolderid(type, pid, sid, folderid) {
             var folderidArr = [];
             var strArr = [];//标题数组
-
             switch (type) {
                 case -1:
                     folderidArr.push('');
@@ -395,7 +394,7 @@
                             }
                             if (strArr.length == 0) {
                                 if (typeof this.foldername == 'string') {
-                                    var name = this.pname.substring(0, 12);
+                                    var name = this.pname.substring(0, 6);
                                 } else {
                                     var name = this.pname;
                                 }
@@ -411,11 +410,11 @@
                     $($.folderList).each(function () {
                         if (this.pid == pid && this.sid == sid) {
                             folderidArr.push(this.folderid);
-                            this.sid   = 0 ;
-                            this.iname = '其他分类';
+//                            this.sid   = 0 ;
+//                            this.iname = '其他分类';
                             if (strArr.length == 0) {
                                 if (typeof this.iname == 'string') {
-                                    var name = this.iname.substring(0, 12);
+                                    var name = this.iname.substring(0, 6);
                                 } else {
                                     var name = this.iname;
                                 }
@@ -432,7 +431,7 @@
                     $($.folderList).each(function () {
                         if (this.folderid == folderid && str == '') {
                             if (typeof this.foldername == 'string') {
-                                str = this.foldername.substring(0, 12);
+                                str = this.foldername.substring(0, 6);
                             } else {
                                 str = this.foldername;
                             }
@@ -440,7 +439,7 @@
                         }
                     })
 
-                    strArr.push(str.substring(0, 12));
+                    strArr.push(str.substring(0, 6));
 
 
             }
@@ -529,15 +528,16 @@
             var arr = [];
             if (list) {
                 for (var k in list) {
+
                     var info = list[k];
+
                     if (typeof info.pname == 'string') {
-                        var name = info.pname.substring(0, 12);
+                        var name = info.pname.substring(0, 12)+(info.pname.length > 12 ?'...':'');
                     } else {
                         var name = info.pname;
                     }
                     if (k == 0) {
                         curPid = info.pid;
-
                         html += '<li pid="' + info.pid + '" >' + name + '</li>';
                         arr.push(info.pid);
 
@@ -551,7 +551,8 @@
                     }
 
                 }
-                $('._class ul').eq(0).append(html);
+
+                $('._class ul').eq(0).append(html).show();
                 if (row > 5) {
                     $('._class ul').eq(0).addClass('add_roll');
                 } else {
@@ -574,7 +575,9 @@
             var row = 0;
             var other = 0;
             var sidList = [];
+
             for (var k  in list) {
+
                 var info = list[k];
                 if (info.pid == pid) {
                     if (other > 0 && info.sid == 0) {
@@ -584,24 +587,24 @@
                         other++;
                     }
                     if (typeof info.iname == 'string') {
-                        var name = info.iname.substring(0, 14);
+                        var name = info.iname.substring(0, 12)+(info.iname.length > 12 ?'...':'');
                     }
                     //去重
-                    if ($.in_array(sidList, info.sid) == false) {
+                    if (!$.in_array(sidList, info.sid)) {
                         html += '<li sid="' + info.sid + '">' + (info.sid == 0 ? '其他分类' : name) + '</li>';
                         sidList.push(info.sid);
                         row++;
                     }
                 }
             }
-            self.empty().append(html);
-            return false;
+            self.empty().append(html).show();
             if (row > 5) {
                 $(self).addClass('add_roll');
             } else {
                 $(self).removeClass('add_roll');
 
             }
+            return false;
         }
 
         //添加课程id列表
@@ -615,8 +618,10 @@
             for (var k  in list) {
                 var info = list[k];
                 if (info.pid == pid && info.sid == sid) {
-                    if (typeof info.foldername == 'sting') {
-                        var name = info.foldername.substring(0, 12);
+                    if (typeof info.foldername == 'string') {
+
+                        var name = info.foldername.substring(0, 12)+(info.foldername.length > 12 ?'...':'');
+
                     } else {
                         var name = info.foldername;
                     }
@@ -624,7 +629,7 @@
                     row++;
                 }
             }
-            $('._class ul').eq(2).empty().append(html);
+            $('._class ul').eq(2).empty().append(html).show();
             if (row > 5) {
                 $('._class ul').eq(2).addClass('add_roll');
             } else {
@@ -687,6 +692,26 @@
                         var title = getTitle();
                         var fileName = title;
                         $('#output-box').empty().append(html);
+                        $('#output-box img[src*="http://"]').each(function () {
+                        //查找普通的图片
+                            var self = this;
+                            $.ajax({
+                               url:'http://up.ebh.net/exam/getImgToBase64.html?url='+self.src,
+                                type:'GET',
+                                dataType:'json',
+                                async:false,
+                                success:function (r) {
+                                    if(r.code == 0){
+                                        $(self).attr('src',r.data.src);
+                                    }else{
+                                        $(self).remove();
+                                    }
+                                },
+                                error:function (e) {
+                                    console.log('reqq.error');
+                                }
+                            })
+                        });
                         $('#output-box h4').html(title);
                         setTimeout(function () {
                         $('#output-box').wordExport(fileName);
@@ -703,7 +728,7 @@
                 }
 
 
-            }).fail(function (e)  {
+            }).fail(function (e) {
                 parent.layer.alert('请求错误');
                 setTimeout(function () {
                     parent.layer.closeAll();
@@ -807,49 +832,51 @@
 
                 //题目标题
                 html += '<div>';
-                html += '<span class="title">' + _key + ' . ' + curr.question.qsubject.replace(/#input#/g, '______').replace(/<br>/,'').replace(/#img#/g,'______') + '<span class="fen">[' + curr.question.quescore + '分]</span></span>';
+                html += '<p class="title">' + _key + ' . ' + curr.question.qsubject.replace(/#input#/g, '______').replace(/<br>/,'').replace(/#img#/g,'______') + '<span class="fen">[' + curr.question.quescore + '分]</span></p>';
                 _key++;
                 //题目选项
                 var blankList = curr.question.blanks.blankList;
                 var rightKey = [];//正确答案
                 //填空题过滤，没有题目
+                if(currType != 'H') {
 
-                for (var _k = 0 in blankList) {
-                    if (_k == 0) {
-                        var index = 65;
-                    }
-                    //正确答案
-                    if (blankList[_k].isanswer == 1) {
-                        //正确答案判断填空题和文字题
-                        if ( currType == 'E' || currType == 'C' || currType == 'H') {
-                                var bsubject = blankList[_k].bsubject;
-                            //填空题
-                            if(currType == 'C'){
-                                if(/ebh_1_data-latexebh_2_/.test(bsubject)){
-                                    bsubject = '<img '+bsubject.replace(/ebh_1_/g, ' ').replace(/ebh_2_/g, '=')+' />';
-                                }
-                            }
-
-                            rightKey.push( bsubject);
-                        } else {
-                            rightKey.push(String.fromCharCode(index));
-
+                    for (var _k = 0 in blankList) {
+                        if (_k == 0) {
+                            var index = 65;
                         }
-                    }
-                    if (currType == 'E' || currType == 'C' || currType == 'H') {
-                        var select = ''
-                    } else {
-                        var select = String.fromCharCode(index);
-                    }
-                    var bsubject = blankList[_k].bsubject;
+                        //正确答案
+                        if (blankList[_k].isanswer == 1) {
+                            //正确答案判断填空题和文字题
+                            if (currType == 'E' || currType == 'C' || currType == 'H') {
+                                var bsubject = blankList[_k].bsubject;
+                                //填空题
+                                if (currType == 'C') {
+                                    if (/ebh_1_data-latexebh_2_/.test(bsubject)) {
+                                        bsubject = '<img ' + bsubject.replace(/ebh_1_/g, ' ').replace(/ebh_2_/g, '=') + ' />';
+                                    }
+                                }
 
-                    if (currType != 'C' && currType != 'E') {
+                                rightKey.push(bsubject);
+                            } else {
+                                rightKey.push(String.fromCharCode(index));
 
-                        html += '<p>' + select + ' ' + bsubject + '</p>';
+                            }
+                        }
+                        if (currType == 'E' || currType == 'C' || currType == 'H') {
+                            var select = ''
+                        } else {
+                            var select = String.fromCharCode(index);
+                        }
+                        var bsubject = blankList[_k].bsubject;
+
+                        if (currType != 'C' && currType != 'E') {
+
+                            html += '<p>' + select + ' ' + bsubject + '</p>';
+                        }
+                        index++;
+
                     }
-                    index++;
-
-                } //问题循环
+                }//问题循环
 
                 var extdata = JSON.parse(curr.question.extdata);
                 var yimg = '';
@@ -876,7 +903,8 @@
                 }
 
                 if (yimg) {
-                        html += '<img src="' + yimg + '" />';
+                        html += '<img class="mTop" src="' + yimg + '" />';
+                        html += '<img class="mTop" src="http://img.ebanhui.com/examcourse/2018/02/24/151944266813192.jpg" />';
 
 
                     //原图地址
@@ -924,7 +952,7 @@
                 if (pimg) {
                     html += '<p>我的答案：</p>';
 
-                    html += '<img src="' + pimg + '" />';
+                    html += '<img  class="mTop" src="' + pimg + '" />';
                 }else{
                     html += '<p>我的答案：未解答</p>';
                 }
