@@ -126,10 +126,11 @@
 </li>
 </ul>
 </div>
-
-<div class="huisou">
-&nbsp;回复我的<?php if($count>0){ ?>（<?= $count; ?>）<?php } ?>
-</div>
+    <?php if(!empty($reviews)){ ?>
+        <div class="huisou">
+            &nbsp;回复我的<?php if($count>0){ ?>（<?= $count; ?>）<?php } ?>
+        </div>
+    <?php }?>
 <ul>
 <?php if(!empty($reviews)){ ?>
 	<?php foreach($reviews as $review){ 
@@ -164,7 +165,7 @@
 			</li>
 	<?php } ?>
 <?php }else{ ?>
-	<div style="margin-left:20px;">暂无回复</div>
+    <?=nocontent('600px')?>
 <?php } ?>
 </ul>
 </div>

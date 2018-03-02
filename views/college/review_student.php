@@ -126,10 +126,11 @@
 </li>
 </ul>
 </div>
-<div class="huisou">
-&nbsp;我的评论<?php if($count>0){ ?>（<?= $count; ?>）<?php } ?>
-
-</div>
+    <?php if(!empty($reviews)){ ?>
+        <div class="huisou">
+            &nbsp;我的评论<?php if($count>0){ ?>（<?= $count; ?>）<?php } ?>
+        </div>
+    <?php }?>
 <ul>
 <?php ;//$user['uid']; ?>
 <?php ;//print_r($reviewlist);?>
@@ -168,7 +169,7 @@
 		<?php } ?>
 	<?php } ?>
 <?php }else{ ?>
-	<div style="margin-left:20px;">暂无评论</div>
+    <?=nocontent('600px')?>
 <?php } ?>
 			
 </ul>

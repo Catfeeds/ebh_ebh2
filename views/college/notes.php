@@ -32,7 +32,10 @@
 			 <tbody>
 			 <?php if(empty($notes)) {?>
 			
-			 	<tr><td colspan="4" align="center">您还没有记录笔记，您可以在每节课右下角录入笔记</td></tr>
+			 	<tr><td colspan="4" align="center">
+                        <?=nocontent()?>
+                    </td>
+                </tr>
 			<?php } else { ?>
 			 
 				 <?php foreach($notes as $nkey=>$note) { ?>
