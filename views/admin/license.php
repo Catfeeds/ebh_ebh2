@@ -85,7 +85,7 @@ $this->display('admin/header');
         return false;
     }
     $('#pp').pagination({
-        pageSize:10,
+        pageSize:50,
         onSelectPage:function(pageNumber, pageSize){
             var query = $('#ck').serialize();
             $.post("/admin/license/getListAjax.html",

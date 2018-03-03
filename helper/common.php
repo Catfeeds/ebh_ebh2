@@ -1611,8 +1611,9 @@ function gettimestr($timestamp){
 }
 
 // 获取暂无内容页显示
-function nocontent(){
-    $div='<div class="nodata" style="background:url(http://static.ebanhui.com/ebh/tpl/2016/images/nodata.png) no-repeat center;min-height:700px;width:100%;"></div>';
+function nocontent($min_height = '700px', $class = 'nodata')
+{
+    $div = "<div class={$class} style='background:url(http://static.ebanhui.com/ebh/tpl/2016/images/nodata.png) no-repeat center;min-height:{$min_height};width:100%;'></div>";
     return $div;
 }
 if(!function_exists('arraySequence')) {

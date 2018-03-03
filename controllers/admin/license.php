@@ -198,6 +198,7 @@ class LicenseController extends AdminControl
         $offset = max(0, ($pageNumber - 1) * $pageSize);
         parse_str($param['query'], $queryArr);;
         $queryArr['limit'] = $offset . ',' . $pageSize;
+        $queryArr['crid'] = 10371;
         $licenseModel = $this->model('license');
         $total = $licenseModel->getlicensecount($queryArr);
         $userlist = $licenseModel->getlicenselist($queryArr);

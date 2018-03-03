@@ -11,6 +11,13 @@ class IbuyController extends CControl {
 	private $rsync_data = array();
 	public $user = null;
 
+    private $apiServer = null;
+
+    public function __construct(){
+        parent::__construct();
+        $this->apiServer = Ebh::app()->getApiServer('ebh');
+    }
+
     public function index() {
         $user = Ebh::app()->user->getloginuser();
         if (empty($user)) {
@@ -765,10 +772,10 @@ class IbuyController extends CControl {
 				}
 			}else {
 				if(SYSTIME>$enddate){//已过期的处理
-					$newenddate=strtotime("+$oday day");
-				}else{	//未过期，则直接在结束时间后加上此时间
-					$newenddate=strtotime( date('Y-m-d H:i:s',$enddate)." +$oday day");
-				}
+                    $newenddate=strtotime("+$oday day");
+                }else{	//未过期，则直接在结束时间后加上此时间
+                    $newenddate=strtotime( date('Y-m-d H:i:s',$enddate)." +$oday day");
+                }
 			}
 			$enddate = $newenddate;
 			$myperm['enddate'] = $enddate;
@@ -789,66 +796,41 @@ class IbuyController extends CControl {
 	*选择支付宝充值操作
 	*/
 	public function alipay() {
-		$user = Ebh::app()->user->getloginuser();
-		//优惠券处理
-		$isusecoupon = intval($this->input->post('isusecoupon'));
-		$couponcode = trim($this->input->post('couponcode'));
-		//是否使用优惠券
-		$iscoupon = false;
-		if($isusecoupon){
-			$couponModel = $this->model('Coupons');
-			$coupon = $couponModel->getOne(array('code'=>$couponcode));
-			if(!empty($coupon) && ($coupon['uid'] != $user['uid'])){
-				$iscoupon = true;
-			}
-		}
-		$couponcode = $iscoupon ? $couponcode : '';
-		$myorder = $this->buildOrder(3,$couponcode);//生成订单不管有没有支付
-		if(empty($myorder) && empty($myorder['orderid'])) {
-			echo 'error';
-			exit();
-		}
-		$domain = $myorder['itemlist'][0]['domain'];
-		$isthird = FALSE;
-		if($this->uri->curdomain != 'ebh.net' && $this->uri->curdomain != 'ebanhui.com') {
-			$isthird = TRUE;
-		}
-		if($isthird) {
-			$notify_url = 'http://'.$this->uri->curdomain.'/ibuy/alinotify.html?orderid='.$myorder['orderid'];
-			//页面跳转同步通知页面路径
-			$return_url = 'http://'.$this->uri->curdomain.'/ibuy/alireturn.html?orderid='.$myorder['orderid'];
-			//商品展示地址
-			$show_url = 'http://'.$this->uri->curdomain;
+	    //将原有的支付转移到ebhservice 统一处理
+        $user = Ebh::app()->user->getloginuser();
+        $roomModel = $this->model('Classroom');
+        $crid = intval($this->input->post('crid'));
+        if ($crid > 0) {
+            $roominfo = $roomModel->getclassroomdetail($crid);
+        }
+        if (empty($roominfo)) {
+            $roominfo = Ebh::app()->room->getcurroom();
+        }
 
-		} else {
-			$notify_url = 'http://'.$domain.'.'.$this->uri->curdomain.'/ibuy/alinotify.html?orderid='.$myorder['orderid'];
-			//页面跳转同步通知页面路径
-			$return_url = 'http://'.$domain.'.'.$this->uri->curdomain.'/ibuy/alireturn.html?orderid='.$myorder['orderid'];
-			//商品展示地址
-			$show_url = 'http://'.$domain.'.'.$this->uri->curdomain;
-		}
-        //必填
-        //商户订单号
-        $out_trade_no = $myorder['orderid'];
-        //商户网站订单系统中唯一订单号，必填
-        //订单名称
-        $subject = $myorder['ordername'];
-		$total_fee = $myorder['totalfee'];
-        //必填
-        //付款金额
-        
-        //必填
-        //订单描述
-        $body = $myorder['remark'];
-        
-		$alilib = Ebh::app()->lib('Alipay');
-		$param = array('notify_url'=>$notify_url,'return_url'=>$return_url,'trade_no'=>$out_trade_no,'subject'=>$subject,'total_fee'=>$total_fee,'body'=>$body,'show_url'=>$show_url);
-		
-		if($this->isMobile()){
-			$param['fromwap'] = true;
-		}
-		//提交支付宝
-		$alilib->alipayTo($param);
+        $parameters['crid'] = $roominfo['crid'];
+        $parameters['uid'] = $user['uid'];
+        $parameters['itemid']  = $this->input->post('itemid');
+        $parameters['cwid']  = $this->input->post('cwid');
+        $parameters['bid']  = $this->input->post('bid');
+        $parameters['sid']  = $this->input->post('sid');
+        $parameters['couponcode'] = $this->input->post('couponcode');
+        $parameters['ip'] = getip();
+        $parameters['paytype'] = 'alipay';
+        $sharekey = $this->input->post('sharekey');
+        $parameters['sharekey'] = $sharekey;
+        $parameters['parameters']['curdomain'] = $this->uri->curdomain;
+        if($this->isMobile()){
+            $parameters['parameters']['fromwap'] = true;
+        }
+        $result = $this->apiServer->reSetting()
+            ->setService('Transaction.Trade.buildOrder')
+            ->addParams($parameters)
+            ->request();
+
+        if($result['status'] == 0){
+            echo $result['msg'] != '' ? $result['msg'] : $this->apiServer->getErrMsg();exit;
+        }
+        echo $result['data']['pay_data'];
 
 	}
 	/**
@@ -1094,6 +1076,7 @@ class IbuyController extends CControl {
 	*通过账户余额支付
 	*/
 	public function bpay() {
+        $roominfo = Ebh::app()->room->getcurroom();
 		//判断禁用其他网校的人购买，是的话判断是否该网校的用户,该处主要是防止免费课程开通
 		$systemsetting = Ebh::app()->room->getSystemSetting();
 	    $isbanbuy = empty($systemsetting['isbanbuy']) ? 0 : 1;
@@ -1117,51 +1100,43 @@ class IbuyController extends CControl {
 			echo json_encode($result);
 			exit();
 		}
-		$couponModel = $this->model('Coupons');
-		//优惠券处理	
-		$isusecoupon = intval($this->input->post('isusecoupon'));
-		$couponcode = trim($this->input->post('couponcode'));
-		//是否使用优惠券
-		$iscoupon = false; 
-		if($isusecoupon){
-			$coupon = $couponModel->getOne(array('code'=>$couponcode));
-			if(!empty($coupon) && $coupon['uid'] != $user['uid']){
-				$iscoupon = true;
-			}
-		}
-		$couponcode = $iscoupon ? $couponcode : '';
-		$myorder = $this->buildOrder(8,$couponcode);	//生成订单，8为余额支付
-		if(empty($myorder) && empty($myorder['orderid'])) {	//订单生成失败
-			$result['msg'] = '订单生成失败';
-			echo json_encode($result);
-			exit();
-		}
-		if($user['balance'] < $myorder['totalfee']) {	//生成订单后再做一次余额是否充足判断，避免 post totalfee造假
-			$result['msg'] = '余额不足';
-			echo json_encode($result);
-			exit();
-		}
-		//处理权限
-		$param = array('orderid'=>$myorder['orderid'],'ordernumber'=>'','buyer_id'=>$user['uid'],'buyer_info'=>'');
-		$doresult = $this->notifyOrder($param);
-		if(empty($doresult)) {
-			$result['msg'] = '开通失败';
-			echo json_encode($result);
-			exit();
-		}
-		//开通成功，则进行扣费操作
-		$ubalance = $user['balance'] - $myorder['totalfee'];
-		$usermodel = $this->model('User');
-		$uparam = array('balance'=>$ubalance);
-		$uresult = $usermodel->update($uparam,$user['uid']);
-		$result['status'] = 1;
-		$credit = $this->model('credit');
-		foreach ($myorder['itemlist'] as $item) {
-            $credit->addCreditlog(array('ruleid'=>23,'detail'=>$item['oname']));
+
+
+        $parameters['crid'] = $roominfo['crid'];
+        $parameters['uid'] = $user['uid'];
+        $parameters['itemid']  = $this->input->post('itemid');
+        $parameters['cwid']  = $this->input->post('cwid');
+        $parameters['bid']  = $this->input->post('bid');
+        $parameters['sid']  = $this->input->post('sid');
+        $parameters['couponcode'] = $this->input->post('couponcode');
+        $parameters['ip'] = getip();
+        $parameters['paytype'] = 'balance';
+        $sharekey = $this->input->post('sharekey');
+        $parameters['sharekey'] = $sharekey;
+        $res = $this->apiServer->reSetting()
+            ->setService('Transaction.Trade.buildOrder')
+            ->addParams($parameters)
+            ->request();
+
+        if($res['status'] == 0){
+
+            $result['msg'] = $res['msg'] != '' ? $res['msg'] : $this->apiServer->getErrMsg();
+            echo json_encode($result);
+            exit();
         }
-		echo json_encode($result);
-	}
-	/**
+
+        if($res['data']['pay_data']['success'] == 'ok'){
+            $result['status'] = 1;
+            $result['msg'] = '开通成功';
+            echo json_encode($result);
+            exit();
+        }else{
+            $result['msg'] = '开通失败';
+            echo json_encode($result);
+            exit();
+        }
+    }
+    /**
 	*微信接口通知
 	*/
 	public function weixinnotify() {
@@ -1475,7 +1450,7 @@ class IbuyController extends CControl {
 	/***微信扫码支付逻辑开始***/
 	//微信扫码订单生成
 	public function wxnativepay(){
-		$user = $this->user;
+		/*$user = $this->user;
 		//优惠券处理
 		$isusecoupon = intval($this->input->post('isusecoupon'));
 		$couponcode = trim($this->input->post('couponcode'));
@@ -1523,7 +1498,52 @@ class IbuyController extends CControl {
 			$ret['cachekey'] = $res['cachekey'];
 			$ret['successurl'] = geturl('ibuy/success');
 		}
-		echo json_encode($ret);
+		echo json_encode($ret);*/
+
+
+        header('content-type:text/html;charset=utf-8');
+        $user = Ebh::app()->user->getloginuser();
+        if(empty($user)) {
+            return FALSE;
+        }
+        $roomModel = $this->model('Classroom');
+        $crid = intval($this->input->post('crid'));
+        if ($crid > 0) {
+            $roominfo = $roomModel->getclassroomdetail($crid);
+        }
+        if (empty($roominfo)) {
+            $roominfo = Ebh::app()->room->getcurroom();
+        }
+
+        $parameters['crid'] = $roominfo['crid'];
+        $parameters['uid'] = $user['uid'];
+        $parameters['itemid']  = $this->input->post('itemid');
+        $parameters['cwid']  = $this->input->post('cwid');
+        $parameters['bid']  = $this->input->post('bid');
+        $parameters['sid']  = $this->input->post('sid');
+        $parameters['couponcode'] = $this->input->post('couponcode');
+        $parameters['ip'] = getip();
+        $parameters['paytype'] = 'wxpayqrcode';
+        $sharekey = $this->input->post('sharekey');
+        $parameters['sharekey'] = $sharekey;
+
+        $result = $this->apiServer->reSetting()
+            ->setService('Transaction.Trade.buildOrder')
+            ->addParams($parameters)
+            ->request();
+
+        if($result['status'] == 0){
+            $res['status']  = 1;
+            $res['orderid'] = 0;
+            $res['cachekey'] = '';
+        }else{
+
+            $res = $result['data']['pay_data'];
+            $res['status'] = 0;
+            $res['successurl'] = geturl('ibuy/success');
+        }
+
+        echo json_encode($res);
 	}
 	/**
 	*微信扫码支付接口通知
