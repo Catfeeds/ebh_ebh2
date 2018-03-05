@@ -101,8 +101,10 @@ if(!empty($roominfo['crid'])){
 				<a href="javascript:;" class="remove" onclick="delfavorite(<?= $myfavorite['fid']?>)"></a>
 			</div>
 		</li>
-			<?php }
-	}?>
+            <?php }
+    } else{?>
+        <?=nocontent('500px')?>
+    <?php }?>
 	</ul>
 </div>
 <?php } else {?>

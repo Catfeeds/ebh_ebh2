@@ -193,6 +193,7 @@ class Examv2Controller extends ApiControl {
      **ajax获取课件作业列表 
      */
 	public function getCwidExamsAjax() {
+
 		$param = parsequery();
 		$param['k'] = $this->k;
 		$param['size'] = 100;
@@ -627,27 +628,19 @@ class Examv2Controller extends ApiControl {
 		}
 		$resultjson = $this->do_post($url,$param,false);
 		//print_r($resultjson);exit;
-		$temp = json_decode($resultjson);
 		if($simpleinfo->info->canreexam == 1 && $simpleinfo->info->etype == 'SSMART'){
-			// $temp = json_decode($resultjson);
+			$temp = json_decode($resultjson);
 			$temp->datas->canreexam = 1;
 			$resultjson = json_encode($temp);
 		}
 		if (isset($doAlert)) {
-			// $temp = json_decode($resultjson);
+			$temp = json_decode($resultjson);
 			if (!empty($temp)) {
 				$temp->datas->doAlert = 1;
 				$resultjson = json_encode($temp);
 			}
 		}
-		if(!empty($temp->errCode)){
-			log_message('答题出错,errCode: '.$temp->errCode);
-		}
-		if(empty($resultjson) || empty($temp)){
-			log_message('答题出错,空的返回');
-		}
 		echo $resultjson;
-		fastcgi_finish_request();
 		$answerRet = json_decode($resultjson);
 		if (!empty($answerRet->datas->userAnswer->aid)) {
 			$aid = $answerRet->datas->userAnswer->aid;
@@ -690,6 +683,7 @@ class Examv2Controller extends ApiControl {
 	
 	//获取错题集列表
 	public function errlistAjax(){
+
 		$param = parsequery();
 		$param['k'] = $this->k;
 		$param['crid'] = $this->room['crid'];
@@ -700,24 +694,50 @@ class Examv2Controller extends ApiControl {
 		$secchapterid = $this->input->post('secchapterid');
 		$path = $this->input->post('path');
 		$eid = $this->input->post('eid');
-		if(!empty($quetype)) {
-			$param['quetype'] = $quetype;
-		}
+		$startdate = $this->input->post('startdate');
+		$enddate = $this->input->post('enddate');
 
-		$ttype = $this->input->post('ttype');
-		$tid = $this->input->post("tid");
-		
-		$param['ttype'] = empty($ttype)?'':$ttype;
-		
-		if(is_numeric($tid)) {
-			$param['tid'] = $tid;
-		}
 
-		$q = $this->input->post('q');
-		if(!empty($q)) {
-			$param['q'] = $q;
-		}
-		// $param['folderid'] = $folderid;
+
+        $ttype = $this->input->post('ttype');
+        $tid   = $this->input->post("tid");
+
+
+        $param['startdate'] = $startdate;
+        if(empty($param['startdate'])){
+            unset($param['startdate']);
+        }
+        $param['enddate']   = $enddate;
+        if(empty($param['enddate'])){
+            unset($param['enddate']);
+        }
+        $param['ttype']     = empty($ttype)?'':$ttype;
+
+        if (empty($tid)) {
+            $tid = [];
+        } else {
+
+            $tid = explode(',', $tid);
+        }
+        $param['tids'] = $tid;
+
+        $q = $this->input->post('q');
+        if (!empty($q)) {
+            $param['q'] = $q;
+        }
+        // $param['folderid'] = $folderid;
+        if (!empty($quetype)) {
+            if (!is_array($quetype)) {
+                $param['quetypeList'] = [$quetype];
+            }
+        } else {
+
+            $param['quetypeList'] = $this->input->post('quetypeList');
+            if(empty($param['quetypeList']) && !is_array($param['quetypeList'])){
+                $param['quetypeList'] = ['A','B','C','D','E','H'];
+            }
+
+        }
 		$param['forwho'] = 'student';
 		$param['chapterid'] = $chapterid;
 		$param['topchapterid'] = $topchapterid;
@@ -729,6 +749,7 @@ class Examv2Controller extends ApiControl {
 			$param['style'] = 0;
 		$url = "/errorbook/errlist";
 		$postRet = $this->do_post($url,$param);
+		$totalNum = isset($postRet->pageInfo->totalElement)?$postRet->pageInfo->totalElement:0;//获取记录总数
 		//作业列表，组装主观题逻辑
 		$errList = $postRet->errList;
 		$typeHqids = '';
@@ -820,7 +841,8 @@ class Examv2Controller extends ApiControl {
 		$datas = array(
 			'errList'=>$errList,
 			'pagestr'=>$pagestr,
-			'page'=>empty($param['page'])?1:$param['page']
+			'page'=>empty($param['page'])?1:$param['page'],
+            'totalNum'=>$totalNum
 		);
 		$this->renderJson('0','',$datas);
 	}
@@ -1560,7 +1582,199 @@ class Examv2Controller extends ApiControl {
         }
        
 	}
-	
+
+    /**
+     * @describe:导出错题本
+     * @Author:tzq
+     * @Date:2018/01/24
+     */
+	public function outWord(){
+        $param = parsequery();
+        $param['k'] = $this->k;
+        $param['crid'] = $this->room['crid'];
+//        $quetype = $this->input->post('quetype');
+        // $folderid = $this->input->post('folderid');
+        $chapterid = $this->input->post('chapterid');
+        $topchapterid = $this->input->post('topchapterid');
+        $secchapterid = $this->input->post('secchapterid');
+        $path = $this->input->post('path');
+        $eid = $this->input->post('eid');
+        $startdate = $this->input->post('startdate');
+        $enddate = $this->input->post('enddate');
+        $ttype = $this->input->post('ttype');
+        $tid   = $this->input->post("tid");
+        if ($startdate > 0) {
+            $param['startdate'] = $startdate;
+        }
+        if ($enddate > 0) {
+            $param['enddate'] = $enddate;
+        }
+
+
+        $param['quetypeList'] = $this->input->post('quetypeList');
+        $param['ttype']     = empty($ttype)?'':$ttype;
+        $param['size']      = $this->input->post('size');
+
+        if($param['size'] <= 0){
+            $this->renderJson(1,'缺少记录总数');
+            return;
+        }
+        if($tid > 0){
+            $param['tids'] = explode(',',$tid);
+        }else{
+            $param['tids']   = [];
+        }
+
+        $q = $this->input->post('q');
+        if(!empty($q)) {
+            $param['q'] = $q;
+        }
+        // $param['folderid'] = $folderid;
+        $param['forwho'] = 'student';
+        $param['chapterid'] = $chapterid;
+        $param['topchapterid'] = $topchapterid;
+        $param['secchapterid'] = $secchapterid;
+        $param['path'] = $path;
+        $param['eid'] = $eid;
+        $param['order'] = 'errorid desc';
+        if(!empty($eid))
+            $param['style'] = 0;
+        $url = "/errorbook/errlist";
+        $postRet = $this->do_post($url,$param);
+        //作业列表，组装主观题逻辑
+        $errList = $postRet->errList;
+        if ($errList) {
+
+            //获取图片的真实地址
+            $tempArr = [];
+
+            foreach ($errList as $item) {
+
+                if ('H' == $item->question->queType) {
+                    $extdata = json_decode($item->question->extdata, true);
+
+                    $qid     = $item->question->qid;
+
+                    if ($extdata['schcwid'] > 0 && $qid > 0) {
+                        array_push($tempArr, ['cwid' => $extdata['schcwid'], 'qid' => $qid]);
+                    }
+
+                }
+            }
+//            if (!empty($tempArr)) {
+//                $param          = [];
+//                $cwidArr        = array_column($tempArr, 'cwid');
+//                $qidArr         = array_column($tempArr, 'qid');
+//                $param['cwids'] = implode(',', $cwidArr);
+//                $param['qids']  = implode(',', $qidArr);
+//                $param['uid']   = call_user_func(array(Ebh::app()->lib('UserUtil'), 'getUserInfo'), 'uid');log_message(json_encode($param));
+//                $apiServer = Ebh::app()->getApiServer('ebh');//获取ebhservie对象
+//                $list      = $apiServer->reSetting()->setService('Exam.Exam.getFilePath')->addParams($param)->request();//获取主观题图片路径
+//                if($list){
+//                    foreach ($list as $item){
+//                       $this->_copyFile($item['yurl']);
+//                       $this->_copyFile($item['purl']);
+//                    }
+//                }
+//            }
+        }
+        $typeHqids = '';
+        $typeHcwids = '';
+        $clientip = $this->input->getip();
+        if (!empty($errList)) {
+            foreach ($errList as $value) {
+                $value->question->blanks = json_decode($value->question->data);
+                if ('H' == $value->question->queType) {
+                    $extdata = json_decode($value->question->extdata,1);
+                    $typeHqids .= $value->question->qid.',';
+                    $typeHcwids .= $extdata['schcwid'].',';
+                }
+            }
+        }
+
+        //获取主观题缩略图需要秘钥
+        //前端图片地址  var upimg = 'http://up.ebh.net/exam/getsubthumb.html?uid='+ uid+'&origin=1&key='+encodeURIComponent(result.key);
+        //不为空说明有主观题，则组装上传的主观题逻辑主观题的逻辑
+        if (!empty($typeHqids)) {
+            $pram['cwids'] = substr($typeHcwids, 0, -1);
+            $cwModel = $this->model('Schcourseware');
+            $pram['limit'] = ' 0,100';
+            $typeh_origins = $cwModel->getcourselist($pram);//获取原题
+
+            $pram['uid'] = $this->user['uid'];
+            $pram['qids'] = substr($typeHqids, 0, -1);
+            $typeh_answers = $cwModel->getSchnotes($pram);//获取答题笔记
+            $imgArr = [];
+            foreach ($typeh_origins as $cwid) {
+                $queh_map_cwid[$cwid['cwid']] = $cwid['type'];//组装判断是不是导入的主观题
+                $imgArr[$cwid['cwid']]        = $cwid['cwurl'];
+
+            }
+            if (!empty($typeh_answers)) {//有批阅或者学生答题的情况
+                foreach ($typeh_answers as $hvalue) {
+                    $queh_map[$hvalue['qid']] = $hvalue;
+                }
+                foreach ($errList as $value) {
+                        $extdata = json_decode($value->question->extdata,1);
+                    if ('H' == $value->question->queType) {
+                        //以下组装主要是为了，前端判断是否是有key，key是获取图片的情况，没有前端就不会src='废弃地址';
+                        if (isset($queh_map[$value->question->qid])) {//有答题的情况
+
+                           // $value->question->blanks->upanswer = empty($queh_map[$value->question->qid]['upanswer'])?'':$queh_map[$value->question->qid]['upanswer'];
+                            $cwid = $extdata['schcwid'];
+                            $value->question->blanks->upanswer = empty($imgArr[$cwid])?'':$imgArr[$cwid];
+
+                           // $extdata = json_decode($value->question->extdata,1);
+                            if (!empty($queh_map[$value->question->qid]['url'])) {//有笔记，笔记不为空，需要key
+                                $key = $extdata['schcwid'].'\t'.$clientip.'\t'.$value->question->qid;
+                                $value->question->blanks->key = authcode($key, 'ENCODE');
+
+                                $value->question->blanks->type = $queh_map_cwid[$extdata['schcwid']];
+                            } else {
+                                if ($queh_map_cwid[$extdata['schcwid']] == 1) {//导入的主观题，无笔记的，不需要原题图片，key为空
+                                    $value->question->blanks->key = '';
+                                    $value->question->blanks->type = 1;
+                                } else {//普通的需要原题
+                                    $key = $extdata['schcwid'].'\t'.$clientip.'\t'.$value->question->qid;
+                                    $value->question->blanks->key = authcode($key, 'ENCODE');
+                                    $value->question->blanks->type = 0;//普通主观题
+                                }
+                            }
+
+                        } else {
+                            $value->question->blanks->upanswer = '';
+                            if ($queh_map_cwid[$extdata['schcwid']] == 1) {
+                                $value->question->blanks->key = '';
+                                $value->question->blanks->type = 1;//导入的主观题
+                            } else {
+                                $key = $extdata['schcwid'].'\t'.$clientip.'\t'.$value->question->qid;
+                                $value->question->blanks->key = authcode($key, 'ENCODE');
+
+                                $value->question->blanks->type = 0;//普通主观题
+                            }
+                        }
+                    }
+                }
+            } else {//没有答题笔记的情况
+                foreach ($errList as $value) {
+                    if ('H' == $value->question->queType) {
+                        $extdata = json_decode($value->question->extdata,1);
+                        $value->question->blanks->upanswer = empty($imgArr[$extdata['schcwid']])?'':$imgArr[$imgArr[$extdata['schcwid']]];
+                        if ($queh_map_cwid[$extdata['schcwid']] == 1) {//导入的则不用key
+                            $value->question->blanks->type = 1;
+                            $value->question->blanks->key = '';
+                            continue;
+                        }
+                        $key = $extdata['schcwid'].'\t'.$clientip.'\t'.$value->question->qid;
+
+                        $value->question->blanks->key = authcode($key, 'ENCODE');
+                        $value->question->blanks->type = 0;
+                    }
+                }
+            }
+        }
+        $this->renderJson(0,'错误题全部列表',['errList'=>$errList,'imgPath'=>isset($list)?$list:[]]);
+	}
 	/*
 	获取有权限的课程：(免费，全校免费，开通未过期忽略),免费的课程也需要开通，所以注释掉了
 	*/
@@ -1652,4 +1866,120 @@ class Examv2Controller extends ApiControl {
 		$cwids = array_column($cwlist,'cwid');
 		return $cwids;
 	}
+
+    /**
+     * 获取课程列表
+     * @param int $pid 服务包主类id
+     * @param int $sid 服务包子类id
+     * @return array   课程列表
+     */
+	public function getFolderList(){
+	    $param['crid'] = call_user_func(array(Ebh::app()->lib('UserUtil'),'getRoomInfo'),'crid');//获取网校id
+        $param['pid']  = $this->input->post('pid');
+        $param['pid']  = intval($param['pid']);
+        $param['sid']  = $this->input->post('sid');
+        $param['sid']  = intval($param['sid']);
+        $tid           = $this->input->post('tid');
+        if (empty($tid)) {
+            $tid = [];
+        } else {
+
+            $tid = explode(',', $tid);
+        }
+        $param['tids'] = $tid;
+
+        $result = array();
+        $crid = $param['crid'];
+        if(is_numeric($crid) && ($crid>0)) {
+            $result = $this->model('mychapter')->getfolder($crid);
+            if(!empty($result)){
+                $folderids = array_column($result,'folderid');
+                $folderids = array_unique($folderids);
+                $folderids = implode(',',$folderids);
+            }else{
+                $this->renderJson(0,'folderList',[]);
+            }
+        }
+        $param['folderids'] = $folderids;
+        $apiServer     = Ebh::app()->getApiServer('ebh');//获取ebhservie对象
+        $list          = $apiServer->reSetting()->setService('Classroom.Course.getPidAndSid')->addParams($param)->request();
+        if(!empty($result)){
+            foreach ($result as $item) {
+                $folderid = $item['folderid'];
+                if(!isset($list[$folderid])){
+                $list[$folderid]['foldername'] = $item['foldername'];
+                $list[$folderid]['folderid']   = $item['folderid'];
+                $list[$folderid]['sid'] = 0;
+                $list[$folderid]['pid'] = 0;
+                $list[$folderid]['sname'] = '其他';
+                $list[$folderid]['pname'] = '其他';
+
+                }
+
+            }
+        }
+        $list = arraySequence($list,'pid','SORT_ASC');
+        $this->renderJson(0,'folderList',$list);
+
+
+	}
+
+    /**
+     *复制图片到web目录
+     * @author tzq
+     * @create 2018-02-03
+     * @path string $path 文件的相对路径
+     */
+	private function _copyFile($imgpath){
+        if(preg_match('/.*\.(jpg|png|bmp|jpeg|gif)$/',$imgpath)){
+            //判断正确路径
+            $path = explode('/',$imgpath);
+            $filename = end($path);
+            unset($path[count($path)-1]);
+            $path     = implode('/',$path);
+            $source     = self::SOURCE .'/'.$path;//原路径
+            $dest       = self::DEST.'/'.$path;//目标路径
+            if(!file_exists($source.'/'.$filename)){
+                log_message('原路径不存在'.$source.'/'.$filename);
+
+            }
+            if(!file_exists($dest)){
+                //检测目标目录是否存在
+
+                if(!mkdir($dest,0777,true)){
+                    log_message('创建目录失败'.$dest);
+                }
+            }
+            if(file_exists($dest.'/'.$filename)){
+//                log_message('目标文件已经存在不需要操作'.$dest.'/'.$filename);
+
+            }else{
+                if(copy($source.'/'.$filename,$dest.'/'.$filename)){
+//                    log_message('复制成功'.$dest.'/'.$filename);
+                }else{
+                    log_message('复制文件失败'.$dest.'/'.$filename);
+                }
+            }
+        }
+	}
+    public function downloadImage($url, $path='images/')
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+
+        $file = curl_exec($ch);
+        curl_close($ch);
+
+        $this->saveAsImage($url, $file, $path);
+    }
+
+    private function saveAsImage($url, $file, $path)
+    {
+        $filename = pathinfo($url, PATHINFO_BASENAME);
+        $resource = fopen($path . $filename, 'a');
+        fwrite($resource, $file);
+        fclose($resource);
+    }
 }

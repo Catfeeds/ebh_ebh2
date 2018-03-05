@@ -197,6 +197,7 @@ $('#linecontainer').highcharts({
     });
 <?php }else{ ?>
     $(function(){
+        $('.nodata').css('min-height','700px');
         $('.nodata').show();
     })
 <?php }?>

@@ -66,7 +66,7 @@
         </div>
         <?php }?>
     <?php }else{?>
-        <div class="nodata">
+        <div class="nodata" style="min-height: 700px;">
     </div>
         <?php }?>
     </div>
@@ -189,6 +189,7 @@ $('#linecontainer').highcharts({
     });
 <?php }else{ ?>
     $(function(){
+        $('.nodata').css('min-height','700px');
         $(".nodata").show();
     })
 <?php }?>

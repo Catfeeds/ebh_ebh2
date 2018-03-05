@@ -21,9 +21,9 @@
   	<script src="http://static.ebanhui.com/design/js/jquery-1.11.1.min.js"></script> 
   	<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/js/dialog/css/dialog.css" />
     <script type="text/javascript" src="http://static.ebanhui.com/js/dialog/dialog-plus.js"></script>
-    <script type="text/javascript" src="http://static.ebanhui.com/ebh/js/common.js<?=getv()?>"></script>
+    <script type="text/javascript" src="http://static.ebanhui.com/ebh/js/common.js?version=20160614001"></script>
     <script type="text/javascript" charset="utf-8" src="http://api.map.baidu.com/api?v=2.0&ak=H8Y9OO2Gt8C584uRpzC4LED4"></script>
-
+    <link href="//vjs.zencdn.net/5.19/video-js.min.css" rel="stylesheet">
   <style>     
     body {
       background-color: <?=$settings->bg;?>; /*page.bg*/
@@ -70,6 +70,8 @@
 	var roominfo = <?=!empty($roominfo) ? json_encode($roominfo):'{}'?>;
   var loginUrl = '<?=geturl('room/design/getajaxhtml')?>';
   var did = <?=!empty($did) ? $did : 0?>;
+  var backvedio = <?=!empty($settings->backvedio) ? $settings->backvedio : 0?>;
+  var bgVideoPic = '<?=!empty($settings->bgVideoPic) ? $settings->bgVideoPic : 0?>';
   </script>
 </head>
 <body>
@@ -116,6 +118,9 @@ if (!empty($systemsetting['analytics']) && !IS_DEBUG) {
 </body><!-- 
 <script src="http://g.alicdn.com/mtb/ctrl-mjlogger/1.0.7/mjlogger.js"></script> -->
 <script type="text/javascript" charset="utf-8" src="http://static.ebanhui.com/design/js/home.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.min.js"></script>-->
+ <script src="//vjs.zencdn.net/5.19/video.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.8.3/videojs-contrib-hls.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="http://static.ebanhui.com/design/js/player.js"></script>
 <script type="text/javascript" charset="utf-8" src="http://static.ebanhui.com/design/js/scrollanim.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="http://static.ebanhui.com/design/js/main.js"></script>
