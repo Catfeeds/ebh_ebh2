@@ -312,6 +312,10 @@ class DesignController extends CControl {
         $vedioids = $this->input->post('vedioids');
         $settings = trim($post['settings']);
         $did = intval($this->input->post('did'));
+        //背景课件视频ID
+        $backvedio = intval($this->input->post('backvedio'));
+        //装扮base64预览图
+        $preview = trim($this->input->post('preview'));
         //$settings = iconv('gbk', 'utf8', $settings);
         $settings = htmlspecialchars_decode($settings);
         $arr = json_decode($settings,true);
@@ -338,6 +342,7 @@ class DesignController extends CControl {
             ->addParams('settings', $settings)
             ->addParams('status', $status)
             ->addParams('clientType', $clientType)
+            ->addParams('preview', $preview)
             ->addParams('did', $did)
             ->request();
         if(!empty($ret)&&($ret['status']==1)){
@@ -347,13 +352,7 @@ class DesignController extends CControl {
                 $domain = $uri->uri_domain();
                 $roomcache = Ebh::app()->lib('Roomcache');
                 $roomcache->removeCache(0,'roominfo',$domain);
-
-                //设置免费试听
-                $this->saveAuditions($auditions, $ret['data']);
-                //设置首页视频,一定要在设置免费试听操作之后
-                if (!empty($vedioids)) {
-                    $this->setVedios($vedioids, $ret['data']);
-                }
+                $this->setHomeVedio($auditions, $vedioids, $backvedio, $did);
             }
             renderjson(0,'数据保存成功',$ret['data'], false);
             //保存装扮操作成功后记录到操作日志
@@ -656,10 +655,7 @@ class DesignController extends CControl {
      * 添加免费试听
      */
     protected function saveAuditions($auditions, $did){
-        if(empty($auditions)){
-            return false;
-        }
-        $cwid = $auditions;
+        $cwid = empty($auditions) ? 0 : $auditions;
         $room = $this->room;
         $apiServer = Ebh::app()->getApiServer('ebh');
         $ret = $apiServer->reSetting()
@@ -680,6 +676,9 @@ class DesignController extends CControl {
      * @param array $cwids
      */
     protected function setVedios($cwids, $did) {
+        if (empty($cwids)) {
+            $cwids = array();
+        }
         if (!is_array($cwids)) {
             return;
         }
@@ -689,7 +688,7 @@ class DesignController extends CControl {
         });
         $room = $this->room;
         if (empty($cwids)) {
-            return;
+            $cwids = array();
         }
         $apiServer = Ebh::app()->getApiServer('ebh');
         $params = array(
@@ -699,6 +698,44 @@ class DesignController extends CControl {
         );
         $apiServer->reSetting()
             ->setService('Courseware.Vedio.setComponentVedio')
+            ->addParams($params)
+            ->request();
+    }
+
+    /**
+     * 设置装扮免费试听视频课件、装扮主页视频课件、装扮背景视频
+     * @param string $auditions 免费试听课件ID集，以','分割
+     * @param array $vedioids 主页视频课件ID集
+     * @param int $backvedio 背景视频课件ID
+     * @param int $did 装扮ID
+     */
+    protected function setHomeVedio($auditions, $vedioids, $backvedio, $did) {
+        $auditions = trim($auditions, " \t\n\r\0\x0B,");
+        $auditions = empty($auditions) ? array() : explode(',', $auditions);
+        if (!empty($auditions)) {
+            $auditions = array_filter($auditions, function($id) {
+                return is_numeric($id) && intval($id) > 0;
+            });
+        }
+        if (empty($vedioids)) {
+            $vedioids = array();
+        } else {
+            $vedioids = array_filter($vedioids, function($vedioid) {
+               return is_numeric($vedioid) && intval($vedioid) > 0;
+            });
+        }
+        $did = intval($did);
+        $backvedio = intval($backvedio);
+        $apiServer = Ebh::app()->getApiServer('ebh');
+        $params = array(
+            'did' => $did,
+            'auditions' => $auditions,
+            'vedioids' => $vedioids,
+            'backvedio' => $backvedio,
+            'crid' => $this->room['crid']
+        );
+        $apiServer->reSetting()
+            ->setService('Courseware.Vedio.setHomeVedio')
             ->addParams($params)
             ->request();
     }

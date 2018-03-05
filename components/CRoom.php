@@ -38,9 +38,10 @@ class CRoom extends CComponent {
 			}
 			if (!empty($roominfo)) {
                 if (is_mobile()) {
-                    $roominfo['isdesign'] = $roominfo['isdesign'] >> 1;
+                    $roominfo['isdesign'] = intval($roominfo['isdesign']) > 0 ? 1 : 0;
+                } else {
+                    $roominfo['isdesign'] = $roominfo['isdesign'] & 1;
                 }
-                $roominfo['isdesign'] = $roominfo['isdesign'] & 1;
             }
             $this->_roominfo = $roominfo;
             return $roominfo;
