@@ -283,6 +283,7 @@ if(!empty($roominfo['crid'])){
         </div>
         <div class="oetute">
             <ul id="ranklist">
+                <?php if(!empty($list)) {?>
                 <?php foreach ($list as $value) {
                     echo '<li class="dtuwrs">';
                     echo '<a href="/sns/feeds/'.$value['uid'].'.html" class="destgy">';
@@ -293,7 +294,9 @@ if(!empty($roominfo['crid'])){
 
                 }
                 ?>
-
+                <?php } else {?>
+                    <?=nocontent('650px')?>
+                <?php }?>
             </ul>
         </div>
         <?php }?>
