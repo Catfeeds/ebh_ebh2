@@ -414,8 +414,9 @@ class CoursewareModel extends CModel {
 				'LEFT JOIN ebh_folders f on f.folderid = r.folderid'
 				;
 		$wherearr = array();
-		if(!empty($queryarr['uid']))
-			$wherearr[] = 'cw.uid='.$queryarr['uid'];
+		if(!empty($queryarr['uid'])) {
+            $wherearr[] = '(cw.uid='.$queryarr['uid'].' or cw.islive=1 and FIND_IN_SET('.$queryarr['uid'].',cw.assistantid))';
+        }
 		if(!empty($queryarr['folderid']))
 			$wherearr[] = 'r.folderid='.$queryarr['folderid'];
 		if(!empty($queryarr['crid']))
@@ -473,8 +474,9 @@ class CoursewareModel extends CModel {
         $sql = 'SELECT count(*) count from ebh_roomcourses r ' .
                 'JOIN ebh_coursewares cw ON r.cwid = cw.cwid ';
         $wherearr = array();
-		if(!empty($queryarr['uid']))
-			$wherearr[] = 'cw.uid='.$queryarr['uid'];
+		if(!empty($queryarr['uid'])) {
+            $wherearr[] = '(cw.uid='.$queryarr['uid'].' or cw.islive=1 and FIND_IN_SET('.$queryarr['uid'].',cw.assistantid))';
+        }
 		if(!empty($queryarr['folderid']))
 			$wherearr[] = 'r.folderid='.$queryarr['folderid'];
 		if(!empty($queryarr['crid']))

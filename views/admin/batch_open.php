@@ -44,6 +44,7 @@ $this->display('admin/header');
             <tr>
             <td><a href="<?php echo geturl('admin/sporder');?>">订单列表</a></td>
 			<td  class="active"><a href="<?php echo geturl('admin/sporder/input');?>">批量开通</a></td>
+                <td><a href="<?=geturl('admin/sporder/btachremove')?>">批量删除</a></td>
             </tr>
             </table>
         </td>
@@ -98,7 +99,7 @@ $this->display('admin/header');
 1.导入系统目前只支持xls格式文件，暂不支持xlsx格式文件。<br />
 2.导入的excel文件必须严格按照导入模板格式。<br />
 3.excel文件中的必须包含登录账号、开通课程两个字段。<br />
-4.登录账号只能为6-20位英文、数字的组合字符,并且必须以字母开头。<br />
+4.登录账号只能为6-20位英文、数字的组合字符。<br />
 5.开通课程如有多门,请以英文的逗号(,)隔开。<br />
 6.开通课程中的科目名称必须和对应网校中的课程名称完全一致，并且已经开设服务项。<br />
 7.所有导入的学生账号在系统中必须已存在。<br />
