@@ -167,7 +167,7 @@ class SurveyController extends CControl {
         	//设置问卷信息
             $param['title'] = $title;
             $param['uid'] = $user['uid'];
-            //type类型 0网校主页,1学生学习主页,2相关课件页,3选课问卷,4开通课程前的问卷,5登录前问卷
+            //type类型 0网校主页,1学生学习主页,2相关课件页,3选课问卷,4开通课程前的问卷,5登录前问卷,6开通服务后问卷
             $param['type'] = $this->input->post('relatetype');
             $param['allowview'] = $this->input->post('allowview');
             $param['allowanonymous'] = $this->input->post('allowanonymous');
@@ -204,6 +204,24 @@ class SurveyController extends CControl {
                     exit;
                 }
             }
+            //创建开通服务后问卷时,需要判断开通服务的课程信息是否填写完整
+            if(!empty($param['type']) && ($param['type'] == 6)){
+                if(empty($param['startdate']) || empty($param['enddate'])){//问卷必须填写开始和结束时间
+                    echo '请选择开通服务调查问卷的开始和结束时间';
+                    exit;
+                }
+                $folderids = $this->input->post('folderids');         //课程id集
+                if(!empty($folderids) && is_array($folderids)){     //过滤数组
+                    $folderids = array_filter($folderids, function($folderid) {
+                        return is_numeric($folderid) && ($folderid>0);
+                    });
+                }
+                $folderids = !empty($folderids) ? $folderids : array();
+                if(empty($folderids)){  //课程id集不能为空
+                    echo '请选择开通服务的课程信息';
+                    exit;
+                }
+            }
 
             $sid = $this->model('survey')->add($param);
             foreach($content as $value){
@@ -231,6 +249,20 @@ class SurveyController extends CControl {
                         }else{
                             $surveydata = json_encode(array('crid'=>$roominfo['crid'],'sid'=>$sid,'timeout'=>0,'isroomclass'=>$isroomclass,'classids'=>$classids));
                             $redis->set($redis_key,$surveydata);//添加网校id到缓存中,有效期永久有效
+                        }
+                    }
+                }
+                //创建开通服务后问卷,添加到缓存
+                if(!empty($roominfo['crid']) && !empty($param['type']) && $param['type']==6){
+                    if(!empty($param['startdate']) && !empty($param['startdate'])){
+                        $redis = Ebh::app()->getCache('cache_redis');
+                        $timeout = intval($param['enddate']) - SYSTIME;
+                        if($timeout>0){
+                            foreach ($folderids as $folderid){
+                                $surveydata = json_encode(array('crid'=>$roominfo['crid'],'sid'=>$sid,'startdate'=>$startdate,'enddate'=>$enddate,'folderid'=>$folderid));
+                                $redis_key = 'payitemsurvey_' . $roominfo['crid'].'_'.$folderid;    //开通服务后问卷的缓存
+                                $redis->set($redis_key,$surveydata,$timeout);   //添加到缓存中，调查问卷有效期为$timeout
+                            }
                         }
                     }
                 }
@@ -279,6 +311,10 @@ class SurveyController extends CControl {
 		}
         if($param['type'] == 5){
             echo '登录前问卷,不能编辑和重新发布';
+            exit;
+        }
+        if($param['type'] == 6){
+            echo '开通服务后问卷,不能编辑和重新发布';
             exit;
         }
         $res = $this->model('survey')->edit($param);
@@ -644,5 +680,12 @@ class SurveyController extends CControl {
         }
         return  renderjson(0, '查询成功', $roomlist);
 	}
+
+    //弹出课程列表框
+    public function addCourse() {
+        $roominfo = Ebh::app()->room->getcurroom();
+        $this->assign('roominfo', $roominfo);
+        $this->display('troomv2/survey_addcourse');
+    }
 }
 ?>

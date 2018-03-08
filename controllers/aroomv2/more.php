@@ -97,7 +97,7 @@ class MoreController extends CControl{
 			}	
 		}
 		$pagestr = show_page($surveycount);
-		$this->assign('typearr', array(0=>'网校主页',1=>'学生学习主页',2=>'相关课件页',3=>'选课问卷',4=>'开通服务问卷',5=>'登录前问卷',7=>'无物理位置'));
+		$this->assign('typearr', array(0=>'网校主页',1=>'学生学习主页',2=>'相关课件页',3=>'选课问卷',4=>'开通服务问卷',5=>'登录前问卷',6=>'开通服务后问卷',7=>'无物理位置'));
 		$this->assign('fnames', !empty($farr) ? $farr : array());
 		$this->assign('pagestr',$pagestr);
 		$this->assign('surveylist',$surveylist);
