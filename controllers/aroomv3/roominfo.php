@@ -99,7 +99,7 @@ class roominfoController extends ARoomV3Controller
         $is_newzjdlr = in_array($this->roominfo['crid'],$othersetting['newzjdlr']);
         $ret['is_oldzjdlr'] = $is_oldzjdlr;
         $ret['is_zjdlr'] = $is_zjdlr;
-        $ret['is_newzjdlr'] = $is_newzjdlr ;
+        $ret['is_newzjdlr'] = $is_newzjdlr;
         if (!empty($othersetting['open-intro']) && is_array($othersetting['open-intro']) && in_array($this->roominfo['crid'], $othersetting['open-intro'])) {
             $ret['openIntro'] = 1;
         } else {
@@ -486,6 +486,7 @@ class roominfoController extends ARoomV3Controller
             $format_ret['showmodule'] = $ret['showmodule'];
             $format_ret['ebhbrowser'] = $ret['ebhbrowser'] > 0 ? true : false;
             $format_ret['cwlistonlyself'] = $ret['cwlistonlyself'] > 0 ? true : false;
+            $format_ret['showquestionbygrade'] = $ret['showquestionbygrade'] > 0 ? true : false;
             $creditrulearr = array('notvideo' => array(),'article' => array(),'comment' => array(), 'news' => array());//非视频课件,发布文章，评论课件，原创文章
             if($ret['creditrule']){
                 $creditrule = json_decode($ret['creditrule'],true);
@@ -561,8 +562,11 @@ class roominfoController extends ARoomV3Controller
             $params['ebhbrowser'] = ((strtolower($mobileRegister) === 'true') || (intval($mobileRegister) > 0)) ? 1 : 0;
         }
 		if(isset($post['cwlistonlyself'])){//教师课件列表只显示自己发布的
-			$params['cwlistonlyself'] = ((strtolower($post['cwlistonlyself']) === 'true') || (intval($post['cwlistonlyself']) > 0)) ? 1 : 0;
-		}
+            $params['cwlistonlyself'] = ((strtolower($post['cwlistonlyself']) === 'true') || (intval($post['cwlistonlyself']) > 0)) ? 1 : 0;
+        }
+        if(isset($post['showquestionbygrade'])){//学生端互动答疑按年级显示
+            $params['showquestionbygrade'] = ((strtolower($post['showquestionbygrade']) === 'true') || (intval($post['showquestionbygrade']) > 0)) ? 1 : 0;
+        }
         //其他学分设置
         $creditrule= $this->fomateScore($post);
         if(!empty($creditrule['newcredits'])){
