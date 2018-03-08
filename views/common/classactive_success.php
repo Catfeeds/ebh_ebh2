@@ -37,8 +37,13 @@ p.tishis a{color:#17a8f7;}
 
 <div style="background:url(http://static.ebanhui.com/ebh/tpl/2012/images/bg12511.jpg) repeat-y scroll 0 0; height:auto;">
 <div class="main" <?php if($roominfo['domain']=='xsyz'){echo 'style="height:auto;overflow:hidden;"';}else{echo 'style="height:500px;overflow:hidden;"';}?>>
-<div class="aed"><p>欢迎开通<?=$hideebhinfo?'':'e板会'?>【<?= $roominfo['crname']?>】服务</p></div>
-  <div class="slst" <?php if($roominfo['domain']=='xsyz'){echo 'style="height:auto;padding-bottom:65px;"';}else{echo 'style="height:420px;"';}?>><p style="font-weight: bold;padding-top: 15px;padding-left: 35px; color:#666666">帐号开通流程： </p>
+<div class="aed" style="position: relative;">
+	<p>欢迎开通<?=$hideebhinfo?'':'e板会'?>【<?= $roominfo['crname']?>】服务</p>
+</div>
+  <div class="slst" <?php if($roominfo['domain']=='xsyz'){echo 'style="height:auto;padding-bottom:65px;"';}else{echo 'style="height:420px;"';}?>>
+  	<p style="font-weight: bold;padding-top: 15px;padding-left: 35px; color:#666666;position: relative;">帐号开通流程： 
+		<span class="timeout" style="display:none;font-size: 14px;color:red;position: absolute;top:0;right:5px;"><span class="timeoutnum">3</span>S</span>
+  	</p>
     <label>
     <input class="tianxie2" style="cursor:pointer" type="submit" name="tianxie" value="1、填写个人资料" />
     <img src="http://static.ebanhui.com/ebh/tpl/2012/images/tubiao.png" width="7" height="9" />    </label>
@@ -105,30 +110,46 @@ $(function(){
 	ZeroClipboard.config({swfPath: "http://static.ebanhui.com/ebh/js/zeroclipboard/dist/ZeroClipboard.swf"});
 	//创建客户端
 	var client = new ZeroClipboard( $('.stryf') );
-    	client.on( 'ready', function(event) {
-	        client.on( 'copy', function(event) {
-		      var txt = $.trim($('#couponcode').html());
-	          event.clipboardData.setData('text/plain', txt);
-	        } );
-	        client.on( 'aftercopy', function(event) {
-		      alert('复制成功！');
-	          // console.log('Copied text to clipboard: ' + event.data['text/plain']);
-	        } );
-      	} );
-    	client.on( 'error', function(event) {
-        	// console.log( 'ZeroClipboard error of type "' + event.name + '": ' + event.message );
-        	ZeroClipboard.destroy();
-      	} );
+	client.on( 'ready', function(event) {
+        client.on( 'copy', function(event) {
+	      var txt = $.trim($('#couponcode').html());
+          event.clipboardData.setData('text/plain', txt);
+        } );
+        client.on( 'aftercopy', function(event) {
+	      alert('复制成功！');
+          // console.log('Copied text to clipboard: ' + event.data['text/plain']);
+        } );
+  	} );
+	client.on( 'error', function(event) {
+    	// console.log( 'ZeroClipboard error of type "' + event.name + '": ' + event.message );
+    	ZeroClipboard.destroy();
+  	} );
 
-    	$('.share-bar').share({
-    		url: 'http://www.ebh.net/coupon.html?code=<?=$coupon['code']?>',
-    		source: 'e板会',
-    		title: '优惠专享！网校优惠任你拿！',
-    		description: '分享学习，分享快乐！我从<?=$coupon['crname']?>获得了优惠码：<?=$coupon['code']?>，开通任意课程服务都能享受优惠价哦，一起来吧！',
-    		summary: '好友使用你的优惠码购买课程，尊享网校优惠！你也可以获得现金奖励哦！快快行动吧！',
-    		image: 'http://static.ebanhui.com/ebh/tpl/2016/images/ebh_coupon.jpg',
-    		sites: ['qzone','wechat','weibo']
-    	});
+	$('.share-bar').share({
+		url: 'http://www.ebh.net/coupon.html?code=<?=$coupon['code']?>',
+		source: 'e板会',
+		title: '优惠专享！网校优惠任你拿！',
+		description: '分享学习，分享快乐！我从<?=$coupon['crname']?>获得了优惠码：<?=$coupon['code']?>，开通任意课程服务都能享受优惠价哦，一起来吧！',
+		summary: '好友使用你的优惠码购买课程，尊享网校优惠！你也可以获得现金奖励哦！快快行动吧！',
+		image: 'http://static.ebanhui.com/ebh/tpl/2016/images/ebh_coupon.jpg',
+		sites: ['qzone','wechat','weibo']
+	});
+	
+	var surveysid = '<?=$surveysid?>';
+	if(surveysid && surveysid != 0){
+		$(".timeout").show();
+		var timeoutnum = 3;
+    	var time = setInterval(function(){
+    		timeoutnum--;
+    		if(timeoutnum == 0){
+    			clearInterval(time);
+    			window.location.href="/survey/"+surveysid+".html";
+    		}
+    		$(".timeoutnum").html(timeoutnum);
+    	},1000)
+	}else{
+		$(".timeout").hide();
+	}
 })
 </script>
 <?php $this->display('common/site_footer'); ?>

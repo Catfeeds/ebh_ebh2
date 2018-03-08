@@ -1461,6 +1461,12 @@ if(!empty($roominfo['crid'])){
 							if (ret.status == '0') {
 								alert('报名失败,请重试');
 							}
+							//有开通服务后问卷则跳转
+							if(ret.surveysid){
+								var oUrl = "/survey/"+ret.surveysid+".html";
+								top.location.href = oUrl;
+                              	return;
+                            }
 							//报名成功后进入学习页面
 							location.reload();
 						}
