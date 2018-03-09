@@ -223,9 +223,9 @@ class IbuyController extends CControl {
 	*充值或开通成功后显示页面
 	*/
 	public function success() {
-		$roominfo = Ebh::app()->room->getcurroom();
+		$room = Ebh::app()->room->getcurroom();
 		$user = Ebh::app()->user->getloginuser();
-		$this->assign('roominfo',$roominfo);
+		$this->assign('roominfo',$room);
 		$this->assign('user',$user);
 		//取优惠码
 		$couponsModel = $this->model('Coupons');
@@ -240,6 +240,14 @@ class IbuyController extends CControl {
 		        'code'=>'0000'
 		    );
 		}
+        //开通服务后调查问卷
+        $redis = Ebh::app()->getCache('cache_redis');
+        $redis_key = 'payitemsurvey_' . $room['crid'].'_'.$user['uid'];
+        $surveysid = $redis->get($redis_key);   //读取缓存中开通服务后调查问卷sid
+        $redis->remove($redis_key);             //删除缓存中开通服务后调查问卷sid
+        $surveysid = (!empty($surveysid) && ($surveysid>0)) ? intval($surveysid) : 0;
+        $this->assign('surveysid',$surveysid);
+
 		$this->assign('coupon',$coupon);
 		$this->display('common/classactive_success');
 	}
@@ -1089,18 +1097,16 @@ class IbuyController extends CControl {
 				echo json_encode($result);
 				exit();
 	        }
-        	
         }
 		
 		$result = array('status'=>0);
 		$user = Ebh::app()->user->getloginuser();
-		$totalfee = intval($this->input->post('totalfee'));
-		if($user['balance'] < $totalfee) {	//对生成订单前做一次余额是否充足判断
+        $totalfee = $this->input->post('totalfee');
+        if($user['balance'] < $totalfee) {	//对生成订单前做一次余额是否充足判断
 			$result['msg'] = '余额不足';
 			echo json_encode($result);
 			exit();
 		}
-
 
         $parameters['crid'] = $roominfo['crid'];
         $parameters['uid'] = $user['uid'];
@@ -1119,7 +1125,6 @@ class IbuyController extends CControl {
             ->request();
 
         if($res['status'] == 0){
-
             $result['msg'] = $res['msg'] != '' ? $res['msg'] : $this->apiServer->getErrMsg();
             echo json_encode($result);
             exit();
@@ -1128,6 +1133,13 @@ class IbuyController extends CControl {
         if($res['data']['pay_data']['success'] == 'ok'){
             $result['status'] = 1;
             $result['msg'] = '开通成功';
+
+            //开通服务后调查问卷
+            $surveysid = 0; //调查问卷id
+            $surveysid = $this->checkSurvey($parameters);//查询是否有开通服务后调查问卷
+            if(!empty($surveysid)){
+                $result['surveysid'] = $surveysid;
+            }
             echo json_encode($result);
             exit();
         }else{
@@ -1354,6 +1366,13 @@ class IbuyController extends CControl {
 		$result['status'] = 1;
 		$credit = $this->model('credit');
 		$credit->addCreditlog(array('ruleid'=>23,'detail'=>$myorder['itemlist'][0]['oname']));
+
+        //开通服务后调查问卷
+        $surveysid = 0; //调查问卷id
+        $surveysid = $this->checkSurvey(array('itemid'=>$itemidlist));//查询是否有开通服务后调查问卷
+        if(!empty($surveysid)){
+            $result['surveysid'] = $surveysid;
+        }
 		echo json_encode($result);
 	}
 
@@ -1444,6 +1463,13 @@ class IbuyController extends CControl {
 		$result['status'] = 1;
 		$credit = $this->model('credit');
 		$credit->addCreditlog(array('ruleid'=>23,'detail'=>$myorder['itemlist'][0]['oname']));
+
+        //开通服务后调查问卷
+        $surveysid = 0; //调查问卷id
+        $surveysid = $this->checkSurvey(array('itemid'=>$itemidlist));//查询是否有开通服务后调查问卷
+        if(!empty($surveysid)){
+            $result['surveysid'] = $surveysid;
+        }
 		echo json_encode($result);
 	}
 
@@ -2215,5 +2241,47 @@ class IbuyController extends CControl {
 	        	exit();
 	        }
         }
+    }
+    /**
+     *判断是否存在开通服务后问卷，验证问卷有效性
+     * @return surveysi调查问卷id
+     */
+    private function checkSurvey($param){
+        $return = false;
+        $roominfo = Ebh::app()->room->getcurroom();
+        $user = Ebh::app()->user->getloginuser();
+        $item = $param['itemid'];
+        $count = count($param['itemid']);
+        //开通单个课程时才做调查问卷
+        if(!empty($param['sid']) || !empty($param['sid']) || ($count != 1) || empty($param['itemid'][0])){
+            return false;
+        }
+        //根据itemid获取课程的folderid
+        $iteminfo  = $this->apiServer->reSetting()->setService('Classroom.Item.list')->addParams(array('itemid'=>$param['itemid'][0]))->request();
+        $itemcount = count($iteminfo['data']);
+        //读取缓存中开通服务后问卷id，判断当前课程folderid是否存在,并且不是服务包
+        if (!empty($itemcount) && ($itemcount == 1) && !empty($iteminfo['data'][0]['folderid']) && !empty($roominfo['crid'])) {
+            $redis = Ebh::app()->getCache('cache_redis');
+            $redis_key = 'payitemsurvey_' . $roominfo['crid'] . '_' . $iteminfo['data'][0]['folderid'];
+            $surveyinfo = $redis->get($redis_key);//读取缓存中开通服务后调查问卷信息
+            if (!empty($surveyinfo)) {
+                $surveyinfo = json_decode($surveyinfo, true);
+            }
+            $surveysid = (!empty($surveyinfo['sid']) && ($surveyinfo['sid'] > 0)) ? intval($surveyinfo['sid']) : 0;//问卷id
+            $surveycrid = !empty($surveyinfo['crid']) ? $surveyinfo['crid'] : 0;
+            $surveyfolderid = !empty($surveyinfo['folderid']) ? $surveyinfo['folderid'] : 0;    //问卷对应的课程id
+            if (!empty($surveysid) && ($surveycrid == $roominfo['crid']) && ($surveyfolderid == $iteminfo['data'][0]['folderid'])) {
+                $surveyparam = array('sid' => $surveysid, 'uid' => $user['uid'], 'crid' => $roominfo['crid'], 'uid' => $user['uid'], 'type' => 6);
+                //获取问卷状态,调查问卷为已发布,未超时,未删除且用户未回答过则返回true,否则false
+                $check = Ebh::app()->getApiServer('ebh')->reSetting()->setService('Classroom.Survey.getSurveyStatus')->addParams($surveyparam)->request();
+                if ($check) {
+                    $return = $surveysid;
+                    //添加问卷sid到临时缓存中，只用于支付成功时的界面跳转,有效期为1分钟
+                    $redis_key = 'payitemsurvey_' . $roominfo['crid'] . '_' . $user['uid'];
+                    $redis->set($redis_key, $surveysid, 60);
+                }
+            }
+        }
+        return $return;
     }
 }
