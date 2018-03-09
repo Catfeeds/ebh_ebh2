@@ -43,7 +43,7 @@ DD_belatedPNG.fix('.bottom,.cservice img,.roomtit,.ui_ico');
 <?php $v=getv();?>
 <style type="text/css">
 body{
-	background: #fff!important;
+	background: #f3f3f3!important;
 }
 #icategory{
 	background:#fff;
