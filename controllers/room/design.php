@@ -314,8 +314,6 @@ class DesignController extends CControl {
         $did = intval($this->input->post('did'));
         //背景课件视频ID
         $backvedio = intval($this->input->post('backvedio'));
-        //装扮base64预览图
-        $preview = trim($this->input->post('preview'));
         //$settings = iconv('gbk', 'utf8', $settings);
         $settings = htmlspecialchars_decode($settings);
         $arr = json_decode($settings,true);
@@ -342,7 +340,6 @@ class DesignController extends CControl {
             ->addParams('settings', $settings)
             ->addParams('status', $status)
             ->addParams('clientType', $clientType)
-            ->addParams('preview', $preview)
             ->addParams('did', $did)
             ->request();
         if(!empty($ret)&&($ret['status']==1)){
@@ -856,6 +853,89 @@ class DesignController extends CControl {
         }
 
         return $ck;
+    }
+
+    /**
+     * 保存装扮预览图
+     */
+    public function savepreview() {
+        //装扮ID
+        $did = intval($this->input->post('did'));
+        if ($did < 1) {
+            echo '0';
+            exit();
+        }
+        //装扮base64预览图
+        $preview = trim($this->input->post('preview'));
+        $top = substr($preview, 0, 50);
+        $len = 0;
+        if (preg_match('/^data:image\/png;base64,/i', $top, $image)) {
+            $tmpname = tempnam(sys_get_temp_dir(), 'designpreview');
+            $start = strlen($image[0]);
+            $len = @file_put_contents($tmpname, base64_decode(substr($preview, $start)));
+        }
+        if ($len <= 0) {
+            //base64图片格式错误
+            echo '0';
+            exit();
+        }
+        $mimetype = 'image/png';
+        $ext = '.png';
+        $imagesize = filesize($tmpname);
+        if ($imagesize > 2097152) {
+            //图片大于2M，压缩图片
+            $dst = @imagecreatefrompng($tmpname);
+            if ($dst === false) {
+                echo '0';
+                exit();
+            }
+            $w = $sw = imagesx($dst);
+            $h = $sh = imagesy($dst);
+            if ($sh > 1800) {
+                $sh = 1800;
+                $sw = intval(round($w * $sh / $h));
+            }
+            $im = imagecreatetruecolor($sw, $sh);
+            $ret = @imagecopyresampled($im, $dst, 0, 0, 0, 0, $sw, $sh, $w, $h);
+            if ($ret === false) {
+                echo '0';
+                exit();
+            }
+            imagedestroy($dst);
+            $ret = @imagejpeg($im, $tmpname, 90);
+            if ($ret === false) {
+                echo '0';
+                exit();
+            }
+            imagedestroy($im);
+            $mimetype = 'image/jpeg';
+            $ext = '.jpg';
+        }
+        $size = filesize($tmpname);
+        //图片转存到图片服务器
+        $uptype = 'aroomv3';
+        $data = array('from'=> 'ebh2', 'uptype' => $uptype, 'upfield' => 'upfile', 'size' => $size);
+        $cfile = curl_file_create($tmpname, $mimetype, $tmpname.$ext);
+        $data['upfile'] = $cfile;
+        $_UP = Ebh::app()->getConfig()->load('upconfig');
+        $server = isset($_UP[$uptype]) ? $_UP[$uptype]['server'][0] : $_UP['aroomv3']['server'][0];
+        $res = do_post($server, $data);
+        $res = json_decode($res, true);
+        if ($res === false) {
+            echo '0';
+            exit();
+        }
+        $showurl = $res['data']['showurl'];
+        //更新装扮预览图
+        $apiServer = Ebh::app()->getApiServer('ebh');
+        $ret = $apiServer->reSetting()
+            ->setService('Classroom.Design.savePreview')
+            ->addParams('crid', $this->room['crid'])
+            ->addParams('did', $did)
+            ->addParams('preview', $showurl)
+            ->request();
+        echo $ret;
+        exit();
     }
 
 }
