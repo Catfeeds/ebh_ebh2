@@ -4,16 +4,17 @@
 		<meta charset="UTF-8">
 		<title>点名</title>
 		<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/chatroom/css/common.css"/>
-		<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/chatroom/css/checkin.css?v=20180123001"/>
+		<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/chatroom/css/checkin.css?v=20180305001"/>
 		<script type="text/javascript" src="http://static.ebanhui.com/js/jquery-1.11.0.min.js"></script>
 		<script type="text/javascript" src="http://static.ebanhui.com/ebh/js/xDialog/xloader.auto.js"></script>
 		<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/js/dialog/css/dialog.css?v=20170531141918"/>
 	</head>
 	<style>
 		.ui-dialog-content{text-align:center;}
+		body{background:#f3f3f3;}
 	</style>
 	<body>
-		<div id="view">
+		<div id="view" style="background:#fff;">
 			<div class="progress">
 				<div class="sign_bak" style="width:<?=intval(count($checkinlist)/(count($checkinlist)+count($uncheckinlist)) * 100)?>%;"><span class="txt1"><?=intval(count($checkinlist)/(count($checkinlist)+count($uncheckinlist)) * 100)?>%</span></div>
 			</div>
