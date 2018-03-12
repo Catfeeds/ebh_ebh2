@@ -35,6 +35,7 @@ class MyaskController extends CControl
 
     public function all() {
         $roominfo = Ebh::app()->room->getcurroom();
+        $systemSetting = Ebh::app()->room->getSystemSetting();
         $user = Ebh::app()->user->getloginuser();
         $q = $this->input->get('q');
         $askdate = $this->input->get('d');
@@ -67,7 +68,22 @@ class MyaskController extends CControl
                 $askdate = '';
             }
         }
+        if (!empty($systemSetting['showquestionbygrade']) && Ebh::app()->room->getRoomType() == 'edu') {
+            $apiServer = Ebh::app()->getApiServer('ebh');
+            $classinfo = $apiServer->reSetting()
+                ->setService('Member.User.getStudentClassInfo')
+                ->addParams('crid', $roominfo['crid'])
+                ->addParams('uid', $user['uid'])
+                ->request();
+            if (!empty($classinfo['grade'])) {
+                $queryarr['grade'] = $classinfo['grade'];
+            }
+        }
         $askmodel = $this->model('Askquestion');
+		$strictpagesize = intval($this->input->get('strictpagesize'));
+		if(!empty($strictpagesize)){
+			$queryarr['pagesize'] = $strictpagesize;
+		}
         $asks = $askmodel->getallasklist($queryarr);
         $ajax = $this->getajaxReturn($asks);
         if (is_int($ajax)) {//是否是ajax请求 整形就不是
@@ -635,17 +651,22 @@ class MyaskController extends CControl
             //人气数+1
             $askmodel->addviewnum($qid);
             $ask = $askmodel->getdetailaskbyqid($qid, $user['uid'], $crid);
+			$noback = $this->input->get('islive');
             if (empty($ask)) {
                 $url = getenv("HTTP_REFERER");
                 header("Content-type:text/html;charset=utf-8");
                 echo "问题不存在或已删除";
-                echo '<a href="' . $url . '">返回</a>';
+				if(empty($noback)){
+					echo '<a href="' . $url . '">返回</a>';
+				}
                 exit;
             } elseif (!empty($ask) && $ask['shield'] == 1) {
                 $url = getenv("HTTP_REFERER");
                 header("Content-type:text/html;charset=utf-8");
                 echo "问题被屏蔽，无法查看";
-                echo '<a href="' . $url . '">返回</a>';
+				if(empty($noback)){
+					echo '<a href="' . $url . '">返回</a>';
+				}
                 exit;
             }
             if (!empty($ask['audiosrc']) && empty($ask['audiotime'])) {//检验语音是否已经读取过语音时长
@@ -796,7 +817,7 @@ class MyaskController extends CControl
                 }
 
             }
-            $answers =  arraySequence($answers,'groupid','SORT_ASC');
+           // $answers =  arraySequence($answers,'groupid','SORT_ASC');
             $this->assign('answerers', $answerers);
             $this->assign('ask', $ask);
             $this->assign('answers', $answers);
@@ -1141,7 +1162,7 @@ class MyaskController extends CControl
             exit();
         }
         if ($this->check != 1) {    //如果没有权限，则不提供解答功能
-            echo 'fail';
+            echo json_encode(array('status' => 0,'msg'=>'权限不足'));
             exit();
         }
         $user = Ebh::app()->user->getloginuser();
@@ -1580,6 +1601,18 @@ class MyaskController extends CControl
         $queryarr['status'] = 1;
         $queryarr['hasbest'] = 1;
         $askmodel = $this->model('Askquestion');
+        $systemSetting = Ebh::app()->room->getSystemSetting();
+        if (!empty($systemSetting['showquestionbygrade']) && Ebh::app()->room->getRoomType() == 'edu') {
+            $apiServer = Ebh::app()->getApiServer('ebh');
+            $classinfo = $apiServer->reSetting()
+                ->setService('Member.User.getStudentClassInfo')
+                ->addParams('crid', $roominfo['crid'])
+                ->addParams('uid', $user['uid'])
+                ->request();
+            if (!empty($classinfo['grade'])) {
+                $queryarr['grade'] = $classinfo['grade'];
+            }
+        }
         $asks = $askmodel->getallasklist($queryarr);
         $ajax = $this->getajaxReturn($asks);
         if (is_int($ajax)) {//是否是ajax请求 整形就不是
@@ -1653,6 +1686,18 @@ class MyaskController extends CControl
         $queryarr['status'] = 0;
         $queryarr['hasbest'] = 0;
         $queryarr['order'] = 'q.answercount desc';
+        $systemSetting = Ebh::app()->room->getSystemSetting();
+        if (!empty($systemSetting['showquestionbygrade']) && Ebh::app()->room->getRoomType() == 'edu') {
+            $apiServer = Ebh::app()->getApiServer('ebh');
+            $classinfo = $apiServer->reSetting()
+                ->setService('Member.User.getStudentClassInfo')
+                ->addParams('crid', $roominfo['crid'])
+                ->addParams('uid', $user['uid'])
+                ->request();
+            if (!empty($classinfo['grade'])) {
+                $queryarr['grade'] = $classinfo['grade'];
+            }
+        }
         $askmodel = $this->model('Askquestion');
         $asks = $askmodel->getallasklist($queryarr);
         $ajax = $this->getajaxReturn($asks);
@@ -1724,6 +1769,18 @@ class MyaskController extends CControl
             }
         }
         $queryarr['order'] = 'q.answercount desc';
+        $systemSetting = Ebh::app()->room->getSystemSetting();
+        if (!empty($systemSetting['showquestionbygrade']) && Ebh::app()->room->getRoomType() == 'edu') {
+            $apiServer = Ebh::app()->getApiServer('ebh');
+            $classinfo = $apiServer->reSetting()
+                ->setService('Member.User.getStudentClassInfo')
+                ->addParams('crid', $roominfo['crid'])
+                ->addParams('uid', $user['uid'])
+                ->request();
+            if (!empty($classinfo['grade'])) {
+                $queryarr['grade'] = $classinfo['grade'];
+            }
+        }
         $askmodel = $this->model('Askquestion');
         $asks = $askmodel->getallasklist($queryarr);
         $ajax = $this->getajaxReturn($asks);
@@ -1794,6 +1851,18 @@ class MyaskController extends CControl
                 $enddate = $thetime + 86400;
                 $queryarr['startDate'] = $startdate;
                 $queryarr['endDate'] = $enddate;
+            }
+        }
+        $systemSetting = Ebh::app()->room->getSystemSetting();
+        if (!empty($systemSetting['showquestionbygrade']) && Ebh::app()->room->getRoomType() == 'edu') {
+            $apiServer = Ebh::app()->getApiServer('ebh');
+            $classinfo = $apiServer->reSetting()
+                ->setService('Member.User.getStudentClassInfo')
+                ->addParams('crid', $roominfo['crid'])
+                ->addParams('uid', $user['uid'])
+                ->request();
+            if (!empty($classinfo['grade'])) {
+                $queryarr['grade'] = $classinfo['grade'];
             }
         }
         $askmodel = $this->model('Askquestion');
@@ -2183,12 +2252,21 @@ class MyaskController extends CControl
         $type = $this->input->get('type');
         $type = intval($type);
         $type = $type > 0 ? $type : 1;
+        $systemSetting = Ebh::app()->room->getSystemSetting();
+        $showquestionbygrade = !empty($systemSetting['showquestionbygrade']) && Ebh::app()->room->getRoomType() == 'edu' ? 1 : 0;
+        $uid = 0;
+        if ($showquestionbygrade == 1) {
+            $user = Ebh::app()->user->getloginuser();
+            $uid = $user['uid'];
+        }
         $list = Ebh::app()
             ->getApiServer('ebh')
             ->reSetting()
             ->setService('Study.Ask.getsortname')
             ->addParams('type',$type)
             ->addParams('crid',$roominfo['crid'])
+            ->addParams('showquestionbygrade', $showquestionbygrade)
+            ->addParams('uid', $uid)
             ->request();
         if($list === false){//请求失败处理
             $list = array();

@@ -282,6 +282,24 @@ class AskquestionModel extends CModel {
         }
 		return TRUE;
 	}
+	
+	/*
+	 *问题列表，简单内容（伪直播用）
+	*/
+	public function getAskListSimple($param){
+		if(empty($param['crid']) || empty($param['cwid'])){
+			return array();
+		}
+		$sql = 'select q.qid,q.viewnum,q.title,q.cwid,q.answercount,q.hasbest,q.uid from ebh_askquestions q';
+        $wherearr[] = 'q.shield = 0';
+		$wherearr[] = 'q.cwid='.$param['cwid'];
+		$wherearr['crid'] = $param['crid'];
+		$sql.= ' WHERE ' . implode(' AND ', $wherearr);
+		$sql.= ' order by qid desc';
+		$sql.= ' limit 1000';
+		return $this->db->query($sql)->list_array();
+	}
+	
     /**
      * 教师全部问题列表
      * @param type $param
@@ -294,7 +312,12 @@ class AskquestionModel extends CModel {
             $page = $param['page'];
         $pagesize = empty($param['pagesize']) ? 10 : $param['pagesize'];
         $start = ($page - 1) * $pagesize;
-        $sql = 'select q.qid,q.crid,q.uid,q.folderid,q.title,q.answercount,q.hasbest,q.dateline,q.catpath,q.status,u.uid,u.sex,u.face,u.username,u.realname,f.foldername,q.message,q.shield,u.groupid,q.viewnum,q.cwname,q.cwid,q.reward,q.answered,q.imagesrc,q.coverimg,q.audioname,q.audiosrc,q.audiotime from ebh_askquestions q join ebh_users u on (q.uid = u.uid) left join ebh_folders f on (f.folderid = q.folderid)';
+        if (!empty($param['grade'])) {
+            $sql = 'select q.qid,q.crid,q.uid,q.folderid,q.title,q.answercount,q.hasbest,q.dateline,q.catpath,q.status,u.uid,u.sex,u.face,u.username,u.realname,f.foldername,q.message,q.shield,u.groupid,q.viewnum,q.cwname,q.cwid,q.reward,q.answered,q.imagesrc,q.coverimg,q.audioname,q.audiosrc,q.audiotime from ebh_askquestions q join ebh_users u on (q.uid = u.uid) join ebh_classstudents cs on cs.uid=u.uid join ebh_classes c on c.classid=cs.classid and c.crid=q.crid and c.grade='.$param['grade'].' left join ebh_folders f on (f.folderid = q.folderid)';
+        } else {
+            $sql = 'select q.qid,q.crid,q.uid,q.folderid,q.title,q.answercount,q.hasbest,q.dateline,q.catpath,q.status,u.uid,u.sex,u.face,u.username,u.realname,f.foldername,q.message,q.shield,u.groupid,q.viewnum,q.cwname,q.cwid,q.reward,q.answered,q.imagesrc,q.coverimg,q.audioname,q.audiosrc,q.audiotime from ebh_askquestions q join ebh_users u on (q.uid = u.uid) left join ebh_folders f on (f.folderid = q.folderid)';
+        }
+
         $wherearr = array();
         if (!empty($param['crid']))
             $wherearr[] = 'q.crid=' . $param['crid'];
@@ -464,9 +487,17 @@ class AskquestionModel extends CModel {
     public function getallaskcount($param) {
         $count = 0;
         if(!empty($param['group'])){
-            $sql = 'select count(DISTINCT '.$param['group'].') count from ebh_askquestions q join ebh_users u on (q.uid = u.uid)';
+            if (!empty($param['grade'])) {
+                $sql = 'select count(DISTINCT '.$param['group'].') count from ebh_askquestions q join ebh_users u on (q.uid = u.uid) join ebh_classstudents cs on cs.uid=u.uid join ebh_classes c on c.classid=cs.classid and c.crid=q.crid and c.grade='.$param['grade'];
+            } else {
+                $sql = 'select count(DISTINCT '.$param['group'].') count from ebh_askquestions q join ebh_users u on (q.uid = u.uid)';
+            }
         }else{
-            $sql = 'select count(*) count from ebh_askquestions q join ebh_users u on (q.uid = u.uid)';
+            if (!empty($param['grade'])) {
+                $sql = 'select count(*) count from ebh_askquestions q join ebh_users u on (q.uid = u.uid) join ebh_classstudents cs on cs.uid=u.uid join ebh_classes c on c.classid=cs.classid and c.crid=q.crid and c.grade='.$param['grade'];
+            } else {
+                $sql = 'select count(*) count from ebh_askquestions q join ebh_users u on (q.uid = u.uid)';
+            }
         }
         $wherearr = array();
         if (!empty($param['crid']))
@@ -635,7 +666,8 @@ class AskquestionModel extends CModel {
         $start = ($page - 1) * $pagesize;
         $sql = 'select a.aid,a.qid,a.uid,a.answertype,a.message,a.audioname,a.audiosrc,a.imagename,a.imagesrc,a.coursename,a.coursesrc,a.isbest,a.thankcount,a.dateline,a.attname,a.attsrc,a.cwid,a.cwsource,a.fromip,u.username,u.realname ,u.sex,u.groupid,u.face,a.audiotime from ebh_askanswers a '
                 . ' join ebh_users u on (u.uid = a.uid) where a.qid=' . $param['qid'] . ' and shield = 0 ';
-        $sql .= ' ORDER BY a.isbest desc,a.aid desc';
+//        $sql .= ' ORDER BY a.isbest desc,a.aid desc';
+        $sql .= ' ORDER BY u.groupid asc,a.aid desc';
         $sql .= ' limit ' . $start . ',' . $pagesize;
         return $this->db->query($sql)->list_array();
     }
@@ -739,9 +771,17 @@ class AskquestionModel extends CModel {
             $page = $param['page'];
         $pagesize = empty($param['pagesize']) ? 10 : $param['pagesize'];
         $start = ($page - 1) * $pagesize;
-        $sql = 'select q.qid,q.title,q.hasbest,q.dateline,q.catpath,q.status,q.answercount,f.foldername,u.uid,u.sex,u.face,u.username,u.realname,q.shield,u.groupid,q.reward,q.viewnum,q.cwid,q.cwname,f.folderid,q.audiosrc,q.imagesrc,q.audioname,q.coverimg,q.audiotime,q.message from ebh_askquestions q ' .
+        if (!empty($param['grade'])) {
+            $sql = 'select q.qid,q.title,q.hasbest,q.dateline,q.catpath,q.status,q.answercount,f.foldername,u.uid,u.sex,u.face,u.username,u.realname,q.shield,u.groupid,q.reward,q.viewnum,q.cwid,q.cwname,f.folderid,q.audiosrc,q.imagesrc,q.audioname,q.coverimg,q.audiotime,q.message from ebh_askquestions q ' .
+                'LEFT JOIN ebh_users u ON (u.uid = q.uid) ' .
+                ' JOIN ebh_classstudents cs on cs.uid=u.uid JOIN ebh_classes c on c.classid=cs.classid and c.crid=q.crid and c.grade='.$param['grade'].
+                ' LEFT JOIN ebh_folders f on (q.folderid = f.folderid) ';
+        } else {
+            $sql = 'select q.qid,q.title,q.hasbest,q.dateline,q.catpath,q.status,q.answercount,f.foldername,u.uid,u.sex,u.face,u.username,u.realname,q.shield,u.groupid,q.reward,q.viewnum,q.cwid,q.cwname,f.folderid,q.audiosrc,q.imagesrc,q.audioname,q.coverimg,q.audiotime,q.message from ebh_askquestions q ' .
                 'LEFT JOIN ebh_users u ON (u.uid = q.uid) ' .
                 'LEFT JOIN ebh_folders f on (q.folderid = f.folderid) ';
+        }
+
         $wherearr = array();
         if (!empty($param['crid']))
             $wherearr[] = 'q.crid=' . $param['crid'];
@@ -780,9 +820,17 @@ class AskquestionModel extends CModel {
      */
     public function getaskcountbynoanswers($param) {
         $count = 0;
-        $sql = 'select count(*) count from ebh_askquestions q ' .
+        if (!empty($param['grade'])) {
+            $sql = 'select count(*) count from ebh_askquestions q ' .
+                'LEFT JOIN ebh_users u ON (u.uid = q.uid) ' .
+                'JOIN ebh_classstudents cs on cs.uid=u.uid JOIN ebh_classes c on c.classid=cs.classid and c.crid=q.crid and c.grade='.$param['grade'].
+                ' LEFT JOIN ebh_folders f on (q.folderid = f.folderid) ';
+        } else {
+            $sql = 'select count(*) count from ebh_askquestions q ' .
                 'LEFT JOIN ebh_users u ON (u.uid = q.uid) ' .
                 'LEFT JOIN ebh_folders f on (q.folderid = f.folderid) ';
+        }
+
         $wherearr = array();
         if (!empty($param['crid']))
             $wherearr[] = 'q.crid=' . $param['crid'];
@@ -821,10 +869,20 @@ class AskquestionModel extends CModel {
      * @return list
      */
     public function getasklistbyanswersid($param) {
-        $sql = 'SELECT q.qid FROM ebh_askquestions q ' .
+        if (!empty($grade)) {
+            $sql = 'SELECT q.qid FROM ebh_askquestions q ' .
+                'LEFT JOIN ebh_users u ON (u.uid = q.uid) ' .
+                'JOIN ebh_classstudents cs on cs.uid=u.uid '.
+                'JOIN ebh_classes c on c.classid=cs.classid and c.crid=q.crid and c.grade='.$param['grade'].' '.
+                'LEFT JOIN ebh_askanswers a ON (q.qid = a.qid) ' .
+                'LEFT JOIN ebh_folders f on (q.folderid = f.folderid) ';
+        } else {
+            $sql = 'SELECT q.qid FROM ebh_askquestions q ' .
                 'LEFT JOIN ebh_askanswers a ON (q.qid = a.qid) ' .
                 'LEFT JOIN ebh_users u ON (u.uid = q.uid) ' .
                 'LEFT JOIN ebh_folders f on (q.folderid = f.folderid) ';
+        }
+
         $wherearr = array();
         if (!empty($param['crid']))
             $wherearr[] = 'q.crid=' . $param['crid'];

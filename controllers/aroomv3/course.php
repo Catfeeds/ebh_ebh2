@@ -516,6 +516,10 @@ class CourseController extends ARoomV3Controller{
 		$data['crid'] = $this->roominfo['crid'];
 		$data['uid'] = $this->user['uid'];
 		$data['roominfo'] = $this->roominfo;
+		if (Ebh::app()->room->getRoomType() == 'com') {
+            unset($data['targets']);
+        }
+
         $payiteminfo = $this->apiServer->reSetting()
             ->setService('Aroomv3.Course.payitemDetail')
             ->addParams(array('crid'=>$data['crid'],'folderid'=>$data['folderid']))->request();
@@ -524,6 +528,8 @@ class CourseController extends ARoomV3Controller{
 		$result = $this->apiServer->reSetting()->setService('Aroomv3.Course.edit')->addParams($data)->request();
 		
         if($result !== FALSE){
+            $redis = Ebh::app()->getCache('cache_redis');
+            $redis->del('ebh_plate-platform-'.$this->roominfo['crid']);
             $this->renderjson(0,'操作成功',array(),false);
             fastcgi_finish_request();	//操作成功，则直接返回前端输出
             $param = array();
@@ -552,10 +558,15 @@ class CourseController extends ARoomV3Controller{
 		$data['crid'] = $this->roominfo['crid'];
 		$data['uid'] = $this->user['uid'];
 		$data['roominfo'] = $this->roominfo;
+        if (Ebh::app()->room->getRoomType() == 'com') {
+            unset($data['targets']);
+        }
 		
 		$result = $this->apiServer->reSetting()->setService('Aroomv3.Course.add')->addParams($data)->request();
 		
         if($result !== FALSE){
+            $redis = Ebh::app()->getCache('cache_redis');
+            $redis->del('ebh_plate-platform-'.$this->roominfo['crid']);
             $this->renderjson(0,'操作成功',array(),false);
             fastcgi_finish_request();	//操作成功，则直接返回前端输出
             $data['toid'] = $result;
@@ -887,6 +898,7 @@ class CourseController extends ARoomV3Controller{
 		$data['crid'] = $this->roominfo['crid'];
 		$data['uid'] = $this->user['uid'];
 		$data['classid'] = $this->input->post('classid');
+		$data['inherit'] = intval($this->input->post('inherit'));
 		$folderids = $this->input->post('folderids');
 		if(empty($folderids)){
 			$folderids = array();
@@ -897,6 +909,7 @@ class CourseController extends ARoomV3Controller{
 		if(empty($detail) || $detail['crid'] != $data['crid'] ){
 			$this->renderjson(1,'没有权限');
 		}
+        $data['isenterprise'] = Ebh::app()->room->getRoomType() == 'com' ? 1 : 0;
 		if(empty($data['isclear'])){//不是清空操作
 			if(empty($data['classid']) || !is_array($folderids)){
 				$this->renderjson(1,'参数不正确');
@@ -954,6 +967,8 @@ class CourseController extends ARoomV3Controller{
 		}
 		$result = $this->apiServer->reSetting()->setService('Aroomv3.Course.del')->addParams($data)->request();
         if(!empty($result)){
+            $redis = Ebh::app()->getCache('cache_redis');
+            $redis->del('ebh_plate-platform-'.$this->roominfo['crid']);
             $this->renderjson(0,'操作成功',array(),false);
             fastcgi_finish_request();	//操作成功，则直接返回前端输出
             if(!empty($folder['foldername'])){

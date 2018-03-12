@@ -57,7 +57,7 @@
 				<td width="125"><?=empty($survey['startdate'])?'':date('Y-m-d H:i',$survey['startdate'])?><?=empty($survey['enddate'])?'':' 至 '.date('Y-m-d H:i',$survey['enddate'])?></td>
 				<td width="41"><?=$survey['ispublish']==1?'已发布':'未发布'?></td>
 				<td width="150">
-					<?php if (!in_array($survey['type'], array(4, 5))) { ?>
+					<?php if (!in_array($survey['type'], array(4, 5, 6))) { ?>
 						<a href="javascript:;" onclick="editsurvey(<?=$survey['sid']?>);">编辑</a>
 					<?php } ?>
 					<a href="javascript:;" onclick="delsurvey(<?=$survey['sid']?>);">删除</a>				

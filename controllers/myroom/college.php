@@ -427,7 +427,87 @@ class CollegeController extends CControl {
                     return isset($isort['all_price']) && $isort['all_price'] > 0 || !empty($isort['cannotpay']);
                 });
             }
+            if (Ebh::app()->room->getRoomType() == 'edu') {
+                $apiServer = Ebh::app()->getApiServer('ebh');
+                $classinfo = $apiServer->reSetting()
+                    ->setService('Member.User.getStudentClassInfo')
+                    ->addParams('crid', $roominfo['crid'])
+                    ->addParams('uid', $user['uid'])
+                    ->request();
+                $classid = $grade = 0;
+                if (!empty($classinfo)) {
+                    $classid = $classinfo['classid'];
+                    $grade = $classinfo['grade'];
+                }
+                $tfolderids = array();
+                foreach ($splist as $group) {
+                    if (empty($group['itemlist'])) {
+                        continue;
+                    }
+                    foreach ($group['itemlist'] as $item) {
+                        $tfolderids[$item['folderid']] = $item['folderid'];
+                    }
+                }
+                $folderTargets = $apiServer->reSetting()
+                    ->setService('Aroomv3.Course.getCourseTargets')
+                    ->addParams('crid', $roominfo['crid'])
+                    ->addParams('folderids', implode(',', $tfolderids))
+                    ->request();
+                unset($tfolderids);
+                if (!empty($folderTargets)) {
+                    $folderTargets = array_filter($folderTargets, function($target) use($grade, $classid) {
+                       if (empty($target['targets'])) {
+                           return false;
+                       }
+                       $grade = 0 - $grade;
+                       $targets = explode(',', $target['targets']);
+                       $targets = array_flip($targets);
+                       if (isset($targets[$classid]) || isset($targets[$grade])) {
+                           return false;
+                       }
+                       return true;
+                    });
+                    $tfolderids = array_keys($folderTargets);
+                    if (!empty($tfolderids)) {
+                        $tfolderids = array_flip($tfolderids);
+                        array_walk($splist, function(&$sp, $index, $tfolderids) {
+                            if (empty($sp['itemlist'])) {
+                                return;
+                            }
+                            $len = count($sp['itemlist']);
+                            $sp['itemlist'] = array_filter($sp['itemlist'], function($item) use($tfolderids) {
+                                return !isset($tfolderids[$item['folderid']]);
+                            });
 
+                            if (empty($sp['itemlist'])) {
+                                unset($sp['sorts']);
+                                return;
+                            }
+                            if ($len == count($sp['itemlist'])) {
+                                return;
+                            }
+                            $sids = array_column($sp['itemlist'], 'sid');
+                            $sids[-1] = -1;
+                            $sids = array_flip($sids);
+
+                            $sp['sorts'] = array_intersect_key($sp['sorts'], $sids);
+                            $key = key($sp['sorts']);
+                            if ($key == -1 && count($sp['sorts']) < 3) {
+                                unset($sp['sorts'][$key]);
+                                $key = key($sp['sorts']);
+                            }
+                            if ($key == -1) {
+                                next($sp['sorts']);
+                                $key = key($sp['sorts']);
+                            }
+                            $sp['csid'] = $key;
+                        }, $tfolderids);
+                        $splist = array_filter($splist, function($sp) {
+                            return !empty($sp['itemlist']);
+                        });
+                    }
+                }
+            }
 
             $this->assign('vis_sorts', $vis_sorts);
 			$this->assign('splist',$splist);
@@ -1790,11 +1870,11 @@ class CollegeController extends CControl {
                                 if ($schoolType == 2) {
                                     //国土处理方式
                                     $totalltime = isset($currFolder['totalltime']) ? $currFolder['totalltime'] : 0;
-                                    $percent    = $totalltime / $cwlength * 100;
+                                    $percent    = $cwlength == 0 ? 0 : $totalltime / $cwlength * 100;
                                 } else {
                                     //非国土的处理方式
                                     $ltime   = isset($currFolder['ltime']) ? $currFolder['ltime'] : 0;
-                                    $percent = $ltime / $cwlength * 100;
+                                    $percent = $cwlength == 0 ? 0 : $ltime / $cwlength * 100;
 
                                 }
 

@@ -167,6 +167,54 @@
 	background:url(http://static.ebanhui.com/ebh/tpl/troomv2/images/tjsiehr.jpg) no-repeat;
 	cursor: pointer;
 }
+
+/*开通服务选择课程样式*/
+.openser_div{
+	display: none;
+}
+.openser_ul{
+	float: left;
+	width: 518px;
+	height: 98px;
+	margin: 10px 0 0 20px;
+	border: 1px solid #cccccc;
+	padding: 10px;
+	overflow-y: auto;
+}
+.openser_ul li{
+	list-style: none;
+	float: left;
+	position: relative;
+	width: 72px;
+	height: 24px;
+	line-height: 24px;
+	color: #fff;
+	text-align: center;
+	font-size: 12px;
+	margin: 0 11px 10px 0;
+	background: #409EFF;
+}
+.openser_ul li .tablinamecourse{
+	float: left;
+	width: 100%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+} 
+.openser_ul li .delLicourse{
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	position: absolute;
+	top: -8px;
+	right: -8px; 
+	text-align: center;
+	line-height: 10px;
+	color: #fff;
+	border: 1px solid #ccc;
+	cursor: pointer;
+	background: #409EFF;
+}
 </style>
 <script type="text/javascript" src="http://static.ebanhui.com/ebh/js/mysurveyadd.js?<?=getv()?>"></script>
 <script type="text/javascript" src="http://static.ebanhui.com/ebh/js/date/WdatePicker.js"></script>
@@ -229,11 +277,19 @@
 					<input type="radio" class="relateradio" name="relate" onclick="relatedisplay(3)" value="3" disabled="disabled" />选课问卷
 				</label>
 				<label>
-					<input type="radio" class="relateradio" name="relate" onclick="relatedisplay(4)" value="4" disabled="disabled" />开通服务问卷
+					<input type="radio" class="relateradio" name="relate" onclick="relatedisplay(6)" value="6" />开通服务后问卷
 				</label>
 				<label>
 					<input type="radio" class="relateradio" name="relate" onclick="relatedisplay(5)" value="5" />登录前问卷
 				</label>
+			</div>
+			
+			<div class="openser_div">
+				<ul class="openser_ul">
+					<!--动态生成-->
+				</ul>
+				<span class="addclassBtn" onclick="addcourseFun()"></span>
+				<div id="addcourse_id" style="width: 0px;height: 0px;overflow: hidden;"></div>
 			</div>
 			<div class="relatecw">
 				<div class="eeret" id="eeret1">
@@ -347,7 +403,7 @@ $(function(){
 			$('#sidebar').removeClass('affix');
 	});
 });
-var cacheTabs = {};
+var cacheTabs = {},cacheTabscourse = [];
 var ifgrade = '<?=$roominfo['grade']?>'
 if(ifgrade == 0){
 	$(".notallschool").hide();
@@ -394,6 +450,34 @@ function addclassFun(type){
         content:$("#addclass_dialog")[0]
     }),'common').exec('show');
 };
+
+$(".openser_ul").on("click",".delLicourse",function(){
+	$(this).parent().remove();
+	var delfolderid = $(this).parent().attr("folderid");
+	for(var i=0;leni=cacheTabscourse.length;i++){
+		if(delfolderid == cacheTabscourse[i].folderid){
+			cacheTabscourse.splice(i, 1);
+			return;
+		}
+	}
+});
+
+function addcourseFun(){
+	H.remove('choiceCourse_dialog');
+	$("#addclss_id").empty();
+	var addcourse = "";
+	addcourse += '<div id="choiceCourse_dialog" style="display:none;">'
+	addcourse += '<style>.ui-dialog2{border-radius: 1px;}</style>'
+	addcourse += '<iframe id="addcourseifr" src="/troomv2/survey/addcourse.html" frameborder="0" width="1000" height="660"></iframe>'
+	addcourse += '</div>'
+	$("#addcourse_id").append(addcourse);
+	H.create(new P({
+        id:'choiceCourse_dialog',
+        title:'',
+        easy:true,
+        content:$("#choiceCourse_dialog")[0]
+    }),'common').exec('show');
+}
 
 var submitFlag = true;
 function submit(){
@@ -522,6 +606,16 @@ function submit(){
 		content.push(q);
 	});
 
+	var courseid = [];
+	if(relatetype == 6){
+		for(var i=0;leni=$(".openser_ul li").length,i<leni;i++){
+			var itemi = $(".openser_ul li")[i];
+			courseid.push($(itemi).attr("folderid"))
+		}
+	}else{
+		courseid = [];
+	}
+
 	var isroomclass = $('input[name=lookinto]:checked').val();
 	var classids = [];
 	if(relatetype == 5){
@@ -568,7 +662,8 @@ function submit(){
 			'startdate':startdate,
 			'enddate':enddate,
 			'isroomclass': isroomclass,
-			'classids':classids
+			'classids':classids,
+			'folderids':courseid
 		},
 		success:function(data){
 			submitFlag = true;
@@ -688,12 +783,20 @@ function relatedisplay(type){
 		$('.relatecw').hide();
 	}
 	if(type == 5){
-		$("input[name='allowanonymous']").attr('disabled','disabled');
-		$("input[name='allowanonymous']").get(1).checked=true;
 		$(".choseobj").show();
 	}else{
-		$("input[name='allowanonymous']").removeAttr('disabled');
 		$(".choseobj").hide();
+	}
+	if(type == 6){
+		$(".openser_div").show();
+	}else{
+		$(".openser_div").hide();
+	}
+	if(type == 5 || type == 6){
+		$("input[name='allowanonymous']").attr('disabled','disabled');
+		$("input[name='allowanonymous']").get(1).checked=true;
+	}else{
+		$("input[name='allowanonymous']").removeAttr('disabled');
 	}
 }
 </script>
