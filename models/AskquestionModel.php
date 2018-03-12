@@ -635,7 +635,8 @@ class AskquestionModel extends CModel {
         $start = ($page - 1) * $pagesize;
         $sql = 'select a.aid,a.qid,a.uid,a.answertype,a.message,a.audioname,a.audiosrc,a.imagename,a.imagesrc,a.coursename,a.coursesrc,a.isbest,a.thankcount,a.dateline,a.attname,a.attsrc,a.cwid,a.cwsource,a.fromip,u.username,u.realname ,u.sex,u.groupid,u.face,a.audiotime from ebh_askanswers a '
                 . ' join ebh_users u on (u.uid = a.uid) where a.qid=' . $param['qid'] . ' and shield = 0 ';
-        $sql .= ' ORDER BY a.isbest desc,a.aid desc';
+//        $sql .= ' ORDER BY a.isbest desc,a.aid desc';
+        $sql .= ' ORDER BY u.groupid asc,a.aid desc';
         $sql .= ' limit ' . $start . ',' . $pagesize;
         return $this->db->query($sql)->list_array();
     }
