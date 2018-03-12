@@ -107,7 +107,8 @@ class ClasscourseController extends CControl{
             $uparr = $this->input->post('up');
             //直播类型
             $live_type = intval($this->input->post('live_type'));
-
+			//指定答疑回答老师uid
+			$askto = intval($this->input->post('askto'));
             /*
             //老的上传暂时注释，供新方法参考
             if(!empty($uparr['upfilename'])&&!empty($uparr['upfilepath']) && ($cwtype=='course')){
@@ -260,7 +261,8 @@ class ClasscourseController extends CControl{
                     'checksum'=>$checksum,
                     'assistantid' => $assistantid,
                     'open_chatroom' => $open_chatroom,
-                    'live_type' =>  $live_type
+                    'live_type' =>  $live_type,
+					'askto'=>$askto
             );
 			if (!empty($viewPowerClasses)) {
 				$param['classids'] = implode(',', $viewPowerClasses);
@@ -383,6 +385,7 @@ class ClasscourseController extends CControl{
             }
 
         } else {
+            $folderid = intval($this->uri->uri_attr(0));
             if ($roomtype == 'edu') {
                 //获取用户任教班级
                 $api = Ebh::app()->getApiServer('ebh');
@@ -392,8 +395,11 @@ class ClasscourseController extends CControl{
                     ->addParams('uid', $user['uid'])
                     ->request();
                 $this->assign('classes', $classes);
+				
+				//课程的老师
+				$askteacherlist = $this->model('folder')->getFolderTeacherByCrid($folderid,$roominfo['crid']);
+				$this->assign('askteacherlist',$askteacherlist);
             }
-            $folderid = intval($this->uri->uri_attr(0));
             $this->assign('folderid', $folderid);
             $cwtype = $this->uri->uri_attr(1);
             $foldermodel = $this->model('folder');
@@ -512,6 +518,8 @@ class ClasscourseController extends CControl{
 
                 //直播类型
                 $live_type = intval($this->input->post('live_type'));
+				//指定答疑回答老师uid
+                $askto = intval($this->input->post('askto'));
 
 
                 //上传处理
@@ -553,7 +561,8 @@ class ClasscourseController extends CControl{
                     'sid'=>$sectionid,
                     'status'=>$status,
                     'open_chatroom'=>$open_chatroom,
-                    'live_type' =>  $live_type
+                    'live_type' =>  $live_type,
+					'askto'=>$askto
                     // 'cwname'=>$cwname,
                     // 'cwsource'=>$cwsource,
                     // 'cwurl'=>$cwurl,
@@ -943,6 +952,9 @@ class ClasscourseController extends CControl{
 						$course['classids'] = array_flip($course['classids']);
                         $course['classids'] = array_intersect_key($classes, $course['classids']);
 					}
+					//课程的老师
+					$askteacherlist = $this->model('folder')->getFolderTeacherByCrid($course['folderid'],$roominfo['crid']);
+					$this->assign('askteacherlist',$askteacherlist);
 				}
                 $folderid = $course['folderid'];
                 $upcontrol = Ebh::app()->lib('UpcontrolLib');
@@ -954,6 +966,7 @@ class ClasscourseController extends CControl{
                 $this->assign('folder', $folder);
                 $this->assign('upcontrol', $upcontrol);
                 $this->assign('editor', $editor);
+                $this->assign('user',$user);
                 $this->assign('roominfo',$roominfo);
                 $this->assign('iszjdlr',$is_zjdlr);
                 $this->assign('isnewzjdlr',$is_newzjdlr);
