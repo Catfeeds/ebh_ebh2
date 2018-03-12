@@ -282,6 +282,24 @@ class AskquestionModel extends CModel {
         }
 		return TRUE;
 	}
+	
+	/*
+	 *问题列表，简单内容（伪直播用）
+	*/
+	public function getAskListSimple($param){
+		if(empty($param['crid']) || empty($param['cwid'])){
+			return array();
+		}
+		$sql = 'select q.qid,q.viewnum,q.title,q.cwid,q.answercount,q.hasbest,q.uid from ebh_askquestions q';
+        $wherearr[] = 'q.shield = 0';
+		$wherearr[] = 'q.cwid='.$param['cwid'];
+		$wherearr['crid'] = $param['crid'];
+		$sql.= ' WHERE ' . implode(' AND ', $wherearr);
+		$sql.= ' order by qid desc';
+		$sql.= ' limit 1000';
+		return $this->db->query($sql)->list_array();
+	}
+	
     /**
      * 教师全部问题列表
      * @param type $param
