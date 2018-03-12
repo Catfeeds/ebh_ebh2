@@ -312,6 +312,8 @@ class DesignController extends CControl {
         $vedioids = $this->input->post('vedioids');
         $settings = trim($post['settings']);
         $did = intval($this->input->post('did'));
+        //背景课件视频ID
+        $backvedio = intval($this->input->post('backvedio'));
         //$settings = iconv('gbk', 'utf8', $settings);
         $settings = htmlspecialchars_decode($settings);
         $arr = json_decode($settings,true);
@@ -347,13 +349,7 @@ class DesignController extends CControl {
                 $domain = $uri->uri_domain();
                 $roomcache = Ebh::app()->lib('Roomcache');
                 $roomcache->removeCache(0,'roominfo',$domain);
-
-                //设置免费试听
-                $this->saveAuditions($auditions, $ret['data']);
-                //设置首页视频,一定要在设置免费试听操作之后
-                if (!empty($vedioids)) {
-                    $this->setVedios($vedioids, $ret['data']);
-                }
+                $this->setHomeVedio($auditions, $vedioids, $backvedio, $did);
             }
             renderjson(0,'数据保存成功',$ret['data'], false);
             //保存装扮操作成功后记录到操作日志
@@ -656,10 +652,7 @@ class DesignController extends CControl {
      * 添加免费试听
      */
     protected function saveAuditions($auditions, $did){
-        if(empty($auditions)){
-            return false;
-        }
-        $cwid = $auditions;
+        $cwid = empty($auditions) ? 0 : $auditions;
         $room = $this->room;
         $apiServer = Ebh::app()->getApiServer('ebh');
         $ret = $apiServer->reSetting()
@@ -680,6 +673,9 @@ class DesignController extends CControl {
      * @param array $cwids
      */
     protected function setVedios($cwids, $did) {
+        if (empty($cwids)) {
+            $cwids = array();
+        }
         if (!is_array($cwids)) {
             return;
         }
@@ -689,7 +685,7 @@ class DesignController extends CControl {
         });
         $room = $this->room;
         if (empty($cwids)) {
-            return;
+            $cwids = array();
         }
         $apiServer = Ebh::app()->getApiServer('ebh');
         $params = array(
@@ -699,6 +695,44 @@ class DesignController extends CControl {
         );
         $apiServer->reSetting()
             ->setService('Courseware.Vedio.setComponentVedio')
+            ->addParams($params)
+            ->request();
+    }
+
+    /**
+     * 设置装扮免费试听视频课件、装扮主页视频课件、装扮背景视频
+     * @param string $auditions 免费试听课件ID集，以','分割
+     * @param array $vedioids 主页视频课件ID集
+     * @param int $backvedio 背景视频课件ID
+     * @param int $did 装扮ID
+     */
+    protected function setHomeVedio($auditions, $vedioids, $backvedio, $did) {
+        $auditions = trim($auditions, " \t\n\r\0\x0B,");
+        $auditions = empty($auditions) ? array() : explode(',', $auditions);
+        if (!empty($auditions)) {
+            $auditions = array_filter($auditions, function($id) {
+                return is_numeric($id) && intval($id) > 0;
+            });
+        }
+        if (empty($vedioids)) {
+            $vedioids = array();
+        } else {
+            $vedioids = array_filter($vedioids, function($vedioid) {
+               return is_numeric($vedioid) && intval($vedioid) > 0;
+            });
+        }
+        $did = intval($did);
+        $backvedio = intval($backvedio);
+        $apiServer = Ebh::app()->getApiServer('ebh');
+        $params = array(
+            'did' => $did,
+            'auditions' => $auditions,
+            'vedioids' => $vedioids,
+            'backvedio' => $backvedio,
+            'crid' => $this->room['crid']
+        );
+        $apiServer->reSetting()
+            ->setService('Courseware.Vedio.setHomeVedio')
             ->addParams($params)
             ->request();
     }
@@ -819,6 +853,89 @@ class DesignController extends CControl {
         }
 
         return $ck;
+    }
+
+    /**
+     * 保存装扮预览图
+     */
+    public function savepreview() {
+        //装扮ID
+        $did = intval($this->input->post('did'));
+        if ($did < 1) {
+            echo '0';
+            exit();
+        }
+        //装扮base64预览图
+        $preview = trim($this->input->post('preview'));
+        $top = substr($preview, 0, 50);
+        $len = 0;
+        if (preg_match('/^data:image\/png;base64,/i', $top, $image)) {
+            $tmpname = tempnam(sys_get_temp_dir(), 'designpreview');
+            $start = strlen($image[0]);
+            $len = @file_put_contents($tmpname, base64_decode(substr($preview, $start)));
+        }
+        if ($len <= 0) {
+            //base64图片格式错误
+            echo '0';
+            exit();
+        }
+        $mimetype = 'image/png';
+        $ext = '.png';
+        $imagesize = filesize($tmpname);
+        if ($imagesize > 2097152) {
+            //图片大于2M，压缩图片
+            $dst = @imagecreatefrompng($tmpname);
+            if ($dst === false) {
+                echo '0';
+                exit();
+            }
+            $w = $sw = imagesx($dst);
+            $h = $sh = imagesy($dst);
+            if ($sh > 1800) {
+                $sh = 1800;
+                $sw = intval(round($w * $sh / $h));
+            }
+            $im = imagecreatetruecolor($sw, $sh);
+            $ret = @imagecopyresampled($im, $dst, 0, 0, 0, 0, $sw, $sh, $w, $h);
+            if ($ret === false) {
+                echo '0';
+                exit();
+            }
+            imagedestroy($dst);
+            $ret = @imagejpeg($im, $tmpname, 90);
+            if ($ret === false) {
+                echo '0';
+                exit();
+            }
+            imagedestroy($im);
+            $mimetype = 'image/jpeg';
+            $ext = '.jpg';
+        }
+        $size = filesize($tmpname);
+        //图片转存到图片服务器
+        $uptype = 'aroomv3';
+        $data = array('from'=> 'ebh2', 'uptype' => $uptype, 'upfield' => 'upfile', 'size' => $size);
+        $cfile = curl_file_create($tmpname, $mimetype, $tmpname.$ext);
+        $data['upfile'] = $cfile;
+        $_UP = Ebh::app()->getConfig()->load('upconfig');
+        $server = isset($_UP[$uptype]) ? $_UP[$uptype]['server'][0] : $_UP['aroomv3']['server'][0];
+        $res = do_post($server, $data);
+        $res = json_decode($res, true);
+        if ($res === false) {
+            echo '0';
+            exit();
+        }
+        $showurl = $res['data']['showurl'];
+        //更新装扮预览图
+        $apiServer = Ebh::app()->getApiServer('ebh');
+        $ret = $apiServer->reSetting()
+            ->setService('Classroom.Design.savePreview')
+            ->addParams('crid', $this->room['crid'])
+            ->addParams('did', $did)
+            ->addParams('preview', $showurl)
+            ->request();
+        echo $ret;
+        exit();
     }
 
 }

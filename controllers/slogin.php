@@ -97,6 +97,25 @@ class SloginController extends CControl{
 				$this->assign('un',$this->input->get('un'));
 			}
 			$this->assign('sharp',$this->input->get('sharp'));
+			
+			//已登录状态,跳转
+			$user = Ebh::app()->user->getloginuser();
+			if (!empty($user) && $user['groupid'] == 6) {
+				$roommodel = $this->model('Classroom');
+				$roomlist = $roommodel->getroomlistbyuid($user['uid']);
+				if(count($roomlist) == 1)
+					$returnurl = 'http://'.$roomlist[0]['domain'].'.ebh.net/myroom.html';
+				else
+					$returnurl = geturl('homev2');
+				// $returnurl = geturl('member');
+			} else if(!empty($user)){
+				$returnurl = geturl('homev2');
+			}
+			if(!empty($returnurl)){
+				header('Location: '.$returnurl);
+				exit;
+			}
+			
             $this->_show_login();
         }
     }
@@ -114,13 +133,6 @@ class SloginController extends CControl{
      */
     function _show_login() {
         //获取分类列表
-        $catlist = $this->cache->get('catlist1');
-        if (empty($catlist)) {
-            $catmodel = $this->model('Category');
-            $catlist = $catmodel->getCatlistByUpid(0, 2, NULL);
-            $this->cache->set('catlist1', $catlist, 30);
-        }
-        $this->assign('catlist', $catlist);
         $this->display('common/slogin');
     }
 	

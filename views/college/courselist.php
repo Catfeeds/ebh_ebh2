@@ -4,7 +4,7 @@
 <?php
 	$v=getv();
     $appsetting = Ebh::app()->getConfig()->load('othersetting');
-    $appsetting['szlz'] = empty($appsetting['szlz'])?0:$appsetting['szlz'];
+    $szlz = $appsetting['szlz'] = empty($appsetting['szlz'])?0:$appsetting['szlz'];
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/ebh/tpl/college/style.css<?=$v?>"/>
@@ -1151,7 +1151,7 @@ if(!empty($roominfo['crid'])){
 										}
 										if (($folder['iprice'] == 0 || !empty($folder['isschoolfree']) && !empty($userin))) {
 											$btn_img = 'http://static.ebanhui.com/ebh/tpl/default/images/free-btn.png';
-											if ($roominfo['crid'] == $appsetting['szlz'])
+											if ($roominfo['crid'] == $szlz)
 												$btn_img = 'http://static.ebanhui.com/ebh/tpl/newschoolindex/images/szlzfree.png';
 											if (!empty($vis_sorts[$folder['sid']]['showbysort'])) {
 												$buy_url = '/ibuy.html?itemid='.$folder['itemid'];//geturl('courseinfo/college/'.$folder['itemid']);
@@ -1232,7 +1232,7 @@ if(!empty($roominfo['crid'])){
 										}
 										if (($folder['iprice'] == 0 || !empty($folder['isschoolfree']) && !empty($userin))) {
 											$btn_img = 'http://static.ebanhui.com/ebh/tpl/default/images/free-btn.png';
-											if ($roominfo['crid'] == $appsetting['szlz'])
+											if ($roominfo['crid'] == $szlz)
 												$btn_img = 'http://static.ebanhui.com/ebh/tpl/newschoolindex/images/szlzfree.png';
 											if (!empty($vis_sorts[$folder['sid']]['showbysort'])) {
 												$buy_url = '/ibuy.html?itemid='.$folder['itemid'];//geturl('courseinfo/college/'.$folder['itemid']);
@@ -1312,7 +1312,7 @@ if(!empty($roominfo['crid'])){
 											<?php if(empty($folder['cannotpay'])){
 												if ($folder['iprice'] == 0 || !empty($folder['isschoolfree']) && !empty($userin)) {
 													$btn_img = 'http://static.ebanhui.com/ebh/tpl/default/images/free-btn.png';
-													if ($roominfo['crid'] == $appsetting['szlz'])
+													if ($roominfo['crid'] == $szlz)
 														$btn_img = 'http://static.ebanhui.com/ebh/tpl/newschoolindex/images/szlzfree.png';
 													if (!empty($vis_sorts[$folder['sid']]['showbysort'])) {
 														$buy_url = '/ibuy.html?itemid='.$folder['itemid'];//geturl('courseinfo/college/'.$folder['itemid']);
@@ -1383,7 +1383,7 @@ if(!empty($roominfo['crid'])){
 				<div class="paewes"></div>
 			</div>
 			<div class="jduste">
-			<?php if ($roominfo['crid'] != $appsetting['szlz']) {?>
+			<?php if ($roominfo['crid'] != $szlz) {?>
 				价格：<span class="cshortr">免费</span>
 			<?php }?>
 			</div>
@@ -1392,9 +1392,9 @@ if(!empty($roominfo['crid'])){
 
 </body>
 <script>
-	var surveyMessage = "<?= $roominfo['crid'] != $appsetting['szlz'] ? '为了更好的服务您，我们诚挚邀请您参与问卷调查，填写并提交成功便有机会获得礼物哦。':'为了更好的服务您，我们诚挚邀请您参与问卷调查，填写并提交成功便能观看精彩视频！' ?>";
-	var buyFreeTitle = "<?= $roominfo['crid'] != $appsetting['szlz'] ? '报名':'信息提醒' ?>";
-	var buyFreeAttend = "<?= $roominfo['crid'] != $appsetting['szlz'] ? '报名':'去观看' ?>";
+	var surveyMessage = "<?= $roominfo['crid'] != $szlz ? '为了更好的服务您，我们诚挚邀请您参与问卷调查，填写并提交成功便有机会获得礼物哦。':'为了更好的服务您，我们诚挚邀请您参与问卷调查，填写并提交成功便能观看精彩视频！' ?>";
+	var buyFreeTitle = "<?= $roominfo['crid'] != $szlz ? '报名':'信息提醒' ?>";
+	var buyFreeAttend = "<?= $roominfo['crid'] != $szlz ? '报名':'去观看' ?>";
 	// (function($) {
     var surveyId = <?=!empty($survey_id) ? intval($survey_id) : '0' ?>;
 		function getSingleItem(itemid, callback) {
@@ -1461,6 +1461,12 @@ if(!empty($roominfo['crid'])){
 							if (ret.status == '0') {
 								alert('报名失败,请重试');
 							}
+							//有开通服务后问卷则跳转
+							if(ret.surveysid){
+								var oUrl = "/survey/"+ret.surveysid+".html";
+								top.location.href = oUrl;
+                              	return;
+                            }
 							//报名成功后进入学习页面
 							location.reload();
 						}

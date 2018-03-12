@@ -609,6 +609,7 @@ class MyaskController extends CControl {
 				$ifcourseteacher = $rtmodel->ifCourseTeacher($user['uid'],$ask['folderid']);
 				$this->assign('bestpower',$ifcourseteacher);
 			}
+			$answers = arraySequence($answers,'groupid','SORT_ASC');
             $this->assign('audioque',$audio);
             $this->assign('rewardlist', $rewardlist);
             $this->assign('head',1);//头部不同

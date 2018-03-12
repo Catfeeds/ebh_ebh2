@@ -169,4 +169,22 @@ class designController extends ARoomV3Controller
             Ebh::app()->lib('OperationLog')->addLog($logdata,$operation);
         }
     }
+
+    /**
+     * 获取装扮预览图
+     */
+    public function getpreview() {
+        $did = intval($this->input->get('did'));
+        if ($did < 1) {
+            echo '';
+            exit();
+        }
+        $ret = $this->apiServer->reSetting()
+            ->setService('Aroomv3.Design.getDesignPreview')
+            ->addParams('did', $did)
+            ->addParams('crid', $this->roominfo['crid'])
+            ->request();
+        echo urldecode($ret);
+        exit();
+    }
 }

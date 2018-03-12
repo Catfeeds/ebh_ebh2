@@ -78,8 +78,8 @@ a.title-a{
 				<td width="50"><?=$survey['ispublish']==1?'已发布':'未发布'?></td>
 				<td width="130">
 					<a style="float:left;color:#2696f0;margin-right:20px;line-height:26px;" href="/troomv2/survey/stat/<?=$survey['sid']?>.html">统计</a>
-					<?php if(!empty($survey['type']) && ($survey['type']==5)){?>
-						<a class="xiaust" href="javascript:;" onclick="editsurvey(<?=$survey['sid']?>,0);"></a>
+					<?php if(!empty($survey['type']) && (($survey['type']==5) || ($survey['type']==6))){?>
+						<a class="xiaust" href="javascript:;" onclick="editsurvey(<?=$survey['sid']?>,0,<?=$survey['type']?>);"></a>
 					<?php }else{ ?>
 						<a class="xiaust" href="javascript:;" onclick="editsurvey(<?=$survey['sid']?>,1);"></a>
 					<?php }?>
@@ -98,11 +98,12 @@ a.title-a{
 <!--编辑问卷对话框-->
 	<input type="hidden" id="current_sid" value="0" />
 <script>
-function editsurvey(sid,temp) {
+function editsurvey(sid,temp,type) {
 	if(!temp){
+		var tips = type==5?"登录前问卷无法编辑！":"开通服务后问卷无法编辑！";
 		top.dialog({
 			title:"提示",
-			content:"登录前问卷无法编辑!",
+			content:tips,
 			okValue:"确定",
 			ok:function(){
 				
@@ -130,18 +131,18 @@ function editsurvey(sid,temp) {
 		});
 	
 		top.dialog({
-		title:"编辑问卷",
-		content:"确定要编辑该问卷吗？",
-		cancel:function () {
-			this.close().remove();
-		},
-		cancelValue:"取消",
-		okValue:"确定",
-		ok:function(){
-			this.close().remove();
-			var current_sid = $("#current_sid").val();
-			window.open("/troomv2/survey/edit/"+current_sid+".html");
-		}
+			title:"编辑问卷",
+			content:"确定要编辑该问卷吗？",
+			cancel:function () {
+				this.close().remove();
+			},
+			cancelValue:"取消",
+			okValue:"确定",
+			ok:function(){
+				this.close().remove();
+				var current_sid = $("#current_sid").val();
+				window.open("/troomv2/survey/edit/"+current_sid+".html");
+			}
 		}).showModal();
 	}
 	
@@ -168,17 +169,17 @@ function delsurvey(sid) {
 	});
 
 	top.dialog({
-	title:"删除问卷",
-	content:"确定要删除该问卷吗？",
-	cancel:function () {
-		this.close().remove();
-	},
-	cancelValue:"取消",
-	okValue:"确定",
-	ok:function(){
-		this.close().remove();
-		savedel();
-	}
+		title:"删除问卷",
+		content:"确定要删除该问卷吗？",
+		cancel:function () {
+			this.close().remove();
+		},
+		cancelValue:"取消",
+		okValue:"确定",
+		ok:function(){
+			this.close().remove();
+			savedel();
+		}
 	}).showModal();
 }
 
@@ -216,7 +217,7 @@ function dialogtip(){
 	}
 }
 $(function(){
-		$('.datatab tr:last td').css('border-bottom','none');
-	});
+	$('.datatab tr:last td').css('border-bottom','none');
+});
 </script>
 <?php $this->display('troomv2/page_footer'); ?>
