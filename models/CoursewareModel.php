@@ -106,6 +106,9 @@ class CoursewareModel extends CModel {
         if (isset($param['live_type'])) {
             $setarr['live_type'] = $param['live_type'];
         }
+		if (isset($param['askto'])) {
+            $setarr['askto'] = $param['askto'];
+        }
         $cwid = $this->db->insert('ebh_coursewares', $setarr);
         if ($cwid) {
             $rcsetarr = array();    //升级roomcourses
@@ -230,6 +233,9 @@ class CoursewareModel extends CModel {
         if (isset($param['live_type'])) {
             $setarr['live_type'] = $param['live_type'];
         }
+		if (isset($param['askto'])) {
+            $setarr['askto'] = $param['askto'];
+        }
         $cwwhere = array('cwid' => $wherearr['cwid']);
         $arows += $this->db->update('ebh_coursewares', $setarr, $cwwhere);
 
@@ -309,7 +315,7 @@ class CoursewareModel extends CModel {
      * @return array
      */
     public function getcoursedetail($cwid,$crid=0) {
-        $sql = 'select c.cwid,c.uid,c.catid,c.title,c.tag,c.logo,c.images,c.isrtmp,c.ism3u8,c.m3u8url,c.thumb,c.summary,c.message,c.cwname,c.cwsource,c.cwurl,cwsize,c.dateline,c.ispreview,c.apppreview,c.status,c.submitat,c.endat,c.cwlength,c.islive,c.liveid,c.sourceid,c.checksum,c.zannum,c.assistantid,c.open_chatroom,c.live_type,u.username,u.realname,rc.crid,rc.folderid,rc.sid,rc.isfree,rc.cdisplayorder,rc.delaytime,rc.classids,f.foldername,f.fprice,f.isremind,f.remindtime,f.remindmsg,f.summary as fsummary,f.img as flogo,f.isschoolfree,c.viewnum,c.submitat,c.endat,c.cwlength,c.truedateline,u.sex,u.face,rc.cwpay,rc.cmonth,rc.cday,rc.cprice,rc.roomfee,rc.looktime,rc.comfee,rc.classids ' .
+        $sql = 'select c.cwid,c.uid,c.catid,c.title,c.tag,c.logo,c.images,c.isrtmp,c.ism3u8,c.m3u8url,c.thumb,c.summary,c.message,c.cwname,c.cwsource,c.cwurl,cwsize,c.dateline,c.ispreview,c.apppreview,c.status,c.submitat,c.endat,c.cwlength,c.islive,c.liveid,c.sourceid,c.checksum,c.zannum,c.assistantid,c.open_chatroom,c.live_type,u.username,u.realname,rc.crid,rc.folderid,rc.sid,rc.isfree,rc.cdisplayorder,rc.delaytime,rc.classids,f.foldername,f.fprice,f.isremind,f.remindtime,f.remindmsg,f.summary as fsummary,f.img as flogo,f.isschoolfree,c.viewnum,c.submitat,c.endat,c.cwlength,c.truedateline,u.sex,u.face,rc.cwpay,rc.cmonth,rc.cday,rc.cprice,rc.roomfee,rc.looktime,rc.comfee,rc.classids,c.askto ' .
                 'from ebh_coursewares c ' .
                 'join ebh_roomcourses rc on (c.cwid = rc.cwid) ' .
                 'left join ebh_users u on (u.uid = c.uid) ' .
