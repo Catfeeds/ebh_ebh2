@@ -87,6 +87,23 @@ body{
 	width:840px;
 	line-height:normal;
 }
+<?php 
+	$islive = $this->input->get("islive");
+?>
+<?php if($islive == 1){?>
+	.clay_topfixed{
+		display:none;
+	}
+	.reward{
+		display:none;
+	}
+	.ctop{
+		display:none;
+	}
+	.lefrig-2{
+		margin-top:0;
+	}
+<?php } ?>	
 </style>
 <body>
 <div class="lefrig" style="float:none;">
@@ -320,8 +337,16 @@ body{
 </div>
 </body>
 <script type="text/javascript">
+if(window.parent.ws != undefined){
+	var myWs = window.parent.ws;
+	var parentAddView = window.parent.addView;
+	parentAddView("<?php echo $qid;?>");
+	var myAddview = {type:"asksync",dtype:"addview",qid:"<?php echo $qid;?>"};
+	myWs.send(JSON.stringify(myAddview));
+}
 <?php if(!empty($audioque)){ ?>
     $(function(){
+    ws.send(JSON.stringify({type:"asksync",dtype:"addview",qid:<?php echo $ask['qid'];?>}));	
     <?php foreach ($audioque as $ado) { ?>
     voicePlayer({
             box: $("#questionaudio"),
@@ -935,7 +960,7 @@ function showDialog(dom,qid){
             H.get(dom).exec('show');
             return;
         }
-
+			console.log(dom)
         H.create(new P({
             title:"解答编辑器",
             content:$("#"+dom)[0],
@@ -954,6 +979,9 @@ function showDialog(dom,qid){
                 return false;
             }
         }),'common').exec('show');
+    }
+    if(window.parent.ws != undefined){
+    	$("#audio").hide();
     }
 function UDialogv2(dom){
     var qid = $("#"+dom).attr('qid');
@@ -1025,6 +1053,11 @@ function submitanswer(qid,dom) {
                         var that=this;
                         setTimeout(function () {//todo:关闭悬浮框
                             //closeWindow('tandaandiv');
+                            if(window.parent.ws != undefined){
+                            	var myWs = window.parent.ws;
+                            	var myAnswer = {type:"asksync",dtype:"addanswer",qid:"<?php echo $qid;?>"};
+                            	myWs.send(JSON.stringify(myAnswer));
+                            }
                             location.reload();
                             that.close().remove();
                         }, 1000);
@@ -1176,7 +1209,7 @@ function changefavorite(qid,flag) {
 //删除答案
 function delanswer(qid,aid,isbest) {
     var url = '<?= geturl('college/myask/delanswer') ?>';
-    var d = dialog({
+    var d = top.dialog({
         title: '删除确认',
         content: '您确定要删除您的问题答案吗？',
         okValue: '确定',
@@ -1195,6 +1228,11 @@ function delanswer(qid,aid,isbest) {
                         onshow:function () {
                             var that=this;
                             setTimeout(function () {
+                            	if(window.parent.ws != undefined){
+	                            	var myWs = window.parent.ws;
+	                            	var myAnswer = {type:"asksync",dtype:"delanswer",qid:"<?php echo $qid;?>"};
+	                            	myWs.send(JSON.stringify(myAnswer));
+	                            }
                                 document.location.href =  document.location.href;
                                 that.close().remove();
                             }, 2000);

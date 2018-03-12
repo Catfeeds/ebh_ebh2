@@ -16,10 +16,13 @@
 	<script type="text/javascript" src="http://static.ebanhui.com/js/jquery-1.11.0.min.js"></script>
 	
 	<link rel="stylesheet" href="http://static.ebanhui.com/chatroom/layui/css/layui.css">
-	<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/chatroom/css/chatroom.css?v=20180131001"/>
-	<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/chatroom/css/live.css?v=20180131001"/>
+	<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/chatroom/css/chatroom.css?v=20180308001"/>
+	<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/chatroom/css/live.css?v=201800310001"/>
 	<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/chatroom/css/layim/layim.css"/>
 	<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/chatroom/css/ebhdialog.css?v=20180202001"/>
+	<script type="text/javascript" src="http://static.ebanhui.com/ebh/js/xDialog/xloader.auto.js"></script>
+	<script type="text/javascript" src="http://static.ebanhui.com/js/dialog/dialog-plus.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/js/dialog/css/dialog.css?v=20170531141918"/>
 	<style>
 	html{height: 100%;overflow: hidden;}
 		.live-box{width: 100%;height:100%;box-sizing:border-box;position: relative;}
@@ -27,6 +30,11 @@
 		#live_content{width: 100%;z-index:99;}
 		.camrem_list_box{position: absolute;right: 0px;top:0px;z-index: 100;width: 300px;height: 100%;right:-300px;}
 		.slide-button{width: 18px;height: 84px;position: absolute;left:-17px;top:0;display:none;}
+		<?php if($course['live_type'] == 4){ ?>
+			.layim-chat-tool .layim-tool-face{
+    			display: none;
+  			}
+		<?php } ?>
 	</style>
 	<script type="text/javascript" src="http://static.ebanhui.com/chatroom/js/swfobject.js"></script>
 	<script type="text/javascript" src="http://static.ebanhui.com/chatroom/js/web_socket.js"></script>
@@ -42,12 +50,16 @@
 		var auth = '<?=$auth?>';
 		var room_id = <?=$course['cwid']?>;
 		var liveid = '<?=$course['liveid']?>';
+		var folderid = '<?=$course['folderid']?>';
+		var live_type = <?=$course['live_type']?>; //判断直播类型
+		var tid = '<?=empty($course['askto'])?$course['uid']:$course['askto']?>';
+		var cwname = '<?=$course['title']?>';
 		<?php 
 			$websocket_config = Ebh::app()->getConfig()->load('websocket');	
 			$websocket_fail = Ebh::app()->getConfig()->load('websocketfail');	
 		?>
 		<?php if(in_array($user['uid'],$websocket_fail['uid'])){?>
-		var WebSocketAddr = '<?=$websocket_fail['address']?>';
+		var WebSocketAddr = '<?=$websocket_fail['address']?>'; 
 		<?php }else{ ?>
 		var WebSocketAddr = '<?=$websocket_config[0]?>';
 		<?php } ?>
@@ -78,7 +90,7 @@
 		};
 	</script>
 	<script src="http://static.ebanhui.com/chatroom/layui/layui.js"></script>
-	<script src="http://static.ebanhui.com/chatroom/js/live.js?v=201800203001"></script>
+	<script src="http://static.ebanhui.com/chatroom/js/live.js?v=2018000310002"></script>
 	<script src="http://static.ebanhui.com/chatroom/js/json2/json2.js?v=2016122101"></script>
 	<script src="http://static.ebanhui.com/chatroom/js/ebhdialog.js?v=20180202001"></script>
 	<script src="http://static.ebanhui.com/chatroom/js/open_attachment.js?v=20180202001"></script>
@@ -108,7 +120,15 @@
 
 		</div>
 	</div>
-	<div class="right-box">	
+	<div class="right-box">
+	<?php if($course['live_type'] == 4){?>
+	<div id="answer">
+		<ul class="answer_content">
+			
+		</ul>
+		<div class="ask_add">提问</div>
+	</div>	
+	<?php } else { ?>			
 	<div class="transition_btn" title="点击切换"></div>	
 	<div class="teacher-camera-box">
 		
@@ -117,8 +137,9 @@
 		</div>
 	</div>
 	<div class="th_switch_top" style="position:absolute;left:0; top:0;" title="点击展开"></div>
-	<div class="th_switch" style="position:absolute; left:50%; top:222px;margin-left:-42px;" title="点击收起">
-	</div>
+	<div class="th_switch" style="position:absolute; left:50%; top:222px;margin-left:-42px;" title="点击收起"></div>
+	<?php } ?>	
+	
 		<!--聊天室开始-->
 	<div id="tall_all" style="position: absolute;z-index:999;top:240px; box-shadow: 0 0 50px 4px rgba(0, 0, 0, 0.2);">
 		<!--作业-->
@@ -397,11 +418,24 @@
 		});
 		
 	}
-
-	
-	
-	
-	
+	/*
+	var viewsObj = {};    //提问浏览保存对象
+	function addView(id){
+		var obj = $("#qid_" + id).find(".answer_see");
+		var viewNum = Number(obj.attr("title"));
+		viewNum ++;
+		if(viewsObj.hasOwnProperty(id)){
+			viewsObj[id] ++;
+		}else{
+			viewsObj.id = 1;
+		}
+		if(viewNum > 999){
+			obj.html("999+");
+		}else{
+			obj.html(viewNum);
+		}
+		obj.attr("title",viewNum);
+	}*/
 </script>
 </body>
 </html>
