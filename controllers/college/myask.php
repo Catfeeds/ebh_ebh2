@@ -808,7 +808,7 @@ class MyaskController extends CControl
                 }
 
             }
-            $answers =  arraySequence($answers,'groupid','SORT_ASC');
+           // $answers =  arraySequence($answers,'groupid','SORT_ASC');
             $this->assign('answerers', $answerers);
             $this->assign('ask', $ask);
             $this->assign('answers', $answers);
