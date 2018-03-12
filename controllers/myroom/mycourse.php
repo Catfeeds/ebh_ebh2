@@ -232,6 +232,15 @@ class MycourseController extends CControl {
 				// return $this->doLive($user,$course);
 				$isliverun = TRUE;
 				if(intval($this->input->get('flag')) == 1) {
+					//进入直播页面则判定为出勤
+					Ebh::app()->getApiServer('ebh')->reSetting()
+                                ->setService('Classroom.Attendance.add')
+                                ->addParams(array(
+                                    'uid'  =>  $user['uid'],
+                                    'cwid' =>  $cwid,
+                                    'crid' =>  $roominfo['crid']
+                                ))
+                                ->request();
 					return $this->doLive($user,$course);
 				}
 			}
