@@ -808,6 +808,21 @@ class FolderModel extends CModel{
 		return $this->db->query($sql)->list_array();
 	}
 	
+	/**
+	 *获取课程下的本校教师
+	 */
+	public function getFolderTeacherByCrid($folderid,$crid){
+		if(empty($folderid) || empty($crid)){
+			return array();
+		}
+		$sql = 'SELECT u.uid,u.username,u.realname from ebh_teacherfolders t 
+				join ebh_roomteachers rt on rt.tid = t.tid
+				join ebh_users u on t.tid=u.uid
+		WHERE t.folderid = '.$folderid .' and rt.crid='.$crid.' and t.crid='.$crid;
+		return $this->db->query($sql)->list_array();
+	}
+	
+	
 	/*
 	多个老师的所教课程
 	*/

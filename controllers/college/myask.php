@@ -80,6 +80,10 @@ class MyaskController extends CControl
             }
         }
         $askmodel = $this->model('Askquestion');
+		$strictpagesize = intval($this->input->get('strictpagesize'));
+		if(!empty($strictpagesize)){
+			$queryarr['pagesize'] = $strictpagesize;
+		}
         $asks = $askmodel->getallasklist($queryarr);
         $ajax = $this->getajaxReturn($asks);
         if (is_int($ajax)) {//是否是ajax请求 整形就不是
@@ -647,17 +651,22 @@ class MyaskController extends CControl
             //人气数+1
             $askmodel->addviewnum($qid);
             $ask = $askmodel->getdetailaskbyqid($qid, $user['uid'], $crid);
+			$noback = $this->input->get('islive');
             if (empty($ask)) {
                 $url = getenv("HTTP_REFERER");
                 header("Content-type:text/html;charset=utf-8");
                 echo "问题不存在或已删除";
-                echo '<a href="' . $url . '">返回</a>';
+				if(empty($noback)){
+					echo '<a href="' . $url . '">返回</a>';
+				}
                 exit;
             } elseif (!empty($ask) && $ask['shield'] == 1) {
                 $url = getenv("HTTP_REFERER");
                 header("Content-type:text/html;charset=utf-8");
                 echo "问题被屏蔽，无法查看";
-                echo '<a href="' . $url . '">返回</a>';
+				if(empty($noback)){
+					echo '<a href="' . $url . '">返回</a>';
+				}
                 exit;
             }
             if (!empty($ask['audiosrc']) && empty($ask['audiotime'])) {//检验语音是否已经读取过语音时长
@@ -1153,7 +1162,7 @@ class MyaskController extends CControl
             exit();
         }
         if ($this->check != 1) {    //如果没有权限，则不提供解答功能
-            echo 'fail';
+            echo json_encode(array('status' => 0,'msg'=>'权限不足'));
             exit();
         }
         $user = Ebh::app()->user->getloginuser();
