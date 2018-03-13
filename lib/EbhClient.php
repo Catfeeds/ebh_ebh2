@@ -13,6 +13,7 @@ class EbhClient{
     protected $timeout = 3000;//超时时间
     protected $filter = NULL;//过滤器
     protected $parser = NULL;
+    public $data  = NULL;//服务器返回的原始数据
 
     public function __construct($appid = '',$appsecret = ''){
         $this->appid = $appid;
@@ -88,8 +89,8 @@ class EbhClient{
             $this->filter->filter($this->service, $this->params);
         }
         $rs = $this->doRequest($url, $this->params, $this->timeout);
-
         if($this->parser != NULL){
+            $this->data = json_decode($rs);
             return $this->parser->parse($rs);
         }else{
             return $rs;
@@ -232,12 +233,14 @@ class FilterDemo implements  EbhClientFilter{
 }
 
 class ParserDemo implements EbhClientParser{
+    public $error = null;
     public function parse($result){
         $result = json_decode($result,true);
         if($result['ret'] == 200){
             return $result['data'];
         }else{
             $uri = $_SERVER['REQUEST_URI'];
+            $this->error = $result;
             log_message('ApiServer Error-> ret code:'.$result['ret'].' ret msg:'.$result['msg'] .' url:'.$uri);
             Ebh::app()->getApiServer('ebh')->setErrMsg($result['msg']);
             return false;
