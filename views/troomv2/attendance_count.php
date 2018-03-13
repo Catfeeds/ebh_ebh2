@@ -5,6 +5,7 @@
 		<title></title>
 		<link rel="stylesheet" href="http://static.ebanhui.com/checkin/css/common.css" />
 		<link rel="stylesheet" href="http://static.ebanhui.com/checkin/css/checkinview.css" />
+		<link rel="stylesheet" href="http://static.ebanhui.com/checkin/css/checkinviewGai.css" />
 		<link href="http://static.ebanhui.com/ebh/tpl/default/css/E_ClassRoom.css?version=20160224001" rel="stylesheet" type="text/css">
 		<script src="http://static.ebanhui.com/ebh/js/date/WdatePicker.js"></script>
 		<script type="text/javascript" src="http://static.ebanhui.com/js/jquery-1.11.0.min.js"></script>
