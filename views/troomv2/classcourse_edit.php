@@ -319,7 +319,28 @@ $v = getv();?>
 									<option value="720" <?= $course['cwlength'] / 60 == 720 ? 'selected="selected"' : ''?> >12小时</option>
 								</select>
 							</td>
-						</tr>	
+						</tr>
+						<?php if ($roomtype == 'edu') { ?>
+						<tr class="appoint_th" style="<?php if($course['live_type'] != 4){?>display:none;<?php } ?>">
+							<th valign="top" style="width:90px;">指定答疑回复：</th>
+							<td>
+								<?php if($course['askto'] == 0){ $course['askto'] = $user['uid'];}?>
+								
+								<select name="askto" id="askto" style="width:150px;line-height: 24px;border: 1px solid #ccc;padding: 3px;" value="<?=$course['askto']?>">
+									<?php if(!empty($askteacherlist)){
+										foreach($askteacherlist as $teacher){
+											if($teacher['uid'] == $course['askto']){?>
+												<option value="<?=$teacher['uid']?>" selected><?=$teacher['realname']?></option>
+											<?php 
+											}else{?>
+												<option value="<?=$teacher['uid']?>"><?=$teacher['realname']?></option>
+											<?php }	
+										}
+									}?>
+								</select>
+							</td>
+						</tr>
+						<?php } ?>	
 						<tr class="pseudo_upload" style="<?php if($course['live_type'] != 4){?>display:none;<?php } ?>">
 							<th valign="top" style="width:90px;padding:21px 5px 15px 0">文件上传：</th>
 							<td><br />
@@ -1558,17 +1579,20 @@ $v = getv();?>
         	$(".address").addClass("equipment");
         	$(".continuous").hide();
         	$(".pseudo_upload").hide();
+        	$(".appoint_th").hide();
         }else
         if(id == 4){    //伪直播
         	$(".pseudo_upload").fadeIn();
         	$(".live_address").hide();
         	$(".continuous").show();
         	$(".continuous").hide();
+        	$(".appoint_th").show();
         }else{
         	$(".address").removeClass("equipment");
         	$(".live_address").hide();
         	$(".pseudo_upload").hide();
         	$(".continuous").show();
+        	$(".appoint_th").hide();
         }
         parent.resetmain();
     });
