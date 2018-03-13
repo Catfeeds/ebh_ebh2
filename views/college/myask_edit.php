@@ -91,7 +91,7 @@ a.remove-img:active {
 }
 body {background:<?=$this->uri->uri_domain()!='zjdlr'?'none':'url("http://static.ebanhui.com/ebh/tpl/2016/images/bg_gt.jpg?v=20161128")'?>;}
 </style>
-<div style="height:1500px;width:1000px; margin:0 auto;">
+<div class="edit_box" style="height:1500px;width:1000px; margin:0 auto;">
 <div class="ter_tit">
 当前位置 > 修改问题
 </div>
@@ -105,7 +105,7 @@ body {background:<?=$this->uri->uri_domain()!='zjdlr'?'none':'url("http://static
 
   </div>
   
-  <div class="fontfen" style="width:730px;margin-left:15px;margin-bottom:10px;margin-top:10px;height:50px;">
+  <div class="fontfen iframe_edit" style="width:730px;margin-left:15px;margin-bottom:10px;margin-top:10px;height:50px;">
   <span class="wenzid" style="width:70px;">所属课程：</span>
 	<div class="eeret" id="eeret1">
 		<a class="ekiyt" href="javascript:void(0)">当前选择课程：<span id="show_foldername" class="show_foldername"><?=empty($folder)?"无":$folder['foldername']?></span></a>
@@ -143,7 +143,7 @@ body {background:<?=$this->uri->uri_domain()!='zjdlr'?'none':'url("http://static
 		</div>
 	<?php }?>
   </div>
-  <div class="fontfen" style="width:700px;margin-left:15px;margin-bottom:10px;height:50px;<?=empty($ask['cwid'])?'display:none':''?>" id="cwblock">
+  <div class="fontfen iframe_edit" style="width:700px;margin-left:15px;margin-bottom:10px;height:50px;<?=empty($ask['cwid'])?'display:none':''?>" id="cwblock">
   <span class="wenzid" style="width:70px;">课　　件：</span>
 	<div class="eeret" id="eeret3" onclick="showcw('选择课件')">
 		<a class="ekiyt"  href="javascript:void(0)">当前选择课件：<span id="show_cwname" class=""><?= isset($ask['cwname'])?shortstr($ask['cwname'],44):'无';?></span></a>
@@ -183,8 +183,8 @@ body {background:<?=$this->uri->uri_domain()!='zjdlr'?'none':'url("http://static
 	<?php }?>
 </div>
 <div style="clear:both;"></div>
-  <div style="float:left;margin-left:19px;width:70px;_margin-top:20px;margin-top:5px;font-weight:bold;color:#777;">相关图片：</div>
-  <div style="width:850px;_margin-top:20px; float:left;">
+  <div class="iframe_edit" style="float:left;margin-left:19px;width:70px;_margin-top:20px;margin-top:5px;font-weight:bold;color:#777;">相关图片：</div>
+  <div class="iframe_edit" style="width:850px;_margin-top:20px; float:left;">
 		<ul class="sckcfm" id="logo-box">
 		<?php 
 		$imgsrc = array();
@@ -204,7 +204,7 @@ body {background:<?=$this->uri->uri_domain()!='zjdlr'?'none':'url("http://static
 		</li>
 		</ul>
   	</div>
-<div id="audio"></div> 
+<div id="audio" class="iframe_edit"></div> 
  <div style="clear:both;"></div>
  <?php if(!$iszjdlr){?>
 	<div style="float:left;margin-left:19px;width:72px;font-weight:bold;color:#777;margin-top:16px">积分悬赏：
@@ -292,7 +292,14 @@ body {background:<?=$this->uri->uri_domain()!='zjdlr'?'none':'url("http://static
 <script src="http://static.ebanhui.com/js/soundManager2/js/voicePlayer.js<?=getv()?>"></script>
 <?php }?>
 <script type="text/javascript">
-
+if(window.parent.ws != undefined){
+	var myWs = window.parent.ws;
+	$(".iframe_edit").hide();
+	$(".ter_tit").hide();
+	$(".biaowaim").css("margin-top","0px");
+	$(".edit_box").css("height","790px");
+	
+}
 <?php 
 if(!$iszjdlr){
 	if(!empty($ask['audio'])){ ?>
@@ -522,7 +529,13 @@ function editquestion() {
 								}, 1000);
 							}
 						}).show();*/
-						document.location.href = "<?= geturl('college/myask/'.$qid) ?>";
+						if(window.parent.ws != undefined){
+	                		var data = {type:"asksyncinit"}
+							myWs.send(JSON.stringify(data));
+							$("#askView_" + <?= $qid ?>,parent.document).remove();
+                		}else{
+							document.location.href = "<?= geturl('college/myask/'.$qid) ?>";
+						}	
                     } else if(data != null && data != undefined && data.status == -1){
                     	var str = '';
                     	$.each(data.Sensitive,function(name,value){
