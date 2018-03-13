@@ -293,7 +293,7 @@ class AskquestionModel extends CModel {
 		$sql = 'select q.qid,q.viewnum,q.title,q.cwid,q.answercount,q.hasbest,q.uid from ebh_askquestions q';
         $wherearr[] = 'q.shield = 0';
 		$wherearr[] = 'q.cwid='.$param['cwid'];
-		$wherearr['crid'] = $param['crid'];
+		$wherearr[] = 'q.crid='.$param['crid'];
 		$sql.= ' WHERE ' . implode(' AND ', $wherearr);
 		$sql.= ' order by qid desc';
 		$sql.= ' limit 1000';
