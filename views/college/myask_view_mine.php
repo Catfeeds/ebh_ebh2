@@ -165,6 +165,23 @@ body{
 	width:840px;
 	line-height:normal;
 }
+<?php 
+	$islive = $this->input->get("islive");
+?>
+<?php if($islive == 1){?>
+	.clay_topfixed{
+		display:none;
+	}
+	.reward{
+		display:none;
+	}
+	.ctop{
+		display:none;
+	}
+	.lefrig-2{
+		margin-top:0;
+	}
+<?php } ?>	
 </style>
 <body>
 <div class="lefrig">
@@ -429,8 +446,13 @@ body{
 </div>
 </body>
 <script type="text/javascript">
-
-
+if(window.parent.ws != undefined){
+	var myWs = window.parent.ws;
+	var parentAddView = window.parent.addView;
+	parentAddView("<?php echo $qid;?>");
+	var myAddview = {type:"asksync",dtype:"addview",qid:"<?php echo $qid;?>"};
+	myWs.send(JSON.stringify(myAddview));
+}
 var timerpay;
 var $inp = $('.inputmoney');
 $inp.keypress(function (e) {
@@ -979,7 +1001,13 @@ function delask(qid,title) {
             dataType:'text',
             success:function(data){
                 if(data=='success'){
-                    document.location.href = successurl;
+                	if(window.parent.ws != undefined){
+                		var data = {type:"asksyncinit"}
+						myWs.send(JSON.stringify(data));
+						$("#askView_" + <?php echo $qid;?>,parent.document).remove();
+                	}else{
+                		document.location.href = successurl;
+                	}
                 }else{
                     top.dialog({
                         skin:"ui-dialog2-tip",

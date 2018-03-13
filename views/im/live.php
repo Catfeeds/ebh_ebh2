@@ -33,6 +33,7 @@
 		var auth = '<?=$key?>';
 		var room_id = <?=$cwid?>;
 		var liveid = '<?=$course['liveid']?>';
+		var live_type = <?=$course['live_type']?>; //判断直播类型
 		<?php 
 			$websocket_config = Ebh::app()->getConfig()->load('websocket');	
 		?>
@@ -51,7 +52,7 @@
 		};
 	</script>
 	<script src="http://static.ebanhui.com/chatroom/layui/layui.js"></script>
-	<script src="http://static.ebanhui.com/chatroom/js/tlive.js?v=20180131002"></script>
+	<script src="http://static.ebanhui.com/chatroom/js/tlive.js?v=20180309001"></script>
 	<script src="http://static.ebanhui.com/chatroom/js/json2/json2.js?v=2016122101"></script>
 </head>
 <body>
