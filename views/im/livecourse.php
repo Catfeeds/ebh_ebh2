@@ -90,7 +90,7 @@
 		};
 	</script>
 	<script src="http://static.ebanhui.com/chatroom/layui/layui.js"></script>
-	<script src="http://static.ebanhui.com/chatroom/js/live.js?v=2018000310002"></script>
+	<script src="http://static.ebanhui.com/chatroom/js/live.js?v=20180003120001"></script>
 	<script src="http://static.ebanhui.com/chatroom/js/json2/json2.js?v=2016122101"></script>
 	<script src="http://static.ebanhui.com/chatroom/js/ebhdialog.js?v=20180202001"></script>
 	<script src="http://static.ebanhui.com/chatroom/js/open_attachment.js?v=20180202001"></script>
@@ -418,7 +418,6 @@
 		});
 		
 	}
-	/*
 	var viewsObj = {};    //提问浏览保存对象
 	function addView(id){
 		var obj = $("#qid_" + id).find(".answer_see");
@@ -427,7 +426,7 @@
 		if(viewsObj.hasOwnProperty(id)){
 			viewsObj[id] ++;
 		}else{
-			viewsObj.id = 1;
+			viewsObj[id] = 1;
 		}
 		if(viewNum > 999){
 			obj.html("999+");
@@ -435,7 +434,7 @@
 			obj.html(viewNum);
 		}
 		obj.attr("title",viewNum);
-	}*/
+	}
 </script>
 </body>
 </html>

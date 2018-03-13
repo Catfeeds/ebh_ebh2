@@ -1015,8 +1015,12 @@ function sendMessage(){
         }
     }
 $(function(){
+	var subSwitch = true;
     $(".tijiaobtn").click(function(){
-        submitanswer($(this).attr("qid"),$(this));
+    	if(subSwitch){
+    		subSwitch = false;
+    		submitanswer($(this).attr("qid"),$(this));
+    	}
     });
 });
 function submitanswer(qid,dom) {
@@ -1058,6 +1062,7 @@ function submitanswer(qid,dom) {
                             	var myAnswer = {type:"asksync",dtype:"addanswer",qid:"<?php echo $qid;?>"};
                             	myWs.send(JSON.stringify(myAnswer));
                             }
+                            subSwitch = true;
                             location.reload();
                             that.close().remove();
                         }, 1000);
@@ -1080,7 +1085,7 @@ function submitanswer(qid,dom) {
                         cancel: false,
                         okValue: '确定',
                         ok: function () {
-
+							subSwitch = true;
                         }
                     });
                     d.showModal();
@@ -1093,12 +1098,12 @@ function submitanswer(qid,dom) {
                     onshow:function () {
                         var that=this;
                         setTimeout(function () {
+                        	subSwitch = true;
                             that.close().remove();
                         }, 2000);
                     }
                 }).show();
             }
-
         }
     });
 }

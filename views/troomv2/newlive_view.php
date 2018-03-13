@@ -570,7 +570,11 @@ a.reviews {color:#fff;}
                         		<a class="lanbtn liaskt" name="notes" href="javascript:;" style="position: absolute;top:210px;right:15px;font-family: 微软雅黑;font-weight:normal;height:42px;line-height:42px;font-size:20px;width:120px;background:#999;box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.3);border-radius:4px;">开始直播</a>
                         	</span>	
                         <?php } else { ?> 
-                        	<a class="lanbtn liaskt" name="notes" href="<?= $live_url ?>" style="position: absolute;top:210px;right:15px;font-family: 微软雅黑;font-weight:normal;height:42px;line-height:42px;font-size:20px;width:120px;background:#18a8f7;box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.3);border-radius:4px;">开始直播</a>
+                        	<?php if(!$assistant){ ?>
+                        	<a class="lanbtn liaskt" name="notes" href="javascript:openLive('<?= $live_url ?>');" style="position: absolute;top:210px;right:15px;font-family: 微软雅黑;font-weight:normal;height:42px;line-height:42px;font-size:20px;width:120px;background:#18a8f7;box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.3);border-radius:4px;">开始直播</a>
+                        	<?php }else{ ?>
+                        	<a class="lanbtn liaskt" name="notes" href="<?= $live_url ?>" style="position: absolute;top:210px;right:15px;font-family: 微软雅黑;font-weight:normal;height:42px;line-height:42px;font-size:20px;width:120px;background:#18a8f7;box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.3);border-radius:4px;">开始直播</a>	
+                        	<?php } ?>	
                         <?php } ?>			
 					<?php } else {?>
 						<span style="font-size:50px;width:970px;float:left;margin-top:150px">首次进入请先安装&nbsp;<a style="color:red;" href="http://chat3.ebh.net:82/tbedu.exe">直播客户端</a></span>						
@@ -1279,7 +1283,6 @@ a.reviews {color:#fff;}
             }
         })
     }
-
      //满意度单选点击事件
     
     $('.cstar').click(function(){
@@ -1898,9 +1901,10 @@ var _xform = new xForm({
 			<?php } ?>
 	   <?php } ?>
 	});
-	
+	var tipObj = null;
+	var openSwitch = true;
 	function checkClient(){
-
+		openSwitch = false;
 		jQuery(document).ready(function($) { 
 			$.ajax({
 			   url: 'http://127.0.0.1',
@@ -1911,10 +1915,10 @@ var _xform = new xForm({
 			   timeout: 1000,
 			   success: function (json) {
 			   	version = json.version;
-				if(version==""){
+				if(version ==""){
 					installTip();
 				}
-
+				openSwitch = true;
 			   },
 			   error: function(xhr){
 			   	$.ajax({
@@ -1926,12 +1930,14 @@ var _xform = new xForm({
 				   timeout: 1000,
 				   success: function (json) {
 				   	version = json.version;
-					if(version==""){
+					if(version ==""){
 						installTip();
 					}
+					openSwitch = true;
 				   },
 				   error: function(xhr){
 				   	installTip();
+				   	openSwitch = true;
 				   }
 				});
 			   }
@@ -1948,9 +1954,9 @@ var _xform = new xForm({
 					'<p class="p2">先点击下方按钮进行下载安装，安装成功后刷新本页</p>'+
 					'</div>'+
 					'<div><a href="http://soft.ebh.net/live.exe" target="_blank" class="denglubtn"></a></div>'+					
-					'<a class="a1" href="<?= !empty($live_url)?$live_url:'#' ?>">我已安装，立即进入＞＞</a>'+
+					'<a class="a1" href="javascript:creatIfeame(\'<?= !empty($live_url)?$live_url:'#' ?>\');">我已安装，立即进入＞＞</a>'+
 					'</div>';
-		H.create(new P({
+		tipObj = H.create(new P({
 			id : 'installtip',
 			title: '客户端安装',
 			modal:true,
@@ -1958,7 +1964,58 @@ var _xform = new xForm({
 		}),'common').exec('show');
 		//window.location.href = "http://chat3.ebh.net:82/tbedu.exe";
 	}
-
+	//直播教师点击开始直播事件
+	function openLive(urlStr){
+		if(!openSwitch){
+			return;
+		}
+		$.ajax({
+			url: 'http://127.0.0.1',
+			type: "GET",
+			dataType: 'jsonp',
+			jsonp: 'callback',
+			jsonpCallback:'callback',
+			success: function (json) {
+				version = json.version;
+				if(version ==""){
+					installTip();
+				}else{
+					creatIfeame(urlStr);
+				}
+			},
+			error: function(xhr){
+			   	$.ajax({
+				   url: 'http://127.0.0.1:8020',
+				   type: "GET",
+				   dataType: 'jsonp',
+				   jsonp: 'callback',
+				   jsonpCallback:'callback',
+				   success: function (json) {
+				   	version = json.version;
+					if(version ==""){
+						installTip();
+					}else{
+						creatIfeame(urlStr);
+					}
+				   },
+				   error: function(xhr){
+				   	installTip();
+				   }
+				});
+			}
+		});
+    	
+    }
+    function  creatIfeame(urls){
+    	if(tipObj){
+    		tipObj.exec('close');
+    	}
+    	$("#openLive").remove();
+    	var html = '<div id="openLive" style="display:none">';
+    	html += '<iframe src="'+ urls +'" frameborder="0"></iframe>';
+    	html += '</div>';
+    	$("body").append(html);
+    }
     function ablank(url){
 		window.open(url);
     }
