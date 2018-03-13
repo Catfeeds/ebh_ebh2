@@ -105,7 +105,9 @@ class AttendanceController extends CControl {
             $exportData = array();
             if(!empty($result['list'] )){
                 foreach ($result['list'] as $data){
-
+					if($data['student_count'] == 0){//应到0的，不显示
+						continue;
+					}
                     $exportData[] = array(
                         $result['course']['title'],
                         $result['course']['foldername'],
@@ -544,12 +546,15 @@ class AttendanceController extends CControl {
 			$preindex = 'D';
 			$totalneedcount=0;
 			$totalattendcount=0;
+			$cwclassids = $attendancelist['cwlist'][$lineindex-3]['classids'];
+			$cwclassids = empty($cwclassids)?array():explode(',',$cwclassids);
 			for($i=4;$i<=$columncount;$i++){
 				$classid = $classindexarr[$preindex];
 				$folderid = $cwindexarr[$lineindex]['folderid'];
 				$cwid = $cwindexarr[$lineindex]['cwid'];
 				$classfolderkey = $classid.'_'.$folderid;
-				if(!empty($class_folder[$classfolderkey])){
+				if(!empty($class_folder[$classfolderkey]) && (empty($cwclassids) || in_array($classid,$cwclassids))){
+					//开通过的班级且课件选了的班级（全部或指定班级）
 					$needcount = $class_folder[$classfolderkey];
 					$classcwkey = $classid.'_'.$cwid;
 					$attendcount = empty($class_cw[$classcwkey])?0:$class_cw[$classcwkey];
