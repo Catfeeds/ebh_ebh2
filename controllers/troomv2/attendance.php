@@ -44,8 +44,9 @@ class AttendanceController extends CControl {
         if(!empty($name)){
             $parameters['name'] = $name;
         }
-
-
+		//今天的排在前面
+		$parameters['todayfirst'] = true;
+		
         $courses = $this->api->reSetting()
             ->setService('Classroom.Attendance.course')
             ->addParams($parameters)
@@ -62,7 +63,9 @@ class AttendanceController extends CControl {
                 'pagesize'  =>  10000
             ))
             ->request();
-
+		$user = Ebh::app()->user->getloginuser();
+		$this->assign('user',$user);
+		$this->assign('roominfo',$roominfo);
         $this->assign('page',$parameters['p']);
         $this->assign('pagestr',$pagestr);
         $this->assign('folders',$folders['courselist']);
@@ -102,7 +105,9 @@ class AttendanceController extends CControl {
             $exportData = array();
             if(!empty($result['list'] )){
                 foreach ($result['list'] as $data){
-
+					if($data['student_count'] == 0){//应到0的，不显示
+						continue;
+					}
                     $exportData[] = array(
                         $result['course']['title'],
                         $result['course']['foldername'],
@@ -201,7 +206,8 @@ class AttendanceController extends CControl {
             exit;
         }
 
-
+		$this->assign('userinfo',$user);
+		$this->assign('course',$userList['course']);
         $pagestr = show_page($userList['total']);
 
         $this->assign('pagestr',$pagestr);
@@ -431,4 +437,173 @@ class AttendanceController extends CControl {
         header('Pragma:public');
         $objWriter->save('php://output');
     }
+	
+	/*
+	导出所有直播，班级考勤
+	*/
+	public function exportAll(){
+		$roominfo = Ebh::app()->room->getcurroom();
+
+        $param = parsequery();
+        $parameters['crid'] = $roominfo['crid'];
+        $parameters['p'] = $param['page'] > 0 ? $param['page'] : 1;
+
+
+        $folderid = intval($this->input->get('folderid'));
+        if($folderid > 0){
+            $parameters['folderid'] = $folderid;
+        }
+        $startTime = $this->input->get('startTime');
+        if(!empty($startTime)){
+            $parameters['begindate'] = strtotime($startTime);
+        }
+
+        $endTime = $this->input->get('endTime');
+        if( !empty($endTime)){
+            $parameters['enddate'] = strtotime($endTime) + 86400;
+        }
+
+        //名字搜索
+        $name = $this->input->get('name');
+
+        if(!empty($name)){
+            $parameters['name'] = $name;
+        }
+		
+		//未开课的不统计
+		$parameters['enddate'] = !empty($parameters['enddate'])?min($parameters['enddate'],SYSTIME):SYSTIME;
+		
+        $attendancelist = $this->api->reSetting()
+            ->setService('Classroom.Attendance.courseAll')
+            ->addParams($parameters)
+            ->request();
+		if(empty($attendancelist)){
+			
+		}
+		
+		// echo json_encode($attendancelist);
+		
+		$objPHPExcel = Ebh::app()->lib('PHPExcel');
+		
+		// 以下是一些设置 ，什么作者  标题啊之类的
+		$objPHPExcel->getProperties()
+					->setTitle("数据EXCEL导出")
+					->setSubject("数据EXCEL导出")
+					->setDescription("备份数据")
+					->setKeywords("excel")
+					->setCategory("result file");
+					
+		$objPHPExcel->getActiveSheet()->setCellValue('C1', '出勤率（——表示这个班不上这节课；0表示这个班上这节课但是出勤率为0）');
+		$objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_RED);
+		$objPHPExcel->getActiveSheet()->setCellValue('A2', '课程名称');
+		$objPHPExcel->getActiveSheet()->setCellValue('B2', '课件名称');
+		$objPHPExcel->getActiveSheet()->setCellValue('C2', '教师');
+		
+		
+		
+		$class_cw = array();
+		$class_folder = array();
+		//classid_folderid=>count 应到人数
+		foreach($attendancelist['permissioncount'] as $permission){
+			$key = $permission['classid'].'_'.$permission['folderid'];
+			$class_folder[$key] = $permission['count'];
+		}
+		//classid_cwid=>count 出勤人数
+		foreach($attendancelist['attendcount'] as $permission){
+			$key = $permission['classid'].'_'.$permission['cwid'];
+			$class_cw[$key] = $permission['count'];
+		}
+		// var_dump($class_cw);
+		// var_dump($class_folder);exit;
+		$classindexarr = array();
+		$classindex = 'D';
+		//填充班级行，并记录D=>班级1，E=>班级2
+		foreach($attendancelist['classes'] as $class){
+			$classindexarr[$classindex] = $class['classid'];
+			$objPHPExcel->getActiveSheet()->setCellValue($classindex.'2', $class['classname']);
+			$classindex++;
+		}
+		
+		$cwindexarr = array();
+		$lineindex = '3';
+		//填充课件（课程）列，并记录3=>课程/课件，4=>课程/课件
+		foreach($attendancelist['cwlist'] as $cw){
+			$cwindexarr[$lineindex] = array('cwid'=>$cw['cwid'],'folderid'=>$cw['folderid']);
+			$objPHPExcel->getActiveSheet()->setCellValue('A'.$lineindex, $cw['foldername']);
+			$objPHPExcel->getActiveSheet()->setCellValue('B'.$lineindex, $cw['title']);
+			$objPHPExcel->getActiveSheet()->setCellValue('C'.$lineindex, $cw['realname']);
+			$lineindex ++;
+		}
+		
+		$objPHPExcel->getDefaultStyle()->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+		
+		
+		//循环剩余应填充的格子编号D3,D4,D5....E3.....AA3,AA4...
+		//根据编号对应的classid，folderid，cwid查询应到人数，出勤人数数组
+		$columncount = count($attendancelist['classes']) + 3;
+		$linecount = count($attendancelist['cwlist']) + 2;
+		for($lineindex=3;$lineindex<=$linecount;$lineindex++){
+			$preindex = 'D';
+			$totalneedcount=0;
+			$totalattendcount=0;
+			$cwclassids = $attendancelist['cwlist'][$lineindex-3]['classids'];
+			$cwclassids = empty($cwclassids)?array():explode(',',$cwclassids);
+			for($i=4;$i<=$columncount;$i++){
+				$classid = $classindexarr[$preindex];
+				$folderid = $cwindexarr[$lineindex]['folderid'];
+				$cwid = $cwindexarr[$lineindex]['cwid'];
+				$classfolderkey = $classid.'_'.$folderid;
+				if(!empty($class_folder[$classfolderkey]) && (empty($cwclassids) || in_array($classid,$cwclassids))){
+					//开通过的班级且课件选了的班级（全部或指定班级）
+					$needcount = $class_folder[$classfolderkey];
+					$classcwkey = $classid.'_'.$cwid;
+					$attendcount = empty($class_cw[$classcwkey])?0:$class_cw[$classcwkey];
+					$percent = round($attendcount / $class_folder[$classfolderkey],4)*100;					
+					$percent .= '%';				
+					$objPHPExcel->getActiveSheet()->setCellValue($preindex.$lineindex, $percent);
+					$totalneedcount+= $needcount;
+					$totalattendcount+= $attendcount;
+				} else {//该班级没有该课程（课件）的报名人员
+					$objPHPExcel->getActiveSheet()->setCellValue($preindex.$lineindex, '--');				
+				}
+				$preindex++;
+			}
+			if($lineindex==3){
+				$objPHPExcel->getActiveSheet()->setCellValue($preindex.'2', '总应到(报名人数)');
+			}
+			$objPHPExcel->getActiveSheet()->setCellValue($preindex.$lineindex, $totalneedcount);
+			$preindex++;
+			if($lineindex==3){
+				$objPHPExcel->getActiveSheet()->setCellValue($preindex.'2', '总已到(出勤人数)');
+			}
+			$objPHPExcel->getActiveSheet()->setCellValue($preindex.$lineindex, $totalattendcount);
+			
+		}
+		
+		$totalindex = 'A';
+		for($i = 0;$i<$columncount;$i++){
+			$objPHPExcel->getActiveSheet()->getColumnDimension($totalindex)->setWidth(20);
+			$totalindex++;
+		}
+		// var_dump($classindexarr);
+		// 输出下载文件 到浏览器
+		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+		$foldername = $this->input->get('foldername');
+		$name = Date('Y-m-d',SYSTIME).$foldername.'考勤统计';
+		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') || stripos($_SERVER['HTTP_USER_AGENT'], 'trident')) {
+			$name = urlencode($name);
+		} else {
+			$name = str_replace(' ', '', $name);
+		}
+		
+		$filename  = $name.".xlsx";//文件名,带格式
+		
+		header("Content-type: text/csv");//重要 屏蔽ie等安全提醒
+		header('Content-Type:application/x-msexecl;name="'.$name.'"');
+		header('Content-Disposition: attachment;filename="'.$filename.'"');
+		header('Cache-Control: must-revalidate, post-check=0,pre-check=0');
+		header('Expires:0');
+		header('Pragma:public');
+		$objWriter->save('php://output');
+	}
 }
