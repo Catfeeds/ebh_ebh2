@@ -27,6 +27,11 @@
 		#live_content{width: 100%;z-index:99;}
 		.camrem_list_box{position: absolute;right: 0px;top:0px;z-index: 100;width: 300px;height: 100%;right:-300px;}
 		.slide-button{width: 18px;height: 84px;position: absolute;left:-17px;top:0;display:none;}
+		<?php if($course['live_type'] == 4){ ?>
+			.layim-chat-tool .layim-tool-face{
+    			display: none;
+  			}
+		<?php } ?>
 	</style>
 	<script type="text/javascript" src="http://static.ebanhui.com/chatroom/js/swfobject.js"></script>
 	<script type="text/javascript" src="http://static.ebanhui.com/chatroom/js/web_socket.js"></script>
@@ -45,6 +50,7 @@
 		var key = '<?php echo base64_encode($auth);?>'
 		var room_id = <?=$course['cwid']?>;
 		var liveid = '<?=$course['liveid']?>';
+		var live_type = <?=$course['live_type']?>; //判断直播类型
 		<?php 
 			$websocket_config = Ebh::app()->getConfig()->load('websocket');	
 		?>
@@ -65,7 +71,7 @@
 		};
 	</script>
 	<script src="http://static.ebanhui.com/chatroom/layui/layui.js"></script>
-	<script src="http://static.ebanhui.com/chatroom/js/assistantlive.js?v=20180131003"></script>
+	<script src="http://static.ebanhui.com/chatroom/js/assistantlive.js?v=201800309003"></script>
 	<script src="http://static.ebanhui.com/chatroom/js/open_attachment.js?v=20180202001"></script>
 	<script src="http://static.ebanhui.com/chatroom/js/json2/json2.js?v=2016122101"></script>
 	<script src="http://static.ebanhui.com/chatroom/js/ebhdialog.js?v=20180202001"></script>

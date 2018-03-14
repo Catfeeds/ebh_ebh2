@@ -18,6 +18,7 @@
     
 </head>
 <body>
+<?php $this->display('common/up_header'); ?>
 <?php $this->display('common/newheader');?>
 <div class="introtop">
     <div class="nserint">

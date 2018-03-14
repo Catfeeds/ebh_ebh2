@@ -204,7 +204,9 @@ body{
         EBH::app()->lib('UEditor')->xEditor('message','775px','310px');
     ?>
 <!--上传音频-->
+	<!--
     <div id="audio"></div>
+   -->
     <a qid="<?=$qid?>" class="tijiaobtn">提  交</a>
     </div> 
 <!--结束-->
@@ -214,6 +216,43 @@ body{
 </body>
 <script type="text/javascript" src="http://static.ebanhui.com/ebh/js/recorder.js<?=getv()?>"></script>
 <script type="text/javascript">
+var ws = null;
+//socket事件
+var onmessage = function(e){
+	var data = eval("(" + e.data + ")");
+	switch (data['type']) {
+		case 'ping':
+			var pong = {};
+	        pong.type = 'pong';
+			ws.send(JSON.stringify(pong));
+	        break;
+	    case 'init':
+	    	var myAddview = {type:"asksync",dtype:"addview",qid:"<?php echo $qid;?>"};
+	    	ws.send(JSON.stringify(myAddview));
+	    	break;   
+	}
+}
+$(function(){
+	//建立socket
+		var room_id = '<?php echo $ask['cwid'];?>';
+		if(room_id != undefined && room_id != null && room_id != "" && room_id != "0"){
+			<?php 
+				$websocket_config = Ebh::app()->getConfig()->load('pushwebsocket');	
+			?>
+			var WebSocketAddr = '<?=$websocket_config[0]?>';
+			ws = new WebSocket(WebSocketAddr);
+	        ws.onopen = function() {
+	           	var login_data = {
+	                	type: 'login',
+	                	auth:'<?=$this->input->cookie('auth');?>',
+	                	room_id:room_id
+	                }
+	            ws.send(JSON.stringify(login_data));
+	        };
+	        // 当有消息时根据消息类型显示不同信息
+	        ws.onmessage = onmessage;
+		}
+})
 loadaudioDialog('audio');
 <?php if(!empty($audioque)){ ?>
     $(function(){
@@ -325,6 +364,8 @@ function submitanswer(qid,dom) {
                     onshow:function () {
                         var that=this;
                         setTimeout(function () {
+                        	var myAnswer = {type:"asksync",dtype:"addanswer",qid:"<?php echo $qid;?>"};
+                            ws.send(JSON.stringify(myAnswer));
                             closeWindow('tandaandiv');
                             location.reload();
                             that.close().remove();
@@ -490,6 +531,8 @@ function delanswer(qid,aid,isbest) {
                         onshow:function () {
                             var that=this;
                             setTimeout(function () {
+                            	var myAnswer = {type:"asksync",dtype:"delanswer",qid:"<?php echo $qid;?>"};  
+	                            ws.send(JSON.stringify(myAnswer));
                                 document.location.href =  document.location.href;
                                 that.close().remove();
                             }, 2000);
@@ -527,6 +570,8 @@ function setbest(qid,aid) {
         dataType:'json',
         success:function(data){
             if(data=='success'){
+            	var addBest = {type:"asksync",dtype:"setbest",qid:"<?php echo $qid;?>"};
+				ws.send(JSON.stringify(addBest));
                 document.location.href = document.location.href;    
             }else{
                 top.dialog({

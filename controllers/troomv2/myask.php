@@ -474,6 +474,8 @@ class MyaskController extends CControl {
 			$askmodel->addviewnum($qid);
             $user = Ebh::app()->user->getloginuser();
             $ask = $askmodel->getdetailaskbyqid($qid, $user['uid'],$crid);
+			$redis = Ebh::app()->getCache('cache_redis');
+			$redis->hset('askquestionviewnum',$qid,$ask['viewnum']);
             //p($ask);die;
             if(empty($ask)){
                 $url = getenv("HTTP_REFERER");

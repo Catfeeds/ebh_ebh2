@@ -18,6 +18,7 @@
 </head>
 
 <body style="background:#fff;">
+<?php $this->display('common/up_header'); ?>
 <div class="topbar">
 <div class="top-bds">
 <ul class="qmenu">

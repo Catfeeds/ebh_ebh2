@@ -70,6 +70,7 @@
 }
 </style>
 <body>
+<?php $this->display('common/up_header'); ?>
 <div class="zybz">
 	<div class="nisrtd">
     	<div class="topler">
