@@ -179,10 +179,9 @@ class AskanswerController extends ARoomV3Controller {
      * 获取解答过滤设置
      */
     public function getfilter() {
-
         $result = array();
         $redis = Ebh::app()->getCache('cache_redis');
-        $redis_key = 'answerfilter_' . 12883;
+        $redis_key = 'answerfilter_' . $this->roominfo['crid'];
         $filterinfo = $redis->get($redis_key);  //读取缓存中解答过滤的设置
         if(!empty($filterinfo)) {              //解答审核的过滤设置是否存在
             $result = json_decode($filterinfo,true);

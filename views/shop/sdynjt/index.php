@@ -18,6 +18,7 @@
 	}
 </script>
 <body>
+<?php $this->display('common/up_header'); ?>
     <div class="wraps">
     	<div class="wrapson">
             <div class="wraptops">

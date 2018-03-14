@@ -18,6 +18,7 @@
 </head>
 
 <body>
+<?php $this->display('common/up_header'); ?>
 <div class="latsds">
 	<div class="neikats">
     	<div class="kstdyh">

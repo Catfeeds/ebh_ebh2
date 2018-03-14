@@ -30,7 +30,7 @@
 			$img = empty($act['imgurl'])?'http://static.ebanhui.com/ebh/tpl/2016/images/matchlistpic.jpg':$act['imgurl'];
 			?>
     	<div class="matchlist">
-        	<div class="matchlistpic fl"><a href="/college/activity/intro/<?=$act['aid']?>.html"><img src="<?=$img?>" width="180" height="136" /></a></div>
+        	<div class="matchlistpic fl"><a href="/college/activity/intro/<?=$act['aid']?>.html"><img src="<?=$img?>" width="180" height="126" /></a></div>
             <div class="matchlistnr fl">
                 <div class="fl matchlistnrson">
                     <a href="/college/activity/intro/<?=$act['aid']?>.html" class="hdname"><?=$act['subject']?></a>

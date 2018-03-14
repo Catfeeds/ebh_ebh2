@@ -32,7 +32,7 @@ var speed=30;
 }    
 </script>  
 
-
+<?php $this->display('common/up_header'); ?>
 <div class="dhtop3">
 <ul style="margin-left:55px;">
 <li class="dhdan"><a href="/"><img src="http://static.ebanhui.com/ebh/tpl/default/images/dhind0411.jpg" /></a></li>
