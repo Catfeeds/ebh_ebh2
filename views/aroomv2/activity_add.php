@@ -157,7 +157,7 @@ a.chenfse {
                 <tr>
                     <td></td>
                     <td>
-                        <a title="点我上传活动图片" href="javascript:void(0)"  onclick="uploadlogo()" class="jnlihrey"><img style="float:left;" id="showclog" width=130px height=98px src="http://static.ebanhui.com/ebh/tpl/default/images/lstyjast.jpg"/></a>
+                        <a title="点我上传活动图片" href="javascript:void(0)"  onclick="uploadlogo()" class="jnlihrey"><img style="float:left;" id="showclog" width=130px height=91px src="http://static.ebanhui.com/ebh/tpl/default/images/lstyjast.jpg"/></a>
                     </td>
                 </tr>
                 <tr>
@@ -362,8 +362,8 @@ a.chenfse {
             cancelcallback:function(){
                 xphoto.doClose();
             },
-            sizearr:new Array('130_98','100_75','300_226'),
-            sizemsgarr:new Array('图片尺寸为130*98','图片尺寸为100*75','图片尺寸为300*226')
+            sizearr:new Array('130_91','100_70','360_252'),
+            sizemsgarr:new Array('图片尺寸为130*91','图片尺寸为100*70','图片尺寸为360*252')
         });
         xphoto.renderDialog();
     }

@@ -50,7 +50,7 @@
                     <tr>
                         <td width="52%">
                             <div class="matchlists">
-                                <div class="matchlistpics fl"><a href="/aroomv2/activity/view.html?aid=<?=$v['aid']?>"><img src="<?php echo empty($v['imgurl'])?'http://static.ebanhui.com/ebh/tpl/2016/images/matchlistpic.jpg':$v['imgurl']?>" width="100" height="80" /></a></div>
+                                <div class="matchlistpics fl"><a href="/aroomv2/activity/view.html?aid=<?=$v['aid']?>"><img src="<?php echo empty($v['imgurl'])?'http://static.ebanhui.com/ebh/tpl/2016/images/matchlistpic.jpg':$v['imgurl']?>" width="100" height="70" /></a></div>
                                 <div class="matchlistnrs fl">
                                     <div class="fl matchlistnrsons">
                                         <a href="/aroomv2/activity/view.html?aid=<?=$v['aid']?>" class="hdnames taa"><?=$v['subject']?></a>
