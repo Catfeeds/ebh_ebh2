@@ -5,6 +5,7 @@
 		<title></title>
 		<link rel="stylesheet" href="http://static.ebanhui.com/checkin/css/common.css" />
 		<link rel="stylesheet" href="http://static.ebanhui.com/checkin/css/checkinview.css" />
+		<link rel="stylesheet" href="http://static.ebanhui.com/checkin/css/checkinviewGai.css" />
 		<link href="http://static.ebanhui.com/ebh/tpl/default/css/E_ClassRoom.css?version=20160224001" rel="stylesheet" type="text/css">
 		<script src="http://static.ebanhui.com/ebh/js/date/WdatePicker.js"></script>
 		<script type="text/javascript" src="http://static.ebanhui.com/js/jquery-1.11.0.min.js"></script>
@@ -37,18 +38,21 @@
 						 } ?>
 					
 				</select>
-				<div style="float:left;width:140px;height:36px;margin:0 20px 0 0;">
-					<div style="float:left; display:inline;height: 36px;">
+				<div style="float:left;width:140px;height:24px;margin:0 20px 0 0;">
+					<div style="float:left; display:inline;height: 24px;">
 						<input type="text" id="startTime" name="startTime" class="readonly" readonly="readonly" style="" placeholder="选择开始时间" onclick="WdatePicker({});" value="<?=$this->input->get('startTime')?>" />&nbsp;&nbsp;&nbsp;&nbsp;
 					</div>
 				</div>
-				<div style="float:left;width:140px;height:36px;margin:0 20px 0 0;">
-					<div style="float:left; display:inline;height: 36px;">
+				<div style="float:left;width:140px;height:24px;margin:0 20px 0 0;">
+					<div style="float:left; display:inline;height: 24px;">
 						<input type="text" id="endTime" name="endTime" class="readonly" readonly="readonly" style="" placeholder="选择结束时间" onclick="WdatePicker({});" value="<?=$this->input->get('endTime')?>" />&nbsp;&nbsp;&nbsp;&nbsp;
 					</div>
 				</div>
 				<input type="text" placeholder="搜索课件" name="name" id="name" value="<?=$this->input->get('name')?>" />
-				<button class="search_btn" type="submit" value="搜索">搜索</button>
+				<button class="search_btn" type="submit" value="搜索">搜索</button>			
+				<?php if($roominfo['uid'] == $user['uid']){?>
+					<button class="exportBtn export" type="button" value="导出">导出</button>
+				<?php }?>
 			</form>
 			<table class="datatab" width="100%" cellspacing="0" cellpadding="0" >
 				<tr style="background: #eef1f6;">
@@ -68,7 +72,7 @@
 					<td class="third"><?=$course['foldername']?></td>
 					<td class="fourth"><?=$course['submitat'] > 0 ? date('Y-m-d H:i:s',$course['submitat']) : '--'?></td>
 					<td class="fifth"><?=$course['realname']?></td>
-					<td class="sixth"><span class="check_btn"><a href="/troomv2/attendance/check/<?=$course['cwid']?>.html">考勤</a></span><span class="turnOut_btn"><a href="/troomv2/attendance/count/<?=$course['cwid']?>.html">出勤</a></span></td>
+					<td class="sixth"><span class="check_btn"><a href="/troomv2/attendance/check/<?=$course['cwid']?>.html">实时考勤</a></span><span class="turnOut_btn"><a href="/troomv2/attendance/count/<?=$course['cwid']?>.html">出勤统计</a></span></td>
 				</tr>
 				<?php } ?>
 				
@@ -88,6 +92,19 @@ $(function(){
 		$('input[name="export"]').val(0);
 		$('.checkin_form').submit();
 	});
+	<?php if($roominfo['uid'] == $user['uid']){?>
+	$('.exportBtn').on('click', function () {
+		var iframe = document.createElement("iframe"); 
+		var folderid = $('#forum').val();
+		var foldername = $('#forum').find("option:selected").text()
+		var startTime = $('#startTime').val();
+		var endTime = $('#endTime').val();
+		var name = $("#name").val();	
+        iframe.src =  "/troomv2/attendance/exportall.html?folderid=" + folderid + "&foldername" + foldername + "&startTime=" + startTime + "&endTime="+ endTime +"&name=" + name;
+        iframe.style.display = "none";               
+        document.body.appendChild(iframe);
+	})
+	<?php }?>
 })	
 
 </script>
