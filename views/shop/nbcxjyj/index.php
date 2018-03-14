@@ -14,6 +14,7 @@
 <script type="text/javascript" src="http://static.ebanhui.com/ebh/js/common.js<?=getv()?>"></script>
 
 <body>
+<?php $this->display('common/up_header'); ?>
     <div class="wrap1">
     	<div class="wrapson">
             <div class="wraptop">

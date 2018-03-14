@@ -27,6 +27,7 @@ html{
 </head>
 
 <body>
+<?php $this->display('common/up_header'); ?>
 <div class="topbar">
             <div class="top-bd clearfix">
                 <?php 
