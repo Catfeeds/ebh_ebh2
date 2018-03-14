@@ -21,7 +21,7 @@
 		<a href="javascript:;"  class="aall  curs" style="text-decoration: none">统计</a>
     </div>
     <div class="matchlists matchlists1">
-        <div class="matchlistpics fl"><img src="<?php echo !empty($info['imgurl']) ? $info['imgurl'] : 'http://static.ebanhui.com/ebh/tpl/2016/images/matchlistpic.jpg' ?>" width="100" height="80" /></div>
+        <div class="matchlistpics fl"><img src="<?php echo !empty($info['imgurl']) ? $info['imgurl'] : 'http://static.ebanhui.com/ebh/tpl/2016/images/matchlistpic.jpg' ?>" width="100" height="70" /></div>
         <div class="matchlistnrs fl">
             <div class="matchlistnrsons"><a href="/aroomv2/activity/view.html?aid=<?php echo $aid?>" class="hdnames"><?php echo $info['subject']?></a></div>
             <div class="gxqcj">

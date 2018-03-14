@@ -21,6 +21,7 @@
 }
 </style>
 <body style="background:#f9f9f9;">
+<?php $this->display('common/up_header'); ?>
 <div class="wrap">
 	<div class="topbar">
 		<div class="top-bd clearfix">

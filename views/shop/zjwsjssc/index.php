@@ -106,6 +106,7 @@ $(function(){
 });  
 </script>
 <body>
+<?php $this->display('common/up_header'); ?>
     <div class="wrap-1">
     	<div class="wrapson">
             <div class="wraptop">

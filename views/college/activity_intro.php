@@ -24,8 +24,8 @@
 	$this->display('college/activity_menu');?>
     <div class="match matchs">
     	<div class="matchlist" style="border-bottom:none;">
-        	<div class="matchlistpics fl"><img src="<?= empty($actdetail['imgurl'])?'http://static.ebanhui.com/ebh/tpl/2016/images/matchlistpic.jpg':$actdetail['imgurl']?>" width="300" height="226" /></div>
-            <div class="matchlistnrs fl" style="width:620px;">
+        	<div class="matchlistpics fl" style="width: 360px;height: 252px;"><img src="<?= empty($actdetail['imgurl'])?'http://static.ebanhui.com/ebh/tpl/2016/images/matchlistpic.jpg':$actdetail['imgurl']?>" width="360" height="252" /></div>
+            <div class="matchlistnrs fl" style="width:560px;">
                 <div class="fl matchlistnrson">
                     <p class="mt5">时间：<?=Date('Y.m.d',$actdetail['starttime'])?>——<?=Date('Y.m.d',$actdetail['endtime'])?></p>
 					<?php if($actdetail['endtime']+86400<SYSTIME){?>

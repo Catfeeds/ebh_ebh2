@@ -447,7 +447,7 @@ a.chakan{
 					var cmain_bottom = '<div class="cmain_bottom " style="width: 100%; min-height: 400px; background:#fff">' +
 						'<div class="study" style="margin: 0 auto; width: 205px;">' +
 							'<div class="nodata"></div>'+
-							'<p class="zwktrykc" style="text-align: center;">本试卷无错题</p>'+
+							'<p class="zwktrykc" style="text-align: center;"></p>'+
 						'</div>'+
 		        	'</div>';
 					$('.lefrig').empty().append(cmain_bottom)

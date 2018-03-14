@@ -102,7 +102,7 @@
 </head>
 <body>
 
-
+<?php $this->display('common/up_header'); ?>
     <div id="window-login" style="display:none;">
         <div class="logDialog" >
             <div><input type="hidden" id="plate-login-arg" /></div>
@@ -155,8 +155,6 @@
         <?php } ?>
     </div>
 </div>
-<!--系统更新提示>
-<div style="background:#ff8800;font-size:14px;color:#fff;z-index: 10;height:30px;line-height:30px;width:100%;text-align:center;font-family: Microsoft Yahei;"><img style="vertical-align: text-bottom;" src="http://static.ebanhui.com/ebh/tpl/2016/images/zhuyi01.jpg" />亲爱的用户：为了给您提供更优质的服务，系统将于06月28号22点30分进行升级，期间可能会出现服务中断情况，敬请谅解！</div><!-->
 <?php if (!empty($head)) { ?><div class="plate-top"><div style="height:<?=$settings['top']?>;position:relative;width:<?=$settings['width']?>;margin:0 auto;"><?=$head?></div><?php } ?>
 <div class="wraps group">
     <?php

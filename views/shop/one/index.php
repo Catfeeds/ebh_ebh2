@@ -253,6 +253,7 @@ var speed=30;
     }    
 }    
 </script>  
+<?php $this->display('common/up_header'); ?>
 <?php $jx = $room['domain'] == 'jx';?>
 <?php if(!$jx){?>
 <div class="dhtop">

@@ -107,6 +107,7 @@
 </head>
 <?php $this->display('common/public_header'); ?>
 <body>
+<?php $this->display('common/up_header'); ?>
 <div class="xiatop">
 <?php $logo=empty($room['cface'])?'http://static.ebanhui.com/ebh/tpl/default/images/elist_tx.jpg':$room['cface']?>
 <img src="<?= $logo?>" width="102" height="102" style="float:left;"/>

@@ -43,8 +43,8 @@
     </div>
     <div class="matchs1">
         <div class="matchlist" style="border-bottom:none;">
-            <div class="matchlistpics matchlistpics1 fl"><img src="<?php echo !empty($info['imgurl']) ? $info['imgurl'] : 'http://static.ebanhui.com/ebh/tpl/2016/images/matchlistpic.jpg'?>" width="300" height="226" /></div>
-            <div class="matchlistnrs fl" style="width:400px;">
+            <div class="matchlistpics matchlistpics1 fl" style="width: 360px;height: 252px;"><img src="<?php echo !empty($info['imgurl']) ? $info['imgurl'] : 'http://static.ebanhui.com/ebh/tpl/2016/images/matchlistpic.jpg'?>" width="360" height="252" /></div>
+            <div class="matchlistnrs fl" style="width:340px;">
                 <div class="fl matchlistnrson matchlistnrson1" style="width:390px;">
                     <p class="mt5">时间：<?php echo date('Y-m-d',$info['starttime'])?> -- <?php echo date('Y-m-d',$info['endtime'])?></p>
                     <?php $now = time()?>
