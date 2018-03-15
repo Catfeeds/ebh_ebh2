@@ -167,6 +167,7 @@
 		var sruId = ''
 		var toAvatar = '' // 学生头像
 		var onopenStute = false
+		var initBloo = false // 判断是否登录成功
 		<?php 
 			$websocket_config = Ebh::app()->getConfig()->load('pushwebsocket');  
 		?>
@@ -194,7 +195,7 @@
 							username: mine.username,
 				      		avatar: mine.avatar 
 						};
-						if (onopenStute) {
+						if (onopenStute && initBloo) {
 							ws.send(JSON.stringify(data));
 						} else {
 							layer.open({
@@ -204,6 +205,7 @@
 							  	area: ['260px', '180px'],
 							  	content: '<div class="layer-con">消息发送失败，请稍后再试</div>' 
 							})
+							chatTtem.find('ul').eq(0).children("li:last-child").find('i').css('color','red')
 						}						
 					})
 					layim.on('chatChange', function(obj) {
@@ -232,13 +234,14 @@
             	},
             	onopen: function () { // 连接建立时发送登录信息
             		onopenStute = true
+            		initBloo = false
             		var data = {
 				    	type: 'login',
 				    	auth: '<?=$this->input->cookie('auth');?>',
 				    	room_id: room_id
 				    }
 
-		            ws.send(JSON.stringify(data));
+				    ws.send(JSON.stringify(data));		            
             	},
             	onmessage: function (e) { // 服务端发来消息时
             		var data = eval('('+ e.data +')');		  
@@ -252,7 +255,10 @@
 		                	ws.close();
 		                    layer.msg('当前账号已在别处上线，您被迫下线。');
 		                    break;
-				      	case 'randomask': // 私聊				      		
+		                case 'init':
+		                	initBloo = true
+		                	break;
+				      	case 'randomask': // 私聊
 				      		switch (data.status) {
 				      			case 101: // 学生不在线
 				      				var from =  data.from
@@ -338,9 +344,9 @@
 					// var top = parseInt(parent.$('#mainFrame').offset().top)
 					// var ht = parseInt(parent.$(parent.window).height())
 					// var scroll = parseInt(parent.$(parent.window).scrollTop())
-				 //    var docHeight = parseInt($('html').height())
- 				// 	var layuiSuspend = $('#layuiSuspend')
- 				// 	// console.log(docHeight)
+				    //    var docHeight = parseInt($('html').height())
+ 				    // 	var layuiSuspend = $('#layuiSuspend')
+ 				    // 	// console.log(docHeight)
 					// layuiSuspend.html('body .layui-layim-min{top: ' + (ht - top + scroll - 54) + 'px!important;}')						
 					// $(parent.window).scroll(function(event) {
 					// 	var scrollTop = parseInt($(this).scrollTop())
@@ -450,20 +456,6 @@
             	initChatPopup: function (your) {
             		layim.chat(your); // 打开聊天窗口 
             		$('.layim-chat-textarea').find('textarea').attr('maxlength', 100);
-       //      		if (stopClass) { // 非上课时间禁止发送信息，并弹框提示。
-       //      			var sendBtn = $('.layim-send-btn')
-       //      			sendBtn.attr('layim-event', '0') // 是否禁止发送
-       //      			sendBtn.css('background-color','#ccc') 
-       //      			sendBtn.on('click', function() {
-       //      				layer.open({
-		     //        			title:'提示',
-							//   	type: 1, 
-							//   	shade: 0,
-							//   	area: ['260px', '180px'],
-							//   	content: '<div class="layer-con">请在上课时间内!</div>' 
-							// })
-       //      			})
-       //      		}     		
             	},
             	getTimeFormat: function (date) { // 时间格式转换
             		if (date) {
