@@ -1439,9 +1439,16 @@ class CollegeController extends CControl {
             ->addParams('uid', $user['uid'])
             ->addParams('crid', $roominfo['crid'])
             ->request();
+		$systemsetting = $api->reSetting()
+            ->setService('Aroomv3.Room.othersetting')
+            ->addParams('crid', $roominfo['crid'])
+            ->request();
+			//最新课程分页数
+		$pagesize = empty($systemsetting['newcwpagesize'])?20:$systemsetting['newcwpagesize'];
+		
 		if(!empty($param['folderids'])){
 			$param['status'] = 1;
-			$param['limit'] = 20;
+			$param['limit'] = 300;
 			$param['order'] = 'c.truedateline asc';
 			$param['truedatelineto'] = strtotime('today')+86400*7;//七天内
 			$param['truedatelinefrom'] = strtotime('today');
@@ -1480,9 +1487,11 @@ class CollegeController extends CControl {
 			krsort($newcwlist);
 		}
 		$this->assign('newcwlist',$newcwlist);
+		$this->assign('pagesize',$pagesize);
+		$this->assign('listcount',count($cwlist));
 		//企业版的最新课件最多显示５个
-		$maxCwCount = Ebh::app()->room->getRoomType() == 'com' ? 5 : PHP_INT_MAX;
-		$this->assign('maxCwCount', $maxCwCount);
+		// $maxCwCount = Ebh::app()->room->getRoomType() == 'com' ? 5 : PHP_INT_MAX;
+		// $this->assign('maxCwCount', $maxCwCount);
 		//$this->assign('todaylist',$todaylist);
 	}
 	
@@ -2311,6 +2320,18 @@ class CollegeController extends CControl {
         return $res;
 
 	}
+
+    /**
+     * 加载学习进度模板
+     */
+    public function studyProgress()
+    {
+    	//获取modulename 标题名称
+        $mnlib = Ebh::app()->lib('Modulename');
+        $roominfo = Ebh::app()->room->getcurroom();
+        $mnlib->getmodulename($this,array('modulecode'=>'study','tors'=>0,'crid'=>$roominfo['crid']));
+        $this->display('college/studyProgress');
+    }
     /***
      * 获取学习进度和学习资源比例
      *
