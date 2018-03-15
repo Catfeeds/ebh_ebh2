@@ -16,7 +16,7 @@
 <?php //最新课程,今天起的7天内
 	if(!empty($newcwlist)){
 ?>
-<div class="jijiangkk" style="margin-bottom:10px">
+<div class="jijiangkk" style="margin-bottom:10px;float:right">
 	<h2 style="border-bottom: 1px solid #efefef;">最新课程</h2>
     <div class="jijiangkk_son">
 		<?php $i=0;
@@ -37,7 +37,8 @@
 			$k = str_replace($find,$replace,$k);
 			foreach($listbyday as $cw){
 				$i++;
-				$lineimgtype = intval($i==1); //第一位还是其他
+				$lineimgtype = intval(($i-1)%$pagesize==0); //第一位还是其他
+				$page = ceil($i/$pagesize);
 				$arr = explode('.',$cw['cwurl']);
 				$type = $arr[count($arr)-1];
 				$isVideotype = in_array($type,$mediatype) || $cw['islive'] == 1;
@@ -63,7 +64,7 @@
 				$logo = (!empty($cw['logo']) && $isVideotype)?$cw['logo']:$deflogo;
 			
 		?>
-    	<div class="jjikk_sons">
+    	<div class="jjikk_sons cwlistpage cwlistpage<?=$page?>" <?=$page>1?'style="display:none"':''?>>
     	
 			<?php if($k=='今天'){?>
 			<!-- 正在上课 当前时间在课程发布时间+课件时间范围内 显示正在上课 -->
@@ -114,7 +115,90 @@
 		}?>
         
     </div>
+	
 </div>
+<script>
+var cwtotalpage = <?=ceil($listcount/$pagesize)?>;
+$(function(){
+	getPagestr();
+})
+$(document).on('click','.listPage a',function(){
+	var lastpage = parseInt($('.listPage .none').attr('data'));
+	var curpage = $(this).attr('data');
+	
+	if($(this).attr('id') == 'next'){//上一页，下一页
+		// console.log(lastpage);
+		curpage = lastpage+parseInt($(this).attr('data'));
+		if(curpage>cwtotalpage){
+			curpage = cwtotalpage;
+		}else if(curpage<=0){
+			curpage = 1;
+		}
+	}
+	if(lastpage == curpage){
+		return;
+	}
+	$('.listPage .none').removeClass('none');
+	$('.listPage .normalpage[data='+curpage+']').addClass('none');
+
+    var scroll_top = top.window.pageYOffset  //用于FF
+                || top.document.documentElement.scrollTop  
+                || top.document.body.scrollTop  
+                || 0;
+	var beforeChange = scroll_top - $('.normalpages').position().top;
+
+	$('.cwlistpage').hide();
+	$('.cwlistpage'+curpage).show();
+	top.resetmain();
+	var offset = top.$('#mainFrame').offset();
+	var afterChange = beforeChange + $('.normalpages').position().top;
+	
+	if(cwtotalpage>10){//保持当前页在分页条中间
+		// var headpage = (36-$('.normalpages').css('left').replace('px',''))/36;
+		var headpage = curpage-4;
+		if(headpage<1)
+			headpage = 1;
+		if(headpage>cwtotalpage-9)
+			headpage = cwtotalpage - 9;
+		var animateleft = -(headpage-1)*36;
+		$('.normalpages').animate({'left':animateleft+'px'});
+	}
+	//保持分页条在当前浏览位置不乱跑（最后一页和倒数二页数据相差大时）
+	parent.window.scrollTo(offset.left,afterChange);
+});
+//拼接分页
+function getPagestr(){
+	if(cwtotalpage == 1){
+		return;
+	}
+	var pagestr = '<div class="pages"><div class="listPage"><a href="javascript:void(0)" data="-1" class="prevbtn" id="next">上一页&lt;&lt;</a><div class="pagescroll"><div class="normalpages">';
+	for(var i=1;i<=cwtotalpage;i++){
+		pagestr+= '<a href="javascript:void(0)" class="normalpage '+(i==1?'none':'')+'" data="'+i+'">'+i+'</a>';
+	}
+	pagestr+= '</div></div><a href="javascript:void(0)" data="1" class="nextbtn" id="next">下一页&gt;&gt</a></div></div>'
+	$('.jijiangkk').append(pagestr);
+}
+</script>
+<?php $displaypages = ceil($listcount/$pagesize);
+$totalblockwidth = 36*$displaypages;
+$pageblockwidth = 36*($displaypages>10?10:$displaypages);
+?>
+<style>
+.normalpages{
+	height:28px;
+	width:<?=$totalblockwidth?>px;
+	position: relative;
+	float:left;
+	display:block;
+}
+.pagescroll{
+	width:<?=$pageblockwidth?>px;
+	height:28px;
+	float: left;
+	display:block;
+	overflow: hidden;
+}
+</style>
 <?php }?>
 <?php $this->display('college/calendar');?>
             <!--通知-->
