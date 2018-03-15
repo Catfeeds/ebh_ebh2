@@ -2311,6 +2311,18 @@ class CollegeController extends CControl {
         return $res;
 
 	}
+
+    /**
+     * 加载学习进度模板
+     */
+    public function studyProgress()
+    {
+    	//获取modulename 标题名称
+        $mnlib = Ebh::app()->lib('Modulename');
+        $roominfo = Ebh::app()->room->getcurroom();
+        $mnlib->getmodulename($this,array('modulecode'=>'study','tors'=>0,'crid'=>$roominfo['crid']));
+        $this->display('college/studyProgress');
+    }
     /***
      * 获取学习进度和学习资源比例
      *
