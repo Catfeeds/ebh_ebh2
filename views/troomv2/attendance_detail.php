@@ -14,14 +14,20 @@
 		<div class="checkinview">
 			<div class="waitite">
 				<div class="work_menu" style="position:relative;margin-top:0">
-					<ul>
-						<li class="workcurrent"><a href="javascript:void(0)" class="title-a"><span class="jnisrso">出勤详情</span></a></li>
+					<ul><?php if ($this->input->get('from') == 'c') { ?>
+                            <li><a href="/troomv2/attendance.html">课件列表</a></li>
+                            <li class="workcurrent"><a href="javascript:void(0)" class="title-a"><span class="jnisrso">班级列表</span></a></li>
+                        <?php } else { ?>
+                            <li class="workcurrent"><a href="javascript:void(0)" class="title-a"><span class="jnisrso">课件列表</span></a></li>
+                            <li><a href="/troomv2/attendance/classindex.html">班级列表</a></li>
+                        <?php } ?>
 					</ul>
 				</div>	
 				<div class="clear"></div>
 			</div>
 
-			<form action="/troomv2/attendance/detail/<?=$cwid?>.html" class="checkin_form">
+			<form action="/troomv2/attendance/detail/<?=$cwid?>.html" class="checkin_form" method="get">
+                <input type="hidden" name="from" value="<?=$this->input->get('from')?>">
 				<input type="hidden" name="export" value="0">
 				<input type="hidden" name="classid" value="<?=$this->input->get('classid')?>">
 				<input type="text" placeholder="搜索账号及姓名" name="name" id="name" value="<?=$this->input->get('name')?>" />

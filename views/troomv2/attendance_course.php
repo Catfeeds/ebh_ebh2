@@ -9,6 +9,9 @@
 		<link href="http://static.ebanhui.com/ebh/tpl/default/css/E_ClassRoom.css?version=20160224001" rel="stylesheet" type="text/css">
 		<script src="http://static.ebanhui.com/ebh/js/date/WdatePicker.js"></script>
 		<script type="text/javascript" src="http://static.ebanhui.com/js/jquery-1.11.0.min.js"></script>
+        <style type="text/css">
+            table.datatab .today{color:#f00;}
+        </style>
 	</head>
 	<body>
 		<div class="checkinview">
@@ -16,6 +19,7 @@
 				<div class="work_menu" style="position:relative;margin-top:0">
 					<ul>
 						<li class="workcurrent"><a href="javascript:void(0)" class="title-a"><span class="jnisrso">课件列表</span></a></li>
+                        <li><a href="/troomv2/attendance/classindex.html">班级列表</a></li>
 					</ul>
 				</div>	
 				<div class="clear"></div>
@@ -64,11 +68,14 @@
 				    <th class="sixth">操作</th>
 				</tr>
 				<?php
+                    $now = SYSTIME - SYSTIME % 86400;
 					foreach($list as $index=>$course){
+					    $time = !empty($course['truedateline']) ? $course['truedateline'] : $course['submitat'];
+					    $istoday = ($time - $time % 86400) == $now;
 				?>
 				<tr>
 					<td class="first"><?=$index+1+(($page-1) * 20)?></td>
-					<td class="second"><?=$course['title']?></td>
+					<td class="second<?php if ($istoday) { ?> today<?php } ?>"><?=$course['title']?></td>
 					<td class="third"><?=$course['foldername']?></td>
 					<td class="fourth"><?=$course['submitat'] > 0 ? date('Y-m-d H:i:s',$course['submitat']) : '--'?></td>
 					<td class="fifth"><?=$course['realname']?></td>
