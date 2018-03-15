@@ -70,8 +70,9 @@
 </div>
 <script type="text/javascript">
     (function($) {
+
         var step = <?=$step?>;
-        parent.window.prev($('a.uewrdse'));
+        /*parent.window.*/prev($('a.uewrdse'));
         var xkid=<?=$activity['xkid']?>;
         $("#bt-action").bind("click", function(e){
            var node = e.target.nodeName.toLowerCase();
@@ -81,7 +82,7 @@
             var oTarget = $(e.target);
             if(oTarget.hasClass('lanseasre') && !oTarget.hasClass('huisea')) {
                 var coursename = $(oTarget.next('p.jierses')).find('span.huersw').html();
-                parent.window.dialogConfig('报名《'+coursename+'》课程？', function() {
+                /*parent.window.*/dialogConfig('报名《'+coursename+'》课程？', function() {
                     $.ajax({
                         'url':'/college/xuanke/ajax_sign.html',
                         'type':'POST',
@@ -90,7 +91,7 @@
                         'success':function(d) {
                             if(d.errno == 0) {
                                 oTarget.html("取消报名").addClass("qusrfe").removeClass("lanseasre");
-                                parent.window.showConfigMsg('报名成功', function() {
+                                /*parent.window.*/showConfigMsg('报名成功', function() {
                                     changedate(oTarget, 1);
                                 });
                                 return;
@@ -98,7 +99,7 @@
                             if(d.errno == 2) {
                                 oTarget.html("名额已满").addClass("huisea").removeClass("lanseasre");
                             }
-                            top.dialog({
+                            /*top.*/dialog({
                                 skin:"ui-dialog2-tip",
                                 content:"<div class='FPic'></div><p>"+d.msg+"</p>",
                                 width:350,
@@ -117,7 +118,7 @@
             }
             if(oTarget.hasClass('qusrfe') && !oTarget.hasClass('huisea')) {
                 var coursename = $(oTarget.next('p.jierses')).find('span.huersw').html();
-                parent.window.dialogConfig('取消报名《'+coursename+'》课程？', function() {
+                /*parent.window.*/dialogConfig('取消报名《'+coursename+'》课程？', function() {
                     $.ajax({
                         'url':'/college/xuanke/ajax_cancel_sign.html',
                         'type':'POST',
@@ -129,7 +130,7 @@
                                 changedate(oTarget,-1);
                                 return;
                             }
-                            top.dialog({
+                            /*top.*/dialog({
                                 skin:"ui-dialog2-tip",
                                 content:"<div class='FPic'></div><p>"+(d.msg||"取消报名失败")+"</p>",
                                 width:350,
@@ -154,6 +155,44 @@
             ac[0] = parseInt(ac[0]) + parseInt(step);
             cl.attr("title","报名名额："+ac[1]+"，已报名人数："+ac[0]);
             cc.html(ac.join('/'));
+        }
+        //config
+        function dialogConfig(msg, callback) {
+            var d = dialog({
+                title: '信息提示',
+                content: '<div class="sckj1s" style="padding:0"><div class="xzkctsxx" style="">' + msg + '</div></div>',
+                id: 'dialog-config',
+                fixed: true,
+                'okValue': '确定',
+                'ok': callback,
+                'cancelValue': '取消',
+                'cancel': function () {
+
+                }
+            });
+            d.showModal();
+        }
+        function showConfigMsg(msg, callback) {
+            var d = dialog({
+                title: '信息提示',
+                content: '<div class="sckj1s" style="padding:0;width:200px;"><div class="xzkctsxx" style="width:200px">' + msg + '</div></div>',
+                id: 'dialog-config',
+                fixed: true,
+                'okValue': '确定',
+                'ok': callback,
+                cancel:false
+                //quickClose: true
+            });
+            d.showModal();
+            setTimeout(function () {
+                d.close().remove();
+                callback();
+            }, 2000);
+        }
+        function prev(jo) {
+            jo.each(function () {
+                $(this).lightBox();
+            });
         }
     })(jQuery);
 </script>
