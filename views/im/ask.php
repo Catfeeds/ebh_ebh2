@@ -60,7 +60,7 @@
 			$cwname = $this->input->get("cwname");
 		?>
 		<div class="answer_box">
-			<form action="askform" id="askform">
+			<form action="askform" id="askform" onsubmit="return false;"> 
 				<input type="hidden" name="folderid" id="folderid" value="<?=$folderid?>"/>
 				<input type="hidden" name="cwid" id="cwid" value="<?=$cwid?>"/>
 				<input type="hidden" name="tid" id="tid" value="<?=$tid?>"/>
@@ -105,7 +105,7 @@
                         value = value.substring(0, 50);
                         $("#title").val(value);
                     }
-                });
+               });
 				function checkquestion() {
 					if($.trim($("#title").val()) == "") {
 						top.dialog({

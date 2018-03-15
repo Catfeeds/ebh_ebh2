@@ -14,6 +14,10 @@
 		<script src="http://static.ebanhui.com/chatroom/js/ebhdialog.js?v=20180202001"></script>
 		<script src="http://static.ebanhui.com/chatroom/js/open_attachment.js?v=201800202001"></script>
 		<style>
+			body{
+				background: #f3f3f3!important;
+				font-family: 微软雅黑;	
+			}
 			a:hover{
 				text-decoration: none;
 			}
@@ -136,35 +140,33 @@
 			}
 			._btn{
 				float:left;
-				background: #338bff;
+				background: url(http://static.ebanhui.com/ebh/tpl/troomv2/images/pybico.png) left center no-repeat;
 				color: #fff!important;
 				font-family: 微软雅黑;
 				font-size: 14px;
-				height: 25px;
-				line-height: 25px;
+				height: 45px;
+				line-height: 35px;
 				margin:8px 0;
 				text-align: center;
-				width: 85px;
+				width: 90px;
 				font-weight: normal;
 				margin-right: 0px;
-				border-radius: 3px;
    	 			border: none;
 				margin-right: 15px;
 			}
 			._down{
 				float:left;
-				background: #338bff;
+				background: url(http://static.ebanhui.com/ebh/tpl/troomv2/images/pybico.png) left center no-repeat;
 				color: #fff!important;
 				font-family: 微软雅黑;
 				font-size: 14px;
-				height: 25px;
-				line-height: 25px;
+				height: 45px;
+				line-height: 35px;
 				margin:8px 0;
 				text-align: center;
-				width: 85px;
+				width: 90px;
 				font-weight: normal;
 				margin-right: 0px;
-				border-radius: 3px;
    	 			border: none;
 				margin-right: 15px;
 			}
@@ -179,14 +181,12 @@
 				font-size: 14px;
 				height: 25px;
 				line-height: 25px;
-				margin:8px 0;
+				margin:14px 15px 0 0;
 				text-align: center;
 				width: 85px;
 				font-weight: normal;
-				margin-right: 0px;
-				border-radius: 3px;
+				border-radius: 4px;
    	 			border: none;
-				margin-right: 15px;
 			}
 			.del{
 				background: rgb(239, 143, 0)!important;
@@ -197,14 +197,14 @@
 		</style>
 	</head>
 	<body>
-		<table width="100%" class="datatab" style="border:none;width: 100%;">
+		<table width="1000;" class="datatab" style="border:none;width: 1000px;background: #fff;">
 			<?php if(!empty($attachments)){ ?>
 			<?php EBH::app()->helper('fileico');
 							foreach ($attachments as $atta) {
 								$ico = format_ico($atta['suffix']);?>
                                 <tr>
                                     <td class="first"><i class=" icont <?=$ico?>" style="margin: 3px 4px 0 15px"></i><div class="_right"><p class="name"><?= $atta['title'] ?></p><p class="_time"><?= date('Y-m-d H:i', $atta['dateline']) ?>&nbsp;&nbsp;&nbsp;<?= getsize($atta['size'])?></p></div></td>
-                                    <td width="200">
+                                    <td width="210">
 										<?php
 										
 											

@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<title>点名</title>
 		<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/chatroom/css/common.css"/>
-		<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/chatroom/css/checkin.css?v=20180305001"/>
+		<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/chatroom/css/checkin.css?v=20180314001"/>
 		<script type="text/javascript" src="http://static.ebanhui.com/js/jquery-1.11.0.min.js"></script>
 		<script type="text/javascript" src="http://static.ebanhui.com/ebh/js/xDialog/xloader.auto.js"></script>
 		<link rel="stylesheet" type="text/css" href="http://static.ebanhui.com/js/dialog/css/dialog.css?v=20170531141918"/>
@@ -15,6 +15,7 @@
 	</style>
 	<body>
 		<div id="view" style="background:#fff;">
+			<div class="_top">
 			<div class="progress">
 				<div class="sign_bak" style="width:<?=intval(count($checkinlist)/(count($checkinlist)+count($uncheckinlist)) * 100)?>%;"><span class="txt1"><?=intval(count($checkinlist)/(count($checkinlist)+count($uncheckinlist)) * 100)?>%</span></div>
 			</div>
@@ -22,37 +23,40 @@
 				<div class="signed clicked" index="0">已签到(<span class="check_count"><?=count($checkinlist)?></span>)</div>
 				<div class="signed" index="1">未签到(<span class="uncheck_count"><?=count($uncheckinlist)?></span>)</div>
 			</div>
-			<div class="signed_box" id="checked_box" style="display:block;">
-				<?php
-					if(!empty($checkinlist)){
-						foreach($checkinlist as $user){
-				?>
-				<div class="once" id="user_box_<?=$user['uid']?>" online="<?php if(!$user['online']){ ?>0<?php }else{ ?>1<?php } ?>" title="<?=!empty($user['realname']) ? $user['realname'] : $user['username']?> (<?=$user['online'] ? '在线' : '离线'?>) <?=$user['classname']?> <?=$user['mobile']?>">
-					<img src="<?=getavater($user)?>"/>
-						<p class="name <?php if(!$user['online']){ ?>online<?php } ?>"><?=!empty($user['realname']) ? $user['realname'] : $user['username']?></p>
-				</div>
-				
-				<?php } }?>
-				
 			</div>
-			<div class="signed_box" id="unchecked_box">
-				<?php
-					if(!empty($uncheckinlist)){
-						foreach($uncheckinlist as $user){
-				?>
-				<div class="once" id="user_box_<?=$user['uid']?>" online="<?php if(!$user['online']){ ?>0<?php }else{ ?>1<?php } ?>" title="<?=!empty($user['realname']) ? $user['realname'] : $user['username']?> (<?=$user['online'] ? '在线' : '离线'?>) <?=$user['classname']?> <?=$user['mobile']?>">
-					<img src="<?=getavater($user)?>"/>
-						<p class="name <?php if(!$user['online']){?>online<?php } ?>"  ><?=!empty($user['realname']) ? $user['realname'] : $user['username']?></p>
+			<div class="_box">
+				<div class="signed_box" id="checked_box" style="display:block;">
+					<?php
+						if(!empty($checkinlist)){
+							foreach($checkinlist as $user){
+					?>
+					<div class="once" id="user_box_<?=$user['uid']?>" online="<?php if(!$user['online']){ ?>0<?php }else{ ?>1<?php } ?>" title="<?=!empty($user['realname']) ? $user['realname'] : $user['username']?> (<?=$user['online'] ? '在线' : '离线'?>) <?=$user['classname']?> <?=$user['mobile']?>">
+						<img src="<?=getavater($user)?>"/>
+							<p class="name <?php if(!$user['online']){ ?>online<?php } ?>"><?=!empty($user['realname']) ? $user['realname'] : $user['username']?></p>
+					</div>
+					
+					<?php } }?>
+					
 				</div>
-				
-				<?php } }?>
-			</div>
-			<div class="_bottom">
-				<div class="btn_box">
-					<div class="call_btn start_btn" onclick="startCheckin();">开始点名</div>
-					<div class="call_btn restart_btn" onclick="restartCheckin()" style="display:none;">重新点名</div>
-					<div class="export" onclick="exportData()">导出</div>
-					<div class="send_msg <?php if($send_count >= 2){ ?>send_message_disable<?php } ?>">短信通知</div>
+				<div class="signed_box" id="unchecked_box">
+					<?php
+						if(!empty($uncheckinlist)){
+							foreach($uncheckinlist as $user){
+					?>
+					<div class="once" id="user_box_<?=$user['uid']?>" online="<?php if(!$user['online']){ ?>0<?php }else{ ?>1<?php } ?>" title="<?=!empty($user['realname']) ? $user['realname'] : $user['username']?> (<?=$user['online'] ? '在线' : '离线'?>) <?=$user['classname']?> <?=$user['mobile']?>">
+						<img src="<?=getavater($user)?>"/>
+							<p class="name <?php if(!$user['online']){?>online<?php } ?>"  ><?=!empty($user['realname']) ? $user['realname'] : $user['username']?></p>
+					</div>
+					
+					<?php } }?>
+				</div>
+				<div class="_bottom">
+					<div class="btn_box">
+						<div class="call_btn start_btn" onclick="startCheckin();">开始点名</div>
+						<div class="call_btn restart_btn" onclick="restartCheckin()" style="display:none;">重新点名</div>
+						<div class="export" onclick="exportData()">导出</div>
+						<div class="send_msg <?php if($send_count >= 2){ ?>send_message_disable<?php } ?>">短信通知</div>
+					</div>
 				</div>
 			</div>
 			
@@ -180,13 +184,33 @@
 		
 		//开始签到
 		var startCheckin = function(){
-			var data = {type:'startcheckin',cmd:'checkin'};
-			ws.send(JSON.stringify(data));
+			var d = dialog({
+			  	title: '提示',
+			  	content: '确定开始点名吗？',
+			  	okValue: '确定',
+			  	ok: function () {
+			  		var data = {type:'startcheckin',cmd:'checkin'};
+					ws.send(JSON.stringify(data));
+			  	},
+			  	cancelValue: '取消',
+			  	cancel: function () {}
+			});
+			d.showModal();
 		}
 		//开始签到
 		var restartCheckin = function(){
-			var data = {type:'recheckin',cmd:'checkin'};
-			ws.send(JSON.stringify(data));
+			var d = dialog({
+			  	title: '提示',
+			  	content: '确定开始点名吗？',
+			  	okValue: '确定',
+			  	ok: function () {
+			  		var data = {type:'recheckin',cmd:'checkin'};
+					ws.send(JSON.stringify(data));
+			  	},
+			  	cancelValue: '取消',
+			  	cancel: function () {}
+			});
+			d.showModal();
 		}
 		//设置用户为已签到
 		var setUserChecked = function(uid){
