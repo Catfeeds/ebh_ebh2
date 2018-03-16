@@ -51,7 +51,6 @@ class AttendanceController extends CControl {
             ->setService('Classroom.Attendance.course')
             ->addParams($parameters)
             ->request();
-
         $pagestr = show_page($courses['total']);
 
 
@@ -326,6 +325,108 @@ class AttendanceController extends CControl {
         $this->assign('classes',$userList['classes']);
         $this->assign('cwid',$cwid);
         $this->display('troomv2/attendance_detail');
+    }
+
+    /**
+     * 出勤班级统计页面
+     */
+    public function classindex() {
+        $roominfo = Ebh::app()->room->getcurroom();
+        $user = Ebh::app()->user->getloginuser();
+        $param = parsequery();
+        $param['page'] = max(1, intval($param['page']));
+        $parameters['crid'] = $roominfo['crid'];
+        $parameters['page'] = $param['page'];
+        $parameters['pagesize'] = max(0, intval($param['pagesize']));
+        //关键字搜索
+        $s = trim($this->input->get('name'));
+        if($s != ''){
+            $parameters['s'] = $s;
+        }
+        if ($roominfo['uid'] != $user['uid']) {
+            $parameters['uid'] = $user['uid'];
+        }
+        $classes = $this->api->reSetting()
+            ->setService('Organization.ClassTeacher.getClassesForHomeroom')
+            ->addParams($parameters)
+            ->request();
+        if ($classes['count'] == 0) {
+            $classes['list'] = array();
+        }
+        $pagestr = show_page($classes['count']);
+        $this->assign('pageparam', $param);
+        $this->assign('pagestr', $pagestr);
+        $this->assign('list', $classes['list']);
+        $this->display('troomv2/attendance_classes');
+    }
+
+    /**
+     * 班级课件出勤统计页
+     */
+    public function classcount_view() {
+        $roominfo = Ebh::app()->room->getcurroom();
+        $classid = $this->uri->itemid;
+        $folderid = intval($this->input->get('folderid'));
+        $param = parsequery();
+        $param['page'] = max(1, intval($param['page']));
+        //是否导出
+        $export = intval($this->input->get('export'));
+        $params = array(
+            'crid'  =>  $roominfo['crid'],
+            'classid'  =>  $classid,
+            'folderid' => $folderid,
+            's' => trim($this->input->get('name'))
+        );
+        if (empty($export)) {
+            $params['page'] = $param['page'];
+            $params['pagesize'] = $param['pagesize'];
+        }
+        $starttime = strtotime(trim($this->input->get('startTime')));
+        $endtime = strtotime(trim($this->input->get('endTime')));
+        if ($starttime !== false) {
+            $params['startstamp'] = $starttime;
+        }
+        if ($endtime !== false) {
+            $params['endstamp'] = $endtime + 86400;
+        }
+        $ret = $this->api->reSetting()
+            ->setService('Classroom.Attendance.classCount')
+            ->addParams($params)
+            ->request();
+        if (isset($ret['count'])) {
+            $pagestr = show_page($ret['count']);
+            $this->assign('pagestr', $pagestr);
+        }
+
+        //开始导出数据
+        if($export > 0 && !empty($ret['list'])){
+            $titleData = array('班级','课件名称','课程','应到','已到','课件开始时间','出勤率');
+            $widtharr = array(20,40,20,10,10,20,20);
+            $exportData = array();
+            if(!empty($ret['list'] )){
+                foreach ($ret['list'] as $data){
+                    $exportData[] = array(
+                        $ret['classname'],
+                        $data['title'],
+                        $data['foldername'],
+                        $data['studentCount'],
+                        $data['signCount'],
+                        date('Y-m-d H:i:s', $data['truedateline']),
+                        round($data['signCount'] * 100 / $data['studentCount'], 2).'%'
+                    );
+                }
+            }
+            $filename = '班级出勤列表'.date('YmdH:is');
+            $this->_exportExcel($titleData,$exportData,'FFFFFFFF',$filename,$widtharr);
+            exit;
+        }
+
+        $this->assign('pageparam', $param);
+        $this->assign('classid', $classid);
+        $this->assign('folderid', $folderid);
+        $this->assign('list', isset($ret['list']) ? $ret['list'] : array());
+        $this->assign('folders',isset($ret['folderlist']) ? $ret['folderlist'] : array());
+        $this->display('troomv2/classcount');
     }
 
     /**

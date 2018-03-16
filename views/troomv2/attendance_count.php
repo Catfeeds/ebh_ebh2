@@ -16,6 +16,7 @@
 				<div class="work_menu" style="position:relative;margin-top:0">
 					<ul>
 						<li class="workcurrent"><a href="javascript:void(0)" class="title-a"><span class="jnisrso">出勤列表</span></a></li>
+                        <li><a href="/troomv2/attendance/classindex.html">班级列表</a></li>
 					</ul>
 				</div>	
 				<div class="clear"></div>
