@@ -1897,14 +1897,13 @@ var _xform = new xForm({
    $(function (){
 	   <?php if(!$assistant && !$isexpired ){?>
 	   		<?php if($course['live_type'] != 4){ ?>
-				checkClient();
+				//checkClient();
 			<?php } ?>
 	   <?php } ?>
 	});
 	var tipObj = null;
-	var openSwitch = true;
+	var isError = false;
 	function checkClient(){
-		openSwitch = false;
 		jQuery(document).ready(function($) { 
 			$.ajax({
 			   url: 'http://127.0.0.1',
@@ -1918,7 +1917,6 @@ var _xform = new xForm({
 				if(version ==""){
 					installTip();
 				}
-				openSwitch = true;
 			   },
 			   error: function(xhr){
 			   	$.ajax({
@@ -1933,11 +1931,9 @@ var _xform = new xForm({
 					if(version ==""){
 						installTip();
 					}
-					openSwitch = true;
 				   },
 				   error: function(xhr){
 				   	installTip();
-				   	openSwitch = true;
 				   }
 				});
 			   }
@@ -1946,8 +1942,9 @@ var _xform = new xForm({
 		});
 	}
 	function installTip() {
-		$(".lanbtn").attr("href","javascript:void(0);");
-		$(".lanbtn").on("click",installTip);
+		//$(".lanbtn").attr("href","javascript:void(0);");
+		//$(".lanbtn").on("click",installTip);
+		isError = true;
 		var html = '<div class="kehxzts">'+
 					'<div class="tishiyu">'+
     				'<p class="p1">系统检测到您的系统尚未安装直播客户端！</p>'+
@@ -1966,7 +1963,8 @@ var _xform = new xForm({
 	}
 	//直播教师点击开始直播事件
 	function openLive(urlStr){
-		if(!openSwitch){
+		if(isError){
+			installTip();
 			return;
 		}
 		$.ajax({
@@ -1975,6 +1973,7 @@ var _xform = new xForm({
 			dataType: 'jsonp',
 			jsonp: 'callback',
 			jsonpCallback:'callback',
+			timeout: 500,
 			success: function (json) {
 				version = json.version;
 				if(version ==""){
@@ -1990,13 +1989,14 @@ var _xform = new xForm({
 				   dataType: 'jsonp',
 				   jsonp: 'callback',
 				   jsonpCallback:'callback',
+				   timeout: 500,
 				   success: function (json) {
-				   	version = json.version;
-					if(version ==""){
-						installTip();
-					}else{
-						creatIfeame(urlStr);
-					}
+				   		version = json.version;
+						if(version ==""){
+							installTip();
+						}else{
+							creatIfeame(urlStr);
+						}
 				   },
 				   error: function(xhr){
 				   	installTip();
