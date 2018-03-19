@@ -2723,10 +2723,12 @@ class PortfolioController extends CControl {
         if (!empty($latest)) {
             $inner_data['latest_sign'] = $latest;
         }
-
-        $othersettings = array_filter($pay_item['othersettings'], function($setting) {
-           return !empty($setting['show']);
-        });
+        $othersettings = array();
+        if (isset($pay_item['othersettings']) && is_array($pay_item['othersettings'])) {
+            $othersettings = array_filter($pay_item['othersettings'], function ($setting) {
+                return !empty($setting['show']);
+            });
+        }
         if ($this->input->get('pos') === null) {
             $step = 0;
             foreach ($othersettings as $othersetting) {

@@ -151,3 +151,5 @@ $upconfig['wordparser']['savepath'] = '/data0/htdocs/img/exam/';
 $upconfig['wordparser']['postpath'] = 'http://192.168.0.81:8080/index.aspx';
 //整卷导入 word 
 $upconfig['wordparser']['spostpath'] = 'http://192.168.0.81:8080/index.aspx';
+//软件许可
+$upconfig['license']['savepath'] = '/data0/uploads/';
