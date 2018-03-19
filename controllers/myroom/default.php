@@ -23,7 +23,6 @@ class DefaultController extends CControl {
 		$this->assign('check',$check);
     }
     public function index() {
-        
     	$roominfo = Ebh::app()->room->getcurroom();
     	$user = Ebh::app()->user->getloginuser();
       
