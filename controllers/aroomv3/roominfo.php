@@ -487,6 +487,7 @@ class roominfoController extends ARoomV3Controller
             $format_ret['ebhbrowser'] = $ret['ebhbrowser'] > 0 ? true : false;
             $format_ret['cwlistonlyself'] = $ret['cwlistonlyself'] > 0 ? true : false;
             $format_ret['showquestionbygrade'] = $ret['showquestionbygrade'] > 0 ? true : false;
+            $format_ret['newcwpagesize'] = empty($ret['newcwpagesize'])?20:$ret['newcwpagesize'];
             $creditrulearr = array('notvideo' => array(),'article' => array(),'comment' => array(), 'news' => array());//非视频课件,发布文章，评论课件，原创文章
             if($ret['creditrule']){
                 $creditrule = json_decode($ret['creditrule'],true);
@@ -572,6 +573,10 @@ class roominfoController extends ARoomV3Controller
         if(!empty($creditrule['newcredits'])){
             $params['creditrule'] = json_encode($creditrule['newcredits']);
         }
+		if(isset($post['newcwpagesize'])){//最新课程分页数
+			$params['newcwpagesize'] = intval($post['newcwpagesize']);
+			$params['newcwpagesize'] = min(20,max(5,$params['newcwpagesize']));
+		}
 
         //保存到数据库
         $ret = $this->apiServer->reSetting()

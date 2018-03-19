@@ -2724,7 +2724,27 @@ class PortfolioController extends CControl {
             $inner_data['latest_sign'] = $latest;
         }
 
+        $othersettings = array_filter($pay_item['othersettings'], function($setting) {
+           return !empty($setting['show']);
+        });
+        if ($this->input->get('pos') === null) {
+            $step = 0;
+            foreach ($othersettings as $othersetting) {
+                if (!empty($othersetting['cur'])) {
+                    $pos = $step;
+                    break;
+                }
+                $step++;
+            }
+        }
 
+        $urls = array(
+            'directory' => '/room/portfolio/course_directory.html',
+            'summary' => '/room/portfolio/course_info.html',
+            'teacher' => '/room/portfolio/course_teachers.html',
+            'download' => '/room/portfolio/course_docs.html'
+        );
+        $inner_data['urls'] = json_encode(array_values(array_intersect_key($urls, $othersettings)));
         $cache_set = $this->cache_time['dynamic'];
         $dy = $room_cache->getCache($this->room['crid'], $cache_set['module'], $cache_set['param']);
         if (empty($dy)) {
@@ -4314,22 +4334,32 @@ class PortfolioController extends CControl {
         }
         $roomdetail['isdesign'] = $this->room['isdesign'];
         if (!empty($roomdetail['isdesign'])) {
-            $room_type = Ebh::app()->room->getRoomType();
             $apiServer = Ebh::app()->getApiServer('ebh');
             $roomtype = Ebh::app()->room->getRoomType();
+            $is_mobile = is_mobile();
             $ret = $apiServer->reSetting()
                 ->setService('Classroom.Design.getdesign')
                 ->addParams('crid', $roomdetail['crid'])
-                ->addParams('roomtype', $room_type)
-                ->addParams('clientType', is_mobile())
+                ->addParams('roomtype', $roomtype)
+                ->addParams('clientType', $is_mobile)
                 ->request();
-            if (!empty($ret['status'])) {
+            if ($is_mobile && (empty($ret['status']) || empty($ret['data']))) {
+                $ret = $apiServer->reSetting()
+                    ->setService('Classroom.Design.getdesign')
+                    ->addParams('crid', $roomdetail['crid'])
+                    ->addParams('roomtype', $roomtype)
+                    ->addParams('clientType', 0)
+                    ->request();
+                $is_mobile = false;
+            }
+            if (!empty($ret['status']) && !empty($ret['data'])) {
                 $this->assign('head', str_replace('\"', '"', $ret['data']['head']));
                 $this->assign('foot', str_replace('\"', '"', $ret['data']['foot']));
                 $settings = str_replace('\"', '"', $ret['data']['settings']);
                 $settings = json_decode($settings, true);
                 $this->assign('settings', $settings);
             }
+            $this->assign('ismobile', $is_mobile);
         } else {
             if (!empty($modules)) {
                 $top_modules = array_filter($modules, function($e) {

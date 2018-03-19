@@ -255,7 +255,7 @@ class TroomController extends CControl {
         $roominfo = Ebh::app()->room->getcurroom();
 		$user = Ebh::app()->user->getloginuser();
 		$param['status'] = 1;
-		$param['limit'] = 200;
+		$param['limit'] = 300;
 		$param['order'] = 'c.truedateline asc';
 		$param['truedatelineto'] = strtotime('today')+86400*7;//七天内
 		$param['truedatelinefrom'] = strtotime('today');
@@ -264,6 +264,14 @@ class TroomController extends CControl {
 		$cwarr = array();
 		$cwcount = 0;
 		$newcwlist = array();
+		$api = Ebh::app()->getApiServer('ebh');
+		$systemsetting = $api->reSetting()
+            ->setService('Aroomv3.Room.othersetting')
+            ->addParams('crid', $roominfo['crid'])
+            ->request();
+			//最新课程分页数
+		$pagesize = empty($systemsetting['newcwpagesize'])?20:$systemsetting['newcwpagesize'];
+		
 		if (!empty($cwlist)) {
             foreach($cwlist as $cw){
                 if($cw['uid'] != $user['uid']){
@@ -281,9 +289,9 @@ class TroomController extends CControl {
                     $dayis = 'x昨天';
                 $newcwlist[$dayis][] = $cw;
                 $cwcount ++;
-                if($cwcount>=20){
-                    break;
-                }
+                // if($cwcount>=20){
+                    // break;
+                // }
             }
         }
 
@@ -297,6 +305,8 @@ class TroomController extends CControl {
 		//正在上课->即将开课->已结束（今天）->明天->昨天->[日期]->[日期]...排序
 		krsort($newcwlist);
 		$this->assign('newcwlist',$newcwlist);
+		$this->assign('pagesize',$pagesize);
+		$this->assign('listcount',$cwcount);
 	}
 	
 	/**
