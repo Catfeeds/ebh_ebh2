@@ -121,13 +121,13 @@ $config = array(
     'cache'=>array(
         'driver'=>'memcache',
         'servers'=>array(
-            array('host'=>'127.0.0.1','port'=>11211)
+            array('host'=>'192.168.0.24','port'=>11211)
         )
     ),
 	'cache_redis'=>array(
         'driver'=>'redis',
         'servers'=>array(
-            array('host'=>'127.0.0.1','port'=>6379)
+            array('host'=>'192.168.0.24','port'=>6379)
         )
     ),
     //输出编码等设置
