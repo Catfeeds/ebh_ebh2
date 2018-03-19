@@ -137,6 +137,7 @@ if(!empty($roominfo['crid'])){
 <div class="work_menu" style="width:1000px; position:relative;margin-top:0px;overflow: initial;">
 	<ul>
 		 <li class=""><a href="/myroom/college/study.html" style="font-size:16px;"><span><?=empty($all)?$pagemodulename:'全校课程'?></span></a></li>
+		 <li class=""><a href="/myroom/college/studyProgress.html" style="font-size:16px;"><span>进度</span></a></li>
 		 <li class="workcurrent"><a href="/myroom/favorite.html" style="font-size:16px;"><span>收藏夹</span></a></li>
 	</ul>
 </div>
