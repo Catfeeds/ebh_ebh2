@@ -293,6 +293,7 @@ if(!empty($roominfo['crid'])){
 				<div class="work_menu" style="width:1000px; position:relative;margin-top:0px;overflow: initial;">
 					<ul>
 						 <li class="workcurrent"><a href="javascript:void(0)" style="font-size:16px;"><span><?=empty($all)?$pagemodulename:'全校课程'?></span></a></li>
+						 <li class=""><a href="/myroom/college/studyProgress.html" style="font-size:16px;"><span>进度</span></a></li>
 						 <?php if (!($is_newzjdlr||$is_zjdlr)) {?>
 						 <li class=""><a href="/myroom/favorite.html" style="font-size:16px;"><span>收藏夹</span></a></li>
 					</ul>
@@ -323,16 +324,16 @@ if(!empty($roominfo['crid'])){
                 <div class="clear"></div>
                 <div class="<?=$roominfo['template'] == 'plate' ? 'studycourse studycourse-2' : 'study_bottom' ?>" style="position: relative;">
 				<?php if (!($is_newzjdlr||$is_zjdlr)) {?>
-					<div id="main" style="width: 400px;height:300px;margin-bottom:-50px;"></div>
-					<div id="mains" style="width: 600px;height:120px;position: absolute;top:50px;right:0px;"></div>
+					<!--<div id="main" style="width: 400px;height:300px;margin-bottom:-50px;"></div>
+					<div id="mains" style="width: 600px;height:120px;position: absolute;top:50px;right:0px;"></div>!-->
 					<?php if($roominfo['template'] == 'plate'){?>
-					<div class="diles" style="top:210px;">
+					<div class="diles" style="top:10px;z-index:2">
 						<input name="txtname" class="newsou nsearchtext" id="txtname" value="请输入关键字" style="color: #A5A5A5;" type="text">
 						<input onclick="" class="soulico nsearchbtn" value="" type="button">
 					</div>
 					<?php }?>
 				<?php }?>
-<script type="text/javascript">
+<!--<script type="text/javascript">
     //用AJAX异步加载图形界面,国土摒弃改功能
     <?php if (!$is_zjdlr) {?>
         var url = "<?=geturl('myroom/college/getProgressAndRatetoJson')?>";
@@ -496,7 +497,7 @@ if(!empty($roominfo['crid'])){
         });
     <?php }?>
 
-</script>
+</script>!-->
 				<?php
 				if(!empty($schoolfreelist)){
 					?>
